@@ -1,0 +1,316 @@
+import sys
+import math
+from Heap import Heap
+from Graph import *
+from Set import SetQueue
+from GraphWorld import *
+
+def avg(seq):
+    return 1.0 * sum(seq) / len(seq)
+
+Inf = 1e300
+
+class SmallWorldGraph(Graph):
+
+    def shortest_path_tree(self, s, hint=None):
+        """find the length of the shortest path from Vertex (s) to the
+        Vertices in (others); store the path lengths as a dist attribute.
+        (uses Dijkstra's algorithm).
+
+        In theory this is a bad implementation of Dijkstra's algorithm:
+        it keeps the priority queue as a sorted list and re-sorts after
+        processing each vertex.
+
+        But in practice this turns out to be pretty fast, because Python's
+        sort algorithm does pretty well on lists that are almost sorted.
+
+        (hint) is a dictionary that maps from tuples (v,w) to already-known
+        shortest path length from v to w.
+        """
+        if hint == None: hint = {}
+
+        # initialize v.dist
+        for v in self:
+            v.dist = hint.get((s, v), Inf)
+        s.dist = 0
+
+        cfunc = lambda x,y: cmp(x.dist, y.dist)
+
+        # start with all vertices in the queue
+        queue = [v for v in self if v.dist < Inf]
+        flag = True
+        
+        while len(queue) > 0:
+
+            # re-sort the queue is necessary, then pop the lowest item
+            if flag: queue.sort(cmp=cfunc)
+            flag = False
+            v = queue.pop(0)
+            
+            # for each neighbor of v, see if we found a new shortest path
+            for w, e in self[v].iteritems():
+                new = v.dist + e.length
+                if w.dist == Inf:
+                    queue.append(w)
+                if w.dist > new:
+                    w.dist = new
+                    flag = True
+                    
+    def shortest_path_tree2(self, s, hint=None):
+        """a Heap-based implementation of Dijkstra's algorithm
+        based on Connelly Barnes's modification of David Eppstein's
+        code at
+        http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/119466
+        """
+        for v in self:
+            v.dist = Inf
+
+        queue = Heap([(0, s)])
+        
+        while len(queue) > 0:
+
+            (cost, v) = queue.popmin()
+            if v.dist < Inf: continue
+            v.dist = cost
+            
+            for w, e in self[v].iteritems():
+                if w.dist < Inf: continue
+                new = v.dist + e.length
+                queue.push((new, w))
+
+
+    def init_all_pairs(self):
+        """for the all pairs shortest path algorithms, compute the
+        weight dictionary W, where W[i,j] is the length of the edge from
+        i to j if there is one, infinity if there isn't and 0 if i==j
+        """
+        W = {}
+        for i, d in enumerate(self.itervalues()):
+            for j, w in enumerate(self.iterkeys()):
+                try:
+                    W[i,j] = d[w].length
+                except:
+                    W[i,j] = Inf
+            W[i,i] = 0
+        return W
+
+
+    def extend_shortest_paths(self, D, W):
+        """multiply the path dictionary D by the weight dictionary W.
+        This is part of the 'repeated squaring' algorithm.
+        See Cormen Leiserson and Rivest, page 554.
+        """
+        indices = range(len(self))
+        E = {}
+        for i in indices:
+            for j in indices:
+                t = [D[i,k] + W[k,j] for k in indices]
+                E[i,j] = min(t)
+        return E
+
+    def all_pairs_shortest_path(self):
+        """find the shortest path between all pairs of vertices using
+        the the 'repeated squaring' algorithm.
+        See Cormen Leiserson and Rivest, page 556.
+
+        In theory this algorithm is not as fast as Floyd-Warshall,
+        but because the innermost loop can be written as a list
+        comprehension, it does pretty well.
+        """
+        n = len(self)
+        W = self.init_all_pairs()        
+        D = W
+        i = 1
+        while i<n:
+            D = self.extend_shortest_paths(D, D)
+            i *= 2
+
+        return D
+
+
+    def all_pairs_floyd_warshall(self):
+        """find the shortest path between all pairs of nodes using
+        the Floyd-Warshall algorithm.
+        See Cormen Leiserson and Rivest, page 560.
+        """
+        n = len(self)
+        indices = range(n)
+        W = self.init_all_pairs()
+
+        # d is a dictionary that maps from an index, k, to the
+        # weight matrix W_k
+        d = {-1: W}
+        for k in indices:
+            d[k] = {}
+            for i in indices:
+                for j in indices:
+                    d[k][i,j] = min(d[k-1][i,j], d[k-1][i,k] + d[k-1][k,j])
+
+        D = d[n-1]
+        return D
+
+
+    def diameter(self):
+        """find and return the diameter of the graph
+        """
+        # choose an arbitrary start vertex and
+        # compute the shortest path tree
+        v = self.iterkeys().next()
+        self.shortest_path_tree(v)
+
+        # find the farthest vertex and use it as the
+        # start vertex for another shortest path tree
+        d, v = max([(v.dist, v) for v in self])
+        self.shortest_path_tree(v)
+
+        # find the farthest vertex again and return its distance
+        d, v = max([(v.dist, v) for v in self])
+        return d
+
+
+    def char_length(self):
+        """compute the characteristic length of the graph according
+        to the definition in Watts and Strogatz.
+
+        Precondition: the graph is connected.
+        """
+        # for each vertex v, d[v] is the list of other vertices
+        # and their distances
+        d = {}
+        for v in self:
+            self.shortest_path_tree(v, d)
+            t = [((w,v), w.dist) for w in self if w is not v]
+            d.update(t)
+
+        # return the average of all values
+        return avg(d.values())
+
+    def char_length2(self):
+        """compute the characteristic length of the graph according
+        to the definition in Watts and Strogatz.  Uses the repeated
+        squaring algorithm to compute all pairs shortest paths.
+
+        Precondition: the graph is connected.
+        """
+        n = len(self)
+        D = self.all_pairs_shortest_path()
+        t = [D[i,j] for i in range(n) for j in range(n) if i!=j]
+        return avg(t)
+
+    def char_length3(self):
+        """compute the characteristic length of the graph according
+        to the definition in Watts and Strogatz.  Uses the Floyd-Warshall
+        algorithm to compute all pairs shortest paths.
+
+        Precondition: the graph is connected.
+        """
+        n = len(self)
+        D = self.all_pairs_floyd_warshall()
+        t = [D[i,j] for i in range(n) for j in range(n) if i!=j]
+        return avg(t)
+
+    def cluster_coef(self):
+        """compute the cluster coefficient of the graph according
+        to the definition in Watts and Strogatz.
+        """
+        C = {}
+
+        # for each vertex, C[v] is C_v, the cluster coefficient
+        for v in self:
+            set = self.out_vertices(v)
+            C[v] = self.cluster(set)
+
+        # the cluster coefficient for the graph is the average of C_v
+        cvs = C.values()
+        return avg(cvs)
+
+    def cluster(self, set):
+        """return the fraction of edges among this set that exist"""
+        k = len(set)
+        if k < 2: return 1.0
+        possible = k * (k-1.0)
+        edges = [1 for v in set for w in set if self[v].get(w, False)]
+        return len(edges) / possible
+
+    def rewire(self, p=0.01):
+        """rewire edges according to the algorithm in Watts and Strogatz.
+        (p) is the probability that each edge is rewired.
+        """
+        # consider the edges in random order (this is slightly different
+        # from Watts and Strogatz
+        es = list(self.edges())
+        random.shuffle(es)
+        vs = self.vertices()
+        
+        for e in es:
+            # if this edge is chosen, remove it...
+            if random.random() > p: continue
+            v, w = e
+            self.remove_edge(e)
+
+            # then generate a new edge that connects v to another vertex
+            while True:
+                w = random.choice(vs)
+                if v is not w and not self.has_edge(v, w): break
+
+            self.add_edge(Edge(v, w))
+
+def name_generator():
+    """this function generates Vertex names in the form a1, b1, ... z1,
+    a2, b2, ... z2, etc.
+    """
+    i = 1
+    while True:
+        for c in string.lowercase:
+            yield c + str(i)
+        i += 1
+
+def main(script, n='52', k='5', p='0.1', *args):
+
+    # create n Vertices
+    n = int(n)
+    k = int(k)
+    p = float(p)
+
+    names = name_generator()
+    vs = [Vertex(names.next()) for c in range(n)]
+
+    # create a graph and a layout
+    g = SmallWorldGraph(vs)
+
+    g.add_regular_edges(k=k)
+    g.rewire(p=p)
+
+    from time import clock
+
+    print 'number of edges = ', len(g.edges())
+    print 'Is connected?', g.isConnected()
+    print 'diameter = ', g.diameter()
+
+    start = clock()
+    print 'char_length = ', g.char_length()
+    print clock()-start
+    
+    start = clock()
+    print 'char_length2 = ', g.char_length2()
+    print clock()-start
+
+    start = clock()
+    print 'char_length3 = ', g.char_length3()
+    print clock()-start
+
+    print 'cluster_coef = ', g.cluster_coef()
+   
+    # draw the graph
+    draw = False
+    if draw:
+        layout = CircleLayout(g)
+        gw = GraphWorld()
+        gw.show_graph(g, layout)
+        gw.mainloop()
+
+if __name__ == '__main__':
+    import sys
+    main(*sys.argv)
+
+
