@@ -1,8 +1,25 @@
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
+
+http://greenteapress.com/complexity
+
+Copyright 2011 Allen B. Downey.
+Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+"""
+
 import string
 import random
 import math
-from Gui import *
-from Graph import *
+
+from itertools import chain
+
+from Gui import Gui
+from Gui import GuiCanvas
+
+from Graph import Vertex
+from Graph import Edge
+from Graph import Graph
+
 
 class GraphCanvas(GuiCanvas):
     """a GraphCanvas is a canvas that knows how to draw Vertices
@@ -31,16 +48,15 @@ class GraphCanvas(GuiCanvas):
 
 
 class GraphWorld(Gui):
-    """GraphWorld is a Gui that has a Graph Canvas and various
-    control buttons.
-    """
+    """GraphWorld is a Gui that has a Graph Canvas and control buttons."""
     
     def __init__(self):
         Gui.__init__(self)
+        self.title('GraphWorld')
         self.setup()
 
     def setup(self):
-        """create the widgets"""
+        """Create the widgets."""
         self.ca_width = 400
         self.ca_height = 400
         xscale = self.ca_width / 20
@@ -59,7 +75,7 @@ class GraphWorld(Gui):
         self.endrow()
 
     def show_graph(self, g, layout):
-        """draw the Vertices and Edges of Graph (g) using the
+        """Draws the Vertices and Edges of Graph (g) using the
         positions in Layout (layout).
         """
 
@@ -78,25 +94,25 @@ class GraphWorld(Gui):
         self.vtags = [c.draw_vertex(v) for v in g]
 
     def clear(self):
-        """delete all canvas items"""
-        tags = self.vtags + sum(self.etags.itervalues(), [])
+        """Delete all canvas items."""
+        tags = chain(self.vtags, *self.etags.itervalues())
         for tag in tags:
             self.canvas.delete(tag)
 
 
 class Layout(dict):
-    """a Layout is a mapping from vertices to positions in 2-D space"""
+    """A Layout is a mapping from vertices to positions in 2-D space."""
 
     def __init__(self, g):
         for v in g.vertices():
             self[v] = (0, 0)
 
     def pos(self, v):
-        """return the position of this Vertex as a tuple"""
+        """Returns the position of this Vertex as a tuple."""
         return self[v]
 
     def distance_between(self, v1, v2):
-        """compute the Euclidean distance between two vertices"""
+        """Computes the Euclidean distance between two vertices."""
         x1, y1 = self.pos(v1)
         x2, y2 = self.pos(v2)
         dx = x1 - x2
@@ -104,19 +120,19 @@ class Layout(dict):
         return math.sqrt(dx**2 + dy**2)
 
     def sort_by_distance(self, v, others):
-        """return a list of the vertices in (others) sorted in
-        increasing order by their distance from (v)"""
+        """Returns a list of the vertices in others sorted in
+        increasing order by their distance from v."""
         t = [(self.distance_between(v, w), w) for w in others]
         t.sort()
         return [w for (d, w) in t]
 
 
 class CircleLayout(Layout):
-    """create a layout for a graph with the vertices equally
-    spaced around the perimeter of a circle"""
+    """Creates a layout for a graph with the vertices equally
+    spaced around the perimeter of a circle."""
 
     def __init__(self, g, radius=9):
-        """create a layout for Graph (g)"""
+        """Creates a layout for Graph (g)"""
         vs = g.vertices()
         theta = math.pi * 2 / len(vs)
         for i, v in enumerate(vs):
@@ -125,13 +141,12 @@ class CircleLayout(Layout):
             self[v] = (x, y)
 
 
-
 class RandomLayout(Layout):
-    """create a layout with each Vertex at a random position in
-    [[-max, -max], [max, max]]"""
+    """Create a layout with each Vertex at a random position in
+    [[-max, -max], [max, max]]."""
 
     def __init__(self, g, max=10):
-        """create a layout for Graph (g)"""
+        """Creates a layout for Graph (g)"""
         self.max = max
         for v in g.vertices():
             self[v] = self.random_pos()
@@ -143,8 +158,8 @@ class RandomLayout(Layout):
         return x, y
 
     def spread_vertex(self, v, others, min_dist=1.0):
-        """Keep choosing random positions for (v) until it is at least
-        (min_dist) units from the vertices in (others).
+        """Keep choosing random positions for v until it is at least
+        min_dist units from the vertices in others.
 
         Each time it fails, it relaxes min_dist by 10%.
         """
@@ -157,7 +172,7 @@ class RandomLayout(Layout):
             self[v] = self.random_pos()
 
     def spread_vertices(self):
-        """move the Vertices in (vs) around until no two are closer together
+        """Moves the vertices around until no two are closer together
         than a minimum distance."""
         vs = self.keys()
         others = vs[:]
@@ -172,7 +187,7 @@ def main(script, n='10', *args):
 
     # create n Vertices
     n = int(n)
-    labels = string.lowercase + string.uppercase + string.punctuation
+    labels = string.ascii_lowercase + string.ascii_uppercase
     vs = [Vertex(c) for c in labels[:n]]
 
     # create a graph and a layout
@@ -187,6 +202,7 @@ def main(script, n='10', *args):
 
 
 if __name__ == '__main__':
+    import sys
     main(*sys.argv)
 
 
