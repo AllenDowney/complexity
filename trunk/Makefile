@@ -38,11 +38,10 @@ DEST = /home/downey/public_html/greent/complexity
 distrib:
 	rm -rf dist
 	mkdir dist dist/tex dist/tex/figs
-	rsync -a complexity.pdf complexity.ps html dist
+	rsync -a complexity.pdf html dist
 	rsync -a Makefile book.tex latexonly htmlonly dist/tex
 	rsync -a figs/*.fig figs/*.eps dist/tex/figs
-	cd dist; zip -r complexity.tex.zip tex
-	cd dist; zip -r complexity.html.zip html
+	cd dist; zip -r complexity.tex.zip tex; rm -r tex
 	rsync -a dist/* $(DEST)
 	chmod -R o+r $(DEST)/*
 
