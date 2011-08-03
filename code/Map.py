@@ -1,15 +1,14 @@
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
 
-"""
+http://greenteapress.com/complexity
 
-Code example from _Computational_Modeling_
-http://greenteapress.com/compmod
-
-Copyright 2008 Allen B. Downey.
+Copyright 2011 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
-
 """
 
 import string
+
 
 class LinearMap(list):
     """A simple implementation of a map using a list of tuples
@@ -27,6 +26,7 @@ class LinearMap(list):
             if key == k:
                 return val
         raise KeyError
+
 
 class BetterMap(list):
     """A faster implementation of a map using a list of LinearMaps
@@ -57,7 +57,7 @@ class BetterMap(list):
         return m.get(k)
 
 
-class HashMap(BetterMap):
+class HashMap(object):
     """An implementation of a hashtable using a list of LinearMaps
     that grows so that the number of items never exceeds the number
     of LinearMaps.
@@ -66,40 +66,42 @@ class HashMap(BetterMap):
     implementation of sum in resize is linear."""
 
     def __init__(self):
-        """start with 2 LinearMaps and 0 items"""
-        BetterMap.__init__(self, 2)
+        """Start with 2 LinearMaps and 0 items"""
+        self.map = BetterMap(2)
         self.num = 0
+
+    def get(self, k):
+        return self.map.get(k)
 
     def add(self, k, v):
         """resize the list if necessary and then add the new item."""
-        if self.num == len(self):
+        if self.num == len(self.map):
             self.resize()
 
-        BetterMap.add(self, k, v)
+        self.map.add(k, v)
         self.num += 1
 
     def resize(self):
         """resize the list by collecting all the items into one big
         list, doubling the number of LinearMaps, and then re-adding
         all of the items."""
-        pairs = []
-        for t in self:
-            pairs.extend(t)
+        new_map = BetterMap(self.num * 2)
 
-        self.add_maps(len(self))
-        for k, v in pairs:
-            BetterMap.add(self, k, v)
+        for m in self.map:
+            for k, v in m:
+                new_map.add(k, v)
 
+        self.map = new_map
 
 def main(script):
     m = HashMap()
-    s = string.lowercase
+    s = string.ascii_lowercase
 
     for k, v in enumerate(s):
         m.add(k, v)
 
     for k in range(len(s)):
-        print m.get(k)
+        print k, m.get(k)
 
 if __name__ == '__main__':
     import sys
