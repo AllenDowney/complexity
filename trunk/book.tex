@@ -995,15 +995,12 @@ through {\tt z2}, and so on.
 
 Analysis of algorithms is the branch of computer science that studies
 the performance of algorithms, especially their run time and space
-requirements.
-
-%\url{wikipedia.org/wiki/Analysis_of_algorithms}
+requirements.  See \url{wikipedia.org/wiki/Analysis_of_algorithms}.
 
 %\url{wikipedia.org/wiki/Run-time_analysis}
 
-The practical goal of algorithm analysis is to predict
-the performance of different algorithms in order to guide 
-program design decisions.
+The practical goal of algorithm analysis is to predict the performance
+of different algorithms in order to guide design decisions.
 
 During the 2008 United States Presidential Campaign, candidate
 Barack Obama was asked to perform an impromptu analysis when
@@ -1011,6 +1008,7 @@ he visited Google.  Chief executive Eric Schmidt jokingly asked him
 for ``the most efficient way to sort a million 32-bit integers.''
 Obama had apparently been tipped off, because he quickly
 replied, ``I think the bubble sort would be the wrong way to go.''
+See \url{http://www.youtube.com/watch?v=k4RRi_ntQc8}.
 
 This is true: bubble sort is conceptually simple but slow for
 large datasets.  The answer Schmidt was probably looking for is
@@ -1025,7 +1023,7 @@ spent.  If it looked like a faster sort algorithm would have
 a significant effect on performance, then I would look
 around for a good implementation of radix sort.''}.
 
-So the goal of algorithmic analysis is to make meaningful
+So the goal of algorithm analysis is to make meaningful
 comparisons between algorithms, but there are some problems:
 
 \begin{itemize}
@@ -1047,11 +1045,11 @@ analyze average case performance, but it is usually harder,
 and sometimes it is not clear what set of cases to average over.
 
 \item Relative performance also depends on the size of the
-problem.  A sorting algorithm that does better on small lists
-might be much slower on long lists.
+problem.  A sorting algorithm that is fast for small lists
+might be slow for long lists.
 The usual solution to this problem is to express run time
 (or number of operations) as a function of problem size,
-and to {\bf compare the functions asymptotically} as the problem
+and to compare the functions {\bf asymptotically} as the problem
 size increases.
 
 \end{itemize}
@@ -1060,8 +1058,8 @@ The good thing about this kind of comparison that it lends
 itself to simple classification of algorithms.  For example,
 if I know that the run time of Algorithm A tends to be
 proportional to the size of the input, $n$, and Algorithm B
-tends to be proportional to $n^2$, then it would be reasonable
-to expect A to be faster than B for large values of $n$.
+tends to be proportional to $n^2$, then I
+expect A to be faster than B for large values of $n$.
 
 This kind of analysis comes with some caveats, but we'll get
 to that later.
@@ -1082,10 +1080,10 @@ for different problem sizes:
 Input     &   Run time of     & Run time of \\
 size      &   Algorithm A     & Algorithm B \\
 \hline
-10      &   1 001           & 111         \\
-100      &   10 001           & 10 101         \\
-1 000      &   100 001           & 1 001 001         \\
-10 000      &   1 000 001           & $> 10^{10}$         \\
+10        &   1 001           & 111         \\
+100       &   10 001          & 10 101         \\
+1 000     &   100 001         & 1 001 001         \\
+10 000    &   1 000 001       & $> 10^{10}$         \\
 \hline
 \end{tabular}
 
@@ -1111,23 +1109,23 @@ In general, we expect an algorithm with a smaller leading term to be a
 better algorithm for large problems, but for smaller problems, there
 may be a {\bf crossover point} where another algorithm is better.  The
 location of the crossover point depends on the details of the
-algorithms, the inputs and the hardware, so it is usually ignored for
-purposes of algorithmic analysis, but that doesn't mean you can forget
+algorithms, the inputs, and the hardware, so it is usually ignored for
+purposes of algorithmic analysis.  But that doesn't mean you can forget
 about it.
 
 If two algorithms have the same leading order term, it is hard to say
-which is better; again, the answer will depend on the details.  So for
-purposes of algorithmic analysis, functions with the same leading term
+which is better; again, the answer depends on the details.  So for
+algorithmic analysis, functions with the same leading term
 are considered equivalent, even if they have different coefficients.
 
 An {\bf order of growth} is a set of functions whose asymptotic growth
 behavior is considered equivalent.  For example, $2n$, $100n$ and $n +
 1$ belong to the same order of growth, which is written $O(n)$ in
-``Big-Oh notation'' and often called ``linear'' because every function
+{\bf Big-Oh notation} and often called {\bf linear} because every function
 in the set grows linearly with $n$.
 
 All functions with the leading term $n^2$ belong to $O(n^2)$; they are
-called ``quadratic,'' which is a fancy word for functions with the
+{\bf quadratic}, which is a fancy word for functions with the
 leading term $n^2$.
 
 The following table shows some of the orders of growth that
@@ -1170,7 +1168,7 @@ answer the following questions:
 What about $1000000 n^3 + n^2$.
 What about $n^3 + 1000000 n^2$?  
 
-\item What is the order of growth of $(n^2 + n) * (n + 1)$?  Before
+\item What is the order of growth of $(n^2 + n) \cdot (n + 1)$?  Before
   you start multiplying, remember that you only need the leading term.
 
 \item If $f$ is in $O(g)$, for some unspecified function $g$, what can
@@ -1202,7 +1200,7 @@ useful tool.  At least for large problems, the ``better'' algorithms
 is usually better, and sometimes it is {\em much} better.  The
 difference between two algorithms with the same order of growth is
 usually a constant factor, but the difference between a good algorithm
-and a bad algorithm is infinite\footnote{As $n$ goes to infinity.}!
+and a bad algorithm is unbounded!
 
 
 \section{Analysis of basic operations}
@@ -1236,7 +1234,10 @@ it has a smaller leading coefficient.
 
 If you use the same loop to ``add'' a list of strings, the
 run time is quadratic
-because string addition is linear in the length of the strings.
+because string concatenation is linear.
+
+
+ in the length of the strings.
 The string method {\tt join} is usually faster because it is
 linear in the total length of the strings.
 
@@ -1244,8 +1245,11 @@ As a rule of thumb, if the body of a loop is in $O(n^a)$ then
 the whole loop is in $O(n^{a+1})$.  The exception is if you can
 show that the loop exits after a constant number of iterations.
 If a loop runs $k$ times regardless of $n$, then
-the loop is in $O(n^a)$, even for large $k$.  But if it runs
-$n / k$ times, the loop is in $O(n^{a+1})$, even for large $k$.
+the loop is in $O(n^a)$, even for large $k$.
+
+Multiplying by $k$ doesn't change the order of growth, but neither
+does dividing.  So if the body of a loop is in $O(n^a)$ and it runs $n
+/ k$ times, the loop is in $O(n^{a+1})$, even for large $k$.
 
 Most string and tuple operations are linear, except indexing and {\tt
   len}, which are constant time.  The built-in functions {\tt min} and
@@ -1280,7 +1284,9 @@ there are some exceptions:
 
 \item The run time of {\tt copy} is proportional to the number of
   elements, but not the size of the elements (it copies references,
-  not the elements themselves).  The run time of {\tt update} is
+  not the elements themselves).
+
+\item The run time of {\tt update} is
   proportional to the size of the dictionary passed as a parameter,
   not the dictionary being updated.
 
@@ -1289,8 +1295,8 @@ there are some exceptions:
     iteritems} are constant time because they return iterators.  But
   if you loop through the iterators, the loop will be linear.  Using
   the ``iter'' functions saves some overhead, but it doesn't change
-  the order of growth (unless the number of items you access is
-  bounded).
+  the order of growth unless the number of items you access is
+  bounded.
 
 \end{itemize}
 
@@ -1315,7 +1321,8 @@ the following questions:
 \item What is the order of growth of bubble sort, and why does Barack
   Obama think it is ``the wrong way to go.''
 
-\item What is the order of growth of radix sort?
+\item What is the order of growth of radix sort?  What preconditions
+  do we need to use it?
 
 \item What is a stable sort and why might it matter in practice?
 
@@ -1340,9 +1347,9 @@ item and determines whether the target is in the collection, often
 returning the index of the target.
 
 The simplest search algorithm is a ``linear search,'' which traverses
-the items in the collection in order, stopping if it finds the target.
+the items of the collection in order, stopping if it finds the target.
 In the worst case it has to traverse the entire collection, so the run
-time is linear, hence the name.
+time is linear.
 
 The {\tt in} operator for sequences uses a linear search; so do string
 methods like {\tt find} and {\tt count}.
@@ -1353,7 +1360,7 @@ similar to the algorithm you probably use to look a word up in a
 dictionary.  Instead of starting at the beginning and checking each
 item in order, you start with the item in the middle and check whether
 the word you are looking for comes before or after.  If it comes
-before, then you search the first half of the sequence the same way.
+before, then you search the first half of the sequence.
 Otherwise you search the second half.  Either way, you cut the number
 of remaining items in half.
 
@@ -1385,18 +1392,19 @@ doesn't require the items to be sorted.  Python dictionaries
 are implemented using hashtables, which is why most dictionary
 operations, including the {\tt in} operator, are constant time.
 
+
 \section{Hashtables}
 \label{hashtable}
 
 To explain how hashtables work and why their performance is so
-good, I will start with a simple implementation of a map and
+good, I start with a simple implementation of a map and
 gradually improve it until it's a hashtable.
 
-I will use Python to demonstrate these implementations, but in real
+I use Python to demonstrate these implementations, but in real
 life you wouldn't write code like this in Python; you would just use a
 dictionary!  So for the rest of this chapter, you have to imagine that
 dictionaries don't exist and you want to implement a data structure
-that maps from keys to values.  The basic operations you have to
+that maps from keys to values.  The operations you have to
 implement are:
 
 \begin{description}
@@ -1411,7 +1419,7 @@ is written {\tt d[target]} or {\tt d.get(target)}.
 
 \end{description}
 
-For now, I will assume that each key only appears once.
+For now, I assume that each key only appears once.
 The simplest implementation of this interface uses a list of
 tuples, where each tuple is a key-value pair.
 
@@ -1502,55 +1510,54 @@ than LinearMap.  The order of growth is still linear, but the
 leading coefficient is smaller.  That's nice, but still not
 as good as a hashtable.
 
-Here (finally) is the crucial idea that makes hashtables fast:
-if you can keep the maximum length of the LinearMaps bounded
-by a constant, then {\tt LinearMap.get} is constant time.
-All you have to do is keep track of the number of items and when
-the maximum (or average) number of items per LinearMap exceeds
-a threshold, resize the hashtable by adding more LinearMaps.
+Here (finally) is the crucial idea that makes hashtables fast: if you
+can keep the maximum length of the LinearMaps bounded, {\tt
+  LinearMap.get} is constant time.  All you have to do is keep track
+of the number of items and when the maximum (or average) number of
+items per LinearMap exceeds a threshold, resize the hashtable by
+adding more LinearMaps.
 
 Here is an implementation of a hashtable:
 
 \begin{verbatim}
-class HashMap(BetterMap):
+class HashMap(object):
 
     def __init__(self):
-        BetterMap.__init__(self, 2)
+        self.map = BetterMap(2)
         self.num = 0
 
+    def get(self, k):
+        return self.map.get(k)
+
     def add(self, k, v):
-        if self.num == len(self):
+        if self.num == len(self.map):
             self.resize()
 
-        BetterMap.add(self, k, v)
+        self.map.add(k, v)
         self.num += 1
 
     def resize(self):
-        pairs = []
-        for t in self:
-            pairs.extend(t)
+        new_map = BetterMap(self.num * 2)
 
-        self.add_maps(len(self))
-        for k, v in pairs:
-            BetterMap.add(self, k, v)
+        for m in self.map:
+            for k, v in m:
+                new_map.add(k, v)
+
+        self.map = new_map
 \end{verbatim}
 
-{\tt HashMap} inherits from {\tt BetterMap}; it overrides
-\verb"__init__" and {\tt add} and defines a new method named
-{\tt resize}.
+Each {\tt HashMap} contains a {\tt BetterMap}; \verb"__init__" starts
+with just 2 LinearMaps and initializes {\tt num}, which keeps track of
+the number of items.
 
-\verb"__init__" starts with just 2 LinearMaps and initializes {\tt
-  num}, which keeps track of the number of items.
+{\tt get} just dispatches to {\tt BetterMap}.  The real work happens
+in {\tt add}, which checks the number of items and the size of the
+{\tt BetterMap}:
+if they are equal, the average number of items per LinearMap
+is 1, so it calls {\tt resize}.
 
-{\tt add} checks the number of items and the number of LinearMaps;
-if they are equal, then the average number of items per LinearMap
-is 1, so it resizes the HashMap.
-
-{\tt resize} uses {\tt list.extend} to make a list of
-the items in the HashMap.  Then it uses
-\verb"BetterMap.add_map" to double the number of LinearMaps.
-Finally, it ``rehashes'' the items that were already in the
-HashMap.
+{\tt resize} make a new {\tt BetterMap}, twice as big as the previous
+one, and then ``rehashes'' the items from the old map to the new.
 
 Rehashing is necessary because changing the number of LinearMaps
 changes the denominator of the modulus operator in
@@ -1558,8 +1565,7 @@ changes the denominator of the modulus operator in
 to wrap into the same LinearMap will get split up (which is
 what we wanted, right?).
 
-Making the list of items,
-adding more LinearMaps, and rehashing are all linear, so 
+Rehashing is linear, so 
 {\tt resize} is linear, which might seem bad, since I promised
 that {\tt add} would be constant time.  But remember that
 we don't have to resize every time, so {\tt add} is usually
@@ -1610,7 +1616,7 @@ adds is $2n - 2$.
 
 An important feature of this algorithm is that when we resize the
 HashTable it grows geometrically; that is, we multiply the size by a
-constant.  It turns out that if you increase the size
+constant.  If you increase the size
 arithmetically---adding a fixed number each time---the average time
 per {\tt add} is linear.
 
@@ -1629,6 +1635,8 @@ and {\tt get} in log time.
 
 
 \section{Summing lists}
+
+%% REWRITE!
 
 In my first draft of {\tt HashMap.resize} I used the built-in function
 {\tt sum} to make the list of items:
