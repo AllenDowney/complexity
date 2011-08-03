@@ -51,7 +51,7 @@
 \usepackage{upquote}
 
 \newcommand{\thetitle}{Complexity and Computation}
-\newcommand{\theversion}{0.9.0}
+\newcommand{\theversion}{0.9.1}
 
 \makeindex
 
@@ -536,7 +536,7 @@ the graph.
 Adding a vertex to a graph means making an entry for it in the
 outer dictionary.  Adding an edge makes two entries, both pointing
 to the same Edge.  So this implementation represents an undirected
-graph (see Exercise~\ref{digraph}).
+graph.
 
 Here is the definition for {\tt Vertex}:
 
@@ -1423,22 +1423,26 @@ For now, I assume that each key only appears once.
 The simplest implementation of this interface uses a list of
 tuples, where each tuple is a key-value pair.
 
-
 \begin{verbatim}
-class LinearMap(list):
+class LinearMap(object):
+
+    def __init__(self):
+        self.items = []
 
     def add(self, k, v):
-        self.append((k, v))
+        self.items.append((k, v))
 
-    def get(self, target):
-        for key, val in self:
-            if key == target:
+    def get(self, k):
+        for key, val in self.items:
+            if key == k:
                 return val
         raise KeyError
 \end{verbatim}
 
-{\tt add} uses list {\tt append}, which is constant
-time.  {\tt get} uses a {\tt for} loop to search the list:
+{\tt add} appends a key-value tuple to the list of items, which
+takes constant time.
+
+{\tt get} uses a {\tt for} loop to search the list:
 if it finds the target key it returns the corresponding value;
 otherwise it raises a {\tt KeyError}.
 So {\tt get} is linear.
@@ -1458,18 +1462,16 @@ in a second, the order of growth for {\tt get} is still linear,
 but {\tt BetterMap} is a step on the path toward hashtables:
 
 \begin{verbatim}
-class BetterMap(list):
+class BetterMap(object):
 
-    def __init__(self, num=100):
-        self.add_maps(num)
-        
-    def add_maps(self, num):
-        for i in range(num):
-            self.append(LinearMap())
+    def __init__(self, n=100):
+        self.maps = []
+        for i in range(n):
+            self.maps.append(LinearMap())
 
     def find_map(self, k):
-        index = hash(k) % len(self)
-        return self[index]
+        index = hash(k) % len(self.maps)
+        return self.maps[index]
 
     def add(self, k, v):
         m = self.find_map(k)
@@ -1480,29 +1482,28 @@ class BetterMap(list):
         return m.get(k)
 \end{verbatim}
 
-The init method uses \verb"add_maps" to initialize itself with
-100 LinearMaps.
+\verb"__init__" makes a list of {\tt n} {\tt LinearMap}s.
 
-When {\tt add} and {\tt get} are invoked,
-they use \verb"find_map" to figure out which map to put the
-new item into, or which map to search.  
+\verb"find_map" is used by
+{\tt add} and {\tt get}
+to figure out which map to put the
+new item in, or which map to search.  
 
 \verb"find_map" uses the built-in function {\tt hash}, which takes
 almost any Python object and returns an integer.  A limitation of this
 implementation is that it only works with hashable keys.  Mutable
 types like lists and dictionaries are unhashable.
 
-Hashable objects that are considered equal will return the same hash value,
+Hashable objects that are considered equal return the same hash value,
 but the converse is not necessarily true: two different objects
 can return the same hash value.
 
 \verb"find_map" uses the modulus operator to wrap the hash values
-into the range from 0 to {\tt len(self)}, so the result is a legal
-index into the BetterMap.  Of course, this means that many different
+into the range from 0 to {\tt len(self.maps)}, so the result is a legal
+index into the list.  Of course, this means that many different
 hash values will wrap onto the same index.  But if the hash function
 spreads things out pretty evenly (which is what hash functions
-are designed to do), then we expect $n/100$ items per LinearMap
-on average. 
+are designed to do), then we expect $n/100$ items per LinearMap.
 
 Since the run time of {\tt LinearMap.get} is proportional to the
 number of items, we expect BetterMap to be about 100 times faster
@@ -1513,7 +1514,7 @@ as good as a hashtable.
 Here (finally) is the crucial idea that makes hashtables fast: if you
 can keep the maximum length of the LinearMaps bounded, {\tt
   LinearMap.get} is constant time.  All you have to do is keep track
-of the number of items and when the maximum (or average) number of
+of the number of items and when the number of
 items per LinearMap exceeds a threshold, resize the hashtable by
 adding more LinearMaps.
 
@@ -1527,10 +1528,11 @@ class HashMap(object):
         self.num = 0
 
     def get(self, k):
+        or raises KeyError if the key is not found."""
         return self.map.get(k)
 
     def add(self, k, v):
-        if self.num == len(self.map):
+        if self.num == len(self.map.maps):
             self.resize()
 
         self.map.add(k, v)
@@ -1542,8 +1544,6 @@ class HashMap(object):
         for m in self.map:
             for k, v in m:
                 new_map.add(k, v)
-
-        self.map = new_map
 \end{verbatim}
 
 Each {\tt HashMap} contains a {\tt BetterMap}; \verb"__init__" starts
@@ -1626,6 +1626,27 @@ is no reason to use it; if you want a map, just use a Python dictionary.
 
 \begin{ex}
 
+My implementation of {\tt HashMap} accesses the attributes of
+{\tt BetterMap} directly, which shows poor object-oriented design.
+
+Improve it by:
+
+\begin{enumerate}
+
+\item The special method \verb"__len__" is invoked by the built-in
+function {\tt len}.  Write a \verb"__len__" method for {\tt BetterMap}
+and use it in {\tt add}.
+
+\item Use a generator to write {\tt BetterMap.iteritems}, and use it
+in {\tt resize}.
+
+\end{enumerate}
+
+\end{ex}
+
+
+\begin{ex}
+
 Write an implementation of the dictionary interface called
 {\tt TreeMap} that uses a red-black tree to perform {\tt add}
 and {\tt get} in log time.
@@ -1636,56 +1657,45 @@ and {\tt get} in log time.
 
 \section{Summing lists}
 
-%% REWRITE!
+Suppose you have a bunch of lists and you want to join them up
+into a single list.  There are three ways you might do that
+in Python:
 
-In my first draft of {\tt HashMap.resize} I used the built-in function
-{\tt sum} to make the list of items:
+\begin{itemize}
 
-\begin{verbatim}
-    def resize(self):
-        pairs = sum(self, [])
-        self.add_maps(len(self))
-        for k, v in pairs:
-            BetterMap.add(self, k, v)
-\end{verbatim}
-
-This implementation is concise, and it works, but it is what
-Barack Obama would call ``the wrong way to go.''
-
-The implementation of {\tt sum} looks something like this\footnote{I
-  assume it is actually written in C, but for algorithmic analysis,
-  language doesn't matter.}:
+\item You could use the {\tt +=} operator:
 
 \begin{verbatim}
-def badsum(t, init):
-    total = init
+    total = []
     for x in t:
         total += x
-    return total
 \end{verbatim}
 
-The nice thing about this implementation is that it is polymorphic;
-it works with any type that supports the {\tt +} operation.
+\item Or the {\tt extend} method:
 
-The problem is that when {\tt t} is a list of lists, this function is
-quadratic.  The reason is that the {\tt +} operator creates a new list
-each time through the loop.  If you imagine adding one element per
-iteration, then the first iteration takes 1 unit of work, the second
-takes 2, the third takes 3, and so on.  The total after $n$ iterations
-is $n (n+1) / 2$, which is in $O(n^2)$.
+\begin{verbatim}
+    total = []
+    for x in t:
+        total.extend(x)
+\end{verbatim}
 
-If {\tt resize} is quadratic then {\tt HashMap.add} is linear, so this
-implementation has a {\bf performance error}, which means that I
-implemented an algorithm with an order of growth worse than the
-algorithm I meant to implement.
+\item Or the built-in function {\tt sum}:
 
+\begin{verbatim}
+    total = sum(t, [])
+\end{verbatim}
 
-\begin{ex}
-\label{listsum}
+The second argument to {\tt sum} is the initial value for the total.
 
-Measure the run time of {\tt sum} for a list of lists with a range
-of sizes, and confirm that it is quadratic.  Then run the same
-experiment using {\tt extend} and confirm that it is linear.
+\end{itemize}
+
+Without knowing how {\tt +=} and {\tt extend} and {\tt sum} are
+implemented, it is hard to analyze their performance.  For example,
+if {\tt total += x} creates a new list every time, the loop
+is quadratic; but if it modifies {\tt total}, it's linear.
+
+To find out, we could read the source code, but as an exercise, let's see
+if we can figure it out by measuring run times.
 
 A simple way to measure the run time of a program is to use
 the function {\tt times} in the {\tt os} module, which returns
@@ -1718,9 +1728,9 @@ To measure the elapsed time of a function you can call
 \end{verbatim}
 
 Alternatively, if you use IPython, you can use the
-{\tt timeit} command (see \url{ipython.scipy.org}).
+{\tt timeit} command. See \url{ipython.scipy.org}.
 
-If an algorithm is quadratic, then you expect the run time, $t$
+If an algorithm is quadratic, we expect the run time, $t$
 as a function of input size, $n$, to look like this:
 
 \[ t = a n^2 + b n + c \]
@@ -1731,40 +1741,64 @@ the log of both sides you get:
 \[ \log t \sim \log a + 2 \log n \]
 
 For large values of $n$, the non-leading terms are insignificant
-and this approximation is pretty good.  So if you plot $t$
-versus $n$ on a log-log scale, you should see a straight line
-with slope 2.  
+and this approximation is pretty good.  So if we plot $t$
+versus $n$ on a log-log scale, we expect a straight line
+with slope 2.
 
-Plot your results on a log-log scale and estimate the slope
-of the line.  You might have to experiment to find values of
-$n$ that are big enough to yield good measurements but not so
-big that the program runs forever.
+Similarly if the algorithm is linear, we expect a line with
+slope 1.
 
-Write an implementation of {\tt sum} using {\tt extend}.
-Repeat your measurements and confirm that it is linear.
+I wrote three functions that concatenate lists: \verb"sum_plus" uses
+{\tt +=}; \verb"sum_extend" uses {\tt list.extend}; and \verb"sum_sum"
+uses {\tt sum}.  I timed them for a range of {\tt n} and plotted the
+results on a log-log scale.  Figures~\ref{listsum1} and \ref{listsum2} show the
+results.
 
-You can download my solution from
-\url{thinkcomplex.com/listsum.py}.
+\begin{figure}
+\label{listsum1}
+\centerline{\includegraphics[height=2.5in]{figs/listsum1.eps}}
+\caption{Runtime versus {\tt n}.  The gray lines have slope 1.}
+\end{figure}
+
+\begin{figure}
+\label{listsum2}
+\centerline{\includegraphics[height=2.5in]{figs/listsum2.eps}}
+\caption{Runtime versus {\tt n}.  The gray line has slope 2.}
+\end{figure}
+
+In Figure~\ref{listsum1} I fit a line with slope 1 to the curves.
+The data fit this line well, so we conclude
+that these implementations are linear.  The implementation for {\tt +=}
+is faster by a constant factor, probably because it takes some time
+to look up the {\tt extend} method each time through the loop.
+
+In Figure~\ref{listsum2} the data fit a line with slope 2, so the
+implementation of {\tt sum} is quadratic.
+
+
+\begin{ex}
+
+Perform a similar experiment to test the performance of
+{\tt LinearMap}, {\tt BetterMap} and {\tt HashMap}.
+
+You can download my map implementations from
+\url{thinkcomplex.com/Map.py}, and the code I used in this section
+from \url{thinkcomplex.com/listsum.py}.
+
+You will have to find a range
+of {\tt n} that is big enough to show asymptotic behavior, but small
+enough to run quickly.
 
 \end{ex}
 
 
 \section{List comprehensions}
 
-One of the most common programming patterns is called a
-{\bf map}: it involves traversing a list and performing
-a computation using each element
-of the list.  The result is a new list that contains the
-results of the computations.
+One of the most common programming patterns is to traverse
+a list while building a new list.
 
-A dictionary is also sometimes called a map or a 
-``mapping type,'' but that is a different sense of the word.
-I'm sorry if the vocabulary is confusing, but we are stuck
-with it.
-
-Here is an example that maps the square operator, {\tt **2}, onto a
-list of numbers and accumulates a list that contains the square of
-each item:
+Here is an example that computes the square of each element in
+a list accumulates the results:
 
 \begin{verbatim}
     res = []
@@ -1773,10 +1807,12 @@ each item:
 \end{verbatim}
 
 This pattern is so common that Python provides a more
-concise syntax for it, called a {\bf list comprehension}
-\footnote{In this context, the sense of ``comprehend'' is something
+concise syntax for it, called a {\bf list comprehension}.
+In this context, the sense of ``comprehend'' is something
   like ``contain'' rather than ``understand.''  See
-  \url{wikipedia.org/wiki/List_comprehension}. }
+  \url{wikipedia.org/wiki/List_comprehension}.
+
+Here's what it looks like:
 
 \begin{verbatim}
     res = [x**2 for x in t]
@@ -1784,21 +1820,21 @@ concise syntax for it, called a {\bf list comprehension}
 
 This expression yields the same result as the previous loop.  List
 comprehensions tend to be fast because the loop is executed in C
-rather than Python.  The drawback is that they can be harder to debug.
+rather than Python.  The drawback is that they are harder to debug.
 
 List comprehensions can include an {\tt if} clause that selects a
-subset of, or ``filters'', the items.  The following example makes a
-list of only the positive elements of {\tt t}:
+subset of the items.  The following example makes a
+list of the positive elements in {\tt t}:
 
 \begin{verbatim}
     res = [x for x in t if x > 0]
 \end{verbatim}
 
-The following is an idiom for making a list of tuples, where
+The following is a common idiom for making a list of tuples, where
 each tuple is a value and a key from a dictionary:
 
 \begin{verbatim}
-    res = [(v,k) for k,v in d.iteritems()]
+    res = [(v, k) for k, v in d.iteritems()]
 \end{verbatim}
 
 In this case it is safe to use
@@ -1808,19 +1844,18 @@ faster because it doesn't have to make a list, just an iterator.
 
 It is also possible to nest {\tt for} loops inside
 a list comprehension.  The following example builds a list
-of tuples, where each tuple is a pair of different vertices
-from the list {\tt vs}:
+of Edges between each pair of vertices in {\tt vs}:
 
 \begin{verbatim}
-    res = [(v, w) for v in vs for w in vs if v is not w]
+    edges = [Edge(v, w) for v in vs for w in vs if v is not w]
 \end{verbatim}
 
 Now that's pretty concise!
 
 \begin{ex}
 
-Can you think of a way to use a list comprehension to concatenate
-a list of lists into a single list, as in Exercise~\ref{listsum}?
+Review the methods your wrote in {\tt Graph.py} and see if any
+can be rewritten using list comprehensions.
 
 \end{ex}
 
