@@ -1,29 +1,30 @@
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
 
-"""
+http://greenteapress.com/complexity
 
-Code example from _Computational_Modeling_
-http://greenteapress.com/compmod
-
-Copyright 2008 Allen B. Downey.
+Copyright 2011 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
-
 """
 
 import string
 import random
-from Graph import *
+
 from collections import deque
 
+from Graph import *
+
+
 class RandomGraph(Graph):
-    """an Erdos-Renyi random graph is a Graph where the probability 
+    """An Erdos-Renyi random graph is a Graph where the probability 
     of an edge between any two nodes is (p).
     """
 
     def add_random_edges(self, p=0.05):
-        """starting with an edgeless graph, add edges to
+        """Starting with an edgeless graph, add edges to
         form a random graph where (p) is the probability 
-        that there is an edge between any pair of vertices"""
-
+        that there is an edge between any pair of vertices.
+        """
         vs = self.vertices()
         for i, v in enumerate(vs):
             for j, w in enumerate(vs):
@@ -33,10 +34,10 @@ class RandomGraph(Graph):
 
 
     def bfs(self, s, visit=None):
-        """breadth first search, starting with (s).
+        """Breadth first search, starting with (s).
         If (visit) is provided, it is invoked on each vertex.
-        Returns the set of visited vertices."""
-
+        Returns the set of visited vertices.
+        """
         visited = set()
 
         # initialize the queue with the start vertex
@@ -61,9 +62,9 @@ class RandomGraph(Graph):
         # return the visited vertices
         return visited
 
-    def isConnected(self):
-        """return True if there is a path from any vertex to
-        any other vertex in this graph; False otherwise
+    def is_connected(self):
+        """Returns True if there is a path from any vertex to
+        any other vertex in this graph; False otherwise.
         """
         vs = self.vertices()
         visited = self.bfs(vs[0])
@@ -85,15 +86,20 @@ def show_graph(g):
     gw.mainloop()
 
 
-def main(script, n=26, p=0.1, num=1, *args):
-    n = int(n)
-    p = float(p)
-    num = int(num)
-    count = test_p(n, p, num)
-    print count
+def test_graph(n, p):
+    """Generates a random graph with (n) vertices and probability (p).
+    Returns True if it is connected, False otherwise
+    """
+    labels = string.lowercase + string.uppercase + string.punctuation
+    vs = [Vertex(c) for c in labels[:n]]
+    g = RandomGraph(vs)
+    g.add_random_edges(p=p)
+    # show_graph(g)
+    return g.is_connected()
+
 
 def test_p(n, p, num):
-    """generate (num) random graphs with (n) vertices and
+    """Generates (num) random graphs with (n) vertices and
     probability (p) and return the count of how many are connected.
     """
     count = 0
@@ -102,16 +108,14 @@ def test_p(n, p, num):
             count += 1
     return count
 
-def test_graph(n, p):
-    """generate a random graph with (n) vertices and probability (p).
-    Return True if it is connected, False otherwise
-    """
-    labels = string.lowercase + string.uppercase + string.punctuation
-    vs = [Vertex(c) for c in labels[:n]]
-    g = RandomGraph(vs)
-    g.add_random_edges(p=p)
-    # show_graph(g)
-    return g.isConnected()
+
+def main(script, n=26, p=0.1, num=1, *args):
+    n = int(n)
+    p = float(p)
+    num = int(num)
+    count = test_p(n, p, num)
+    print count
+
 
 if __name__ == '__main__':
     import sys

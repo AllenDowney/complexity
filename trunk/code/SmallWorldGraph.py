@@ -1,40 +1,49 @@
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
+
+http://greenteapress.com/complexity
+
+Copyright 2011 Allen B. Downey.
+Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+"""
+
 import sys
 import math
+
 from Heap import Heap
 from Graph import *
-from Set import SetQueue
+
 from GraphWorld import *
 
 def avg(seq):
     return 1.0 * sum(seq) / len(seq)
 
-Inf = 1e300
+Inf = float('Inf')
 
 class SmallWorldGraph(Graph):
 
     def shortest_path_tree(self, s, hint=None):
-        """find the length of the shortest path from Vertex (s) to the
-        Vertices in (others); store the path lengths as a dist attribute.
+        """Finds the length of the shortest path from Vertex (s) to the
+        other Vertices; stores the path lengths as a dist attribute.
         (uses Dijkstra's algorithm).
 
         In theory this is a bad implementation of Dijkstra's algorithm:
         it keeps the priority queue as a sorted list and re-sorts after
         processing each vertex.
 
-        But in practice this turns out to be pretty fast, because Python's
-        sort algorithm does pretty well on lists that are almost sorted.
+        But in practice this turns out to be pretty good, because Python's
+        sort algorithm is fast for lists that are almost sorted.
 
-        (hint) is a dictionary that maps from tuples (v,w) to already-known
+        hint: a dictionary that maps from tuples (v,w) to already-known
         shortest path length from v to w.
         """
-        if hint == None: hint = {}
+        if hint == None:
+            hint = {}
 
-        # initialize v.dist
-        for v in self:
+        # initialize distance attribute for each vertex
+        for v in self.iterkeys():
             v.dist = hint.get((s, v), Inf)
         s.dist = 0
-
-        cfunc = lambda x,y: cmp(x.dist, y.dist)
 
         # start with all vertices in the queue
         queue = [v for v in self if v.dist < Inf]
@@ -42,22 +51,22 @@ class SmallWorldGraph(Graph):
         
         while len(queue) > 0:
 
-            # re-sort the queue is necessary, then pop the lowest item
-            if flag: queue.sort(cmp=cfunc)
+            # re-sort the queue if necessary, then pop the lowest item
+            if flag:
+                queue.sort(key=lambda v: v.dist)
             flag = False
             v = queue.pop(0)
             
             # for each neighbor of v, see if we found a new shortest path
             for w, e in self[v].iteritems():
                 new = v.dist + e.length
-                if w.dist == Inf:
-                    queue.append(w)
                 if w.dist > new:
                     w.dist = new
+                    queue.append(w)
                     flag = True
                     
     def shortest_path_tree2(self, s, hint=None):
-        """a Heap-based implementation of Dijkstra's algorithm
+        """A Heap-based implementation of Dijkstra's algorithm
         based on Connelly Barnes's modification of David Eppstein's
         code at
         http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/119466
@@ -70,17 +79,19 @@ class SmallWorldGraph(Graph):
         while len(queue) > 0:
 
             (cost, v) = queue.popmin()
-            if v.dist < Inf: continue
+            if v.dist < Inf: 
+                continue
             v.dist = cost
             
             for w, e in self[v].iteritems():
-                if w.dist < Inf: continue
+                if w.dist < Inf:
+                    continue
                 new = v.dist + e.length
                 queue.push((new, w))
 
 
     def init_all_pairs(self):
-        """for the all pairs shortest path algorithms, compute the
+        """For the all pairs shortest path algorithms, compute the
         weight dictionary W, where W[i,j] is the length of the edge from
         i to j if there is one, infinity if there isn't and 0 if i==j
         """
@@ -96,7 +107,7 @@ class SmallWorldGraph(Graph):
 
 
     def extend_shortest_paths(self, D, W):
-        """multiply the path dictionary D by the weight dictionary W.
+        """Multiply the path dictionary D by the weight dictionary W.
         This is part of the 'repeated squaring' algorithm.
         See Cormen Leiserson and Rivest, page 554.
         """
@@ -109,7 +120,7 @@ class SmallWorldGraph(Graph):
         return E
 
     def all_pairs_shortest_path(self):
-        """find the shortest path between all pairs of vertices using
+        """Finds the shortest path between all pairs of vertices using
         the the 'repeated squaring' algorithm.
         See Cormen Leiserson and Rivest, page 556.
 
@@ -129,7 +140,7 @@ class SmallWorldGraph(Graph):
 
 
     def all_pairs_floyd_warshall(self):
-        """find the shortest path between all pairs of nodes using
+        """Finds the shortest path between all pairs of nodes using
         the Floyd-Warshall algorithm.
         See Cormen Leiserson and Rivest, page 560.
         """
@@ -151,8 +162,8 @@ class SmallWorldGraph(Graph):
 
 
     def diameter(self):
-        """find and return the diameter of the graph
-        """
+        """Finds the diameter of the graph."""
+
         # choose an arbitrary start vertex and
         # compute the shortest path tree
         v = self.iterkeys().next()
@@ -169,8 +180,10 @@ class SmallWorldGraph(Graph):
 
 
     def char_length(self):
-        """compute the characteristic length of the graph according
+        """Computes the characteristic length of the graph according
         to the definition in Watts and Strogatz.
+
+        Uses Dijkstra's algorithm from all vertices.
 
         Precondition: the graph is connected.
         """
@@ -186,7 +199,7 @@ class SmallWorldGraph(Graph):
         return avg(d.values())
 
     def char_length2(self):
-        """compute the characteristic length of the graph according
+        """Computes the characteristic length of the graph according
         to the definition in Watts and Strogatz.  Uses the repeated
         squaring algorithm to compute all pairs shortest paths.
 
@@ -198,7 +211,7 @@ class SmallWorldGraph(Graph):
         return avg(t)
 
     def char_length3(self):
-        """compute the characteristic length of the graph according
+        """Computes the characteristic length of the graph according
         to the definition in Watts and Strogatz.  Uses the Floyd-Warshall
         algorithm to compute all pairs shortest paths.
 
@@ -210,7 +223,7 @@ class SmallWorldGraph(Graph):
         return avg(t)
 
     def cluster_coef(self):
-        """compute the cluster coefficient of the graph according
+        """Computes the cluster coefficient of the graph according
         to the definition in Watts and Strogatz.
         """
         C = {}
@@ -225,7 +238,7 @@ class SmallWorldGraph(Graph):
         return avg(cvs)
 
     def cluster(self, set):
-        """return the fraction of edges among this set that exist"""
+        """Returns the fraction of edges among this set that exist"""
         k = len(set)
         if k < 2: return 1.0
         possible = k * (k-1.0)
@@ -233,7 +246,7 @@ class SmallWorldGraph(Graph):
         return len(edges) / possible
 
     def rewire(self, p=0.01):
-        """rewire edges according to the algorithm in Watts and Strogatz.
+        """Rewires edges according to the algorithm in Watts and Strogatz.
         (p) is the probability that each edge is rewired.
         """
         # consider the edges in random order (this is slightly different
