@@ -23,3 +23,6 @@
 
 \newcommand{\vfill}{}
 
+\htmlhead{\rawhtmlinput{header.html}}
+
+\htmlfoot{\rawhtmlinput{footer.html}}

@@ -26,8 +26,7 @@ pushpop is a variant of replace that optimizes the case where the item
 being pushed would immediately be popped.
 
 __iter__ returns a destructive iterator; each time next is invoked, it
-pops an item from the heap.  In this case, the iterator is implemented
-by a generator.
+pops an item from the heap.
 
 reduce is sometimes called "reduce-key" in the context of graph
 algorithms.  It replaces the item at the given position with a new
@@ -62,8 +61,6 @@ Peters and Raymond Hettinger.
 
 """
 
-
-
 import heapq
 
 class Heap(list):
@@ -84,13 +81,13 @@ class Heap(list):
     def peek(self): return self[0]
 
     def pushpop(self, item):
-        "Push the item onto the heap and then pop the smallest value"
+        "Pushes the item onto the heap and then pop the smallest value"
         if self and self[0] < item:
             return heapq.heapreplace(self, item)
         return item
  
     def __iter__(self):
-        "Return a destructive iterator over the heap's elements"
+        "Returns a destructive iterator over the heap's elements"
         try:
             while True:
                 yield self.popmin()
@@ -98,7 +95,7 @@ class Heap(list):
             pass
 
     def reduce(self, pos, newitem):
-        "Replace self[pos] with a lower value item and then reheapify"
+        "Replaces self[pos] with a lower value item and reheapifies."
         while pos > 0:
             parentpos = (pos - 1) >> 1
             parent = self[parentpos]
@@ -109,7 +106,7 @@ class Heap(list):
         self[pos] = newitem
 
     def is_heap(self):
-        "Return True if the heap has the heap property; False otherwise"
+        "Returns True if the heap has the heap property; False otherwise"
         n = len(self)
         # The largest index there's any point to looking at
         # is the largest with a child index in-range, so must have 2*i + 1 < n,
@@ -126,6 +123,10 @@ class Heap(list):
         
 
 def heapsort(seq):
+    """Makes a new sorted list from a sequence.
+
+    Uses a Heap.
+    """
     return [x for x in Heap(seq)]
 
 

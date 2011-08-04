@@ -31,6 +31,7 @@ hevea:
 	hevea -e latexonly htmlonly book
 	imagen -png book
 	hacha book.html
+	cp up.png next.png back.png html
 	mv index.html book*.html book*.png *motif.gif html
 
 DEST = /home/downey/public_html/greent/complexity
