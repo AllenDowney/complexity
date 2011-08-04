@@ -7,20 +7,34 @@ Copyright 2011 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
 """
 
-import sys
 import math
+import random
+import string
+import sys
 
 from Heap import Heap
-from Graph import *
+from Graph import Edge, Vertex
+from GraphWorld import GraphWorld
+from RandomGraph import RandomGraph
 
-from GraphWorld import *
 
 def avg(seq):
     return 1.0 * sum(seq) / len(seq)
 
 Inf = float('Inf')
 
-class SmallWorldGraph(Graph):
+class SmallWorldGraph(RandomGraph):
+
+    def __init__(self, vs, k, p):
+        RandomGraph.__init__(self, vs)
+        self.add_regular_edges(k=k)
+        self.rewire(p=p)
+        self.assign_edge_lengths()
+
+    def assign_edge_lengths(self):
+        """Gives each edge a length attribute."""
+        for e in self.edges():
+            e.length = 1
 
     def shortest_path_tree(self, s, hint=None):
         """Finds the length of the shortest path from Vertex (s) to the
@@ -89,7 +103,6 @@ class SmallWorldGraph(Graph):
                 new = v.dist + e.length
                 queue.push((new, w))
 
-
     def init_all_pairs(self):
         """For the all pairs shortest path algorithms, compute the
         weight dictionary W, where W[i,j] is the length of the edge from
@@ -104,7 +117,6 @@ class SmallWorldGraph(Graph):
                     W[i,j] = Inf
             W[i,i] = 0
         return W
-
 
     def extend_shortest_paths(self, D, W):
         """Multiply the path dictionary D by the weight dictionary W.
@@ -279,6 +291,7 @@ def name_generator():
         i += 1
 
 def main(script, n='52', k='5', p='0.1', *args):
+    random.seed(17)
 
     # create n Vertices
     n = int(n)
@@ -288,16 +301,13 @@ def main(script, n='52', k='5', p='0.1', *args):
     names = name_generator()
     vs = [Vertex(names.next()) for c in range(n)]
 
-    # create a graph and a layout
-    g = SmallWorldGraph(vs)
-
-    g.add_regular_edges(k=k)
-    g.rewire(p=p)
+    # create a graph
+    g = SmallWorldGraph(vs, k, p)
 
     from time import clock
 
     print 'number of edges = ', len(g.edges())
-    print 'Is connected?', g.isConnected()
+    print 'Is connected?', g.is_connected()
     print 'diameter = ', g.diameter()
 
     start = clock()
@@ -321,6 +331,7 @@ def main(script, n='52', k='5', p='0.1', *args):
         gw = GraphWorld()
         gw.show_graph(g, layout)
         gw.mainloop()
+
 
 if __name__ == '__main__':
     import sys
