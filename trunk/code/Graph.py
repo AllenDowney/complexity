@@ -89,13 +89,13 @@ class Graph(dict):
         self[w][v] = e
 
     def remove_edge(self, e):
-        """remove (e) from the graph"""
+        """Removes (e) from the graph."""
         v, w = e
         del self[v][w]
         del self[w][v]
 
     def get_edge(self, v, w):
-        """Return the edge (v, w) if it exists, None otherwise.
+        """Returns the edge (v, w) if it exists, None otherwise.
 
         has_edge is a synonym for get_edge"""
         try:
@@ -106,15 +106,15 @@ class Graph(dict):
     has_edge = get_edge
 
     def vertices(self):
-        """Return a list of vertices in this graph."""
+        """Returns a list of vertices in this graph."""
         return self.keys()
 
     def edges(self):
-        """Return a list of the edges in this graph."""
+        """Returns a set of the edges in this graph."""
         s = set()
         for d in self.itervalues():
             s.update(d.itervalues())
-        return list(s)
+        return s
 
     def out_vertices(self, v):
         """Returns a list of vertices that can be reached in one hop from v."""
@@ -201,13 +201,6 @@ class Graph(dict):
 
             # add its out vertices to the queue
             queue.extend(self.out_vertices(v))
-
-    def isConnected(self):
-        """Returns True if there is a path from any vertex to
-        any other vertex in this graph; False otherwise"""
-        v = self.random_vertex()
-        self.bfs(v)
-        return False not in [v.visited for v in self]
 
 
 def is_odd(x):
