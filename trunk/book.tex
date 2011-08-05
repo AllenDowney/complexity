@@ -1792,10 +1792,49 @@ In Figure~\ref{listsum2} the data fit a line with slope 2, so the
 implementation of {\tt sum} is quadratic.
 
 
+\section{{\tt pyplot}}
+\index{{\tt pyplot}}
+\label{pyplot}
+
+To make the figures in this seciton I used {\tt pyplot}, which is part of
+{\tt matplotlib}.  If {\tt matplotlib} is not part of your Python
+installation, you might have to install it, or you can use another
+library to make plots.
+
+Here's an example that makes a simple plot:
+
+\begin{verbatim}
+import matplotlib.pyplot as pyplot
+
+    pyplot.plot(xs, ys)
+    scale = 'log'
+    pyplot.xscale(scale)
+    pyplot.yscale(scale)
+    pyplot.title('')
+    pyplot.xlabel('n')
+    pyplot.ylabel('run time (s)')
+    pyplot.show()
+\end{verbatim}
+
+The import statement makes {\tt matplotlib.pyplot} accessible
+with the shorter name {\tt pyplot}.
+
+{\tt plot} takes a list of $x$-values and a list of $y$-values and
+plots them.  The lists have to have the same length.
+{\tt xscale} and {\tt yscale} make the axes either linear or logarithmic.
+
+{\tt title}, {\tt xlabel} and {\tt ylabel} are self-explanatory.
+Finally, {\tt show} displays the plot on the screen.  You could also
+use {\tt savefig} to save the plot in a file.
+
+Documentation of {\tt pyplot} is at \url{http://matplotlib.sourceforge.net/}.
+
+
 \begin{ex}
 
-Perform a similar experiment to test the performance of
-{\tt LinearMap}, {\tt BetterMap} and {\tt HashMap}.
+Test the performance of
+{\tt LinearMap}, {\tt BetterMap} and {\tt HashMap}; see if you
+can characterize their order of growth.
 
 You can download my map implementations from
 \url{thinkcomplex.com/Map.py}, and the code I used in this section
@@ -1952,14 +1991,16 @@ list or a circular buffer.
 
 \end{ex}
 
-Yet another possibility is to use a Python dictionary augmented with
+Yet another possibility is to use a Python dictionary and
 two indices: {\tt nextin} keeps track of the back of the queue; {\tt
-  nextout} keeps track of the front.  Here is an
-implementation\footnote{Based on a recipe in Martelli and Ascher, {\em
-    Python Cookbook}, O'Reilly 2002}:
+  nextout} keeps track of the front.  The dictionary maps from
+integer indices to values.
+
+Here is an implementation based on Raymond Hettinger's recipe
+at \url{http://code.activestate.com/recipes/68436/}.
 
 \begin{verbatim}
-class DictQueue(object):
+class DictFifo(object):
 
     def __init__(self):
         self.nextin = 0
@@ -1979,8 +2020,7 @@ class DictQueue(object):
 {\tt append} stores the new item and increments {\tt nextin};
 both operations are constant time.
 
-{\tt pop} 
-removes the last item and increments {\tt nextout}.  Again,
+{\tt pop} removes the last item and increments {\tt nextout}.  Again,
 both operations are constant time.
 
 As yet another alternative,
@@ -2381,8 +2421,8 @@ and reach your own conclusions.
 \section{Zipf's Law}
 
 Zipf's law describes a relationship between the frequencies and ranks
-of words in natural languages\footnote{See
-  \url{wikipedia.org/wiki/Zipf's_law}}.  The ``frequency'' of
+of words in natural languages; see
+  \url{wikipedia.org/wiki/Zipf's_law}.  The ``frequency'' of
 a word is the number of times it appears in a body of work.
 The ``rank'' of a word is its position in a list of words
 sorted by frequency: the most common word has rank 1, the
@@ -2406,6 +2446,7 @@ So if you plot $\log f$ versus $\log r$, you should get
 a straight line with slope $-s$ and intercept $\log c$.
 
 \begin{ex}
+
 Write a program that reads a text from a file, counts word
 frequencies, and prints one line for each word, in descending order of
 frequency.  You can test it by downloading an out-of-copyright book in
@@ -2413,49 +2454,12 @@ plain text format from {\tt gutenberg.net}.  You might want to remove
 punctuation from the words.
 
 If you need some help getting started, you can download
-\url{thinkcomplex.com/Hist.py}, which provides an
-object named {\tt Hist} that you might find useful.
+\url{thinkcomplex.com/Pmf.py}, which provides an
+object named {\tt Hist} that maps from value to frequencies.
 
 Plot the results and check whether they form
-a straight line.  Can you estimate the value of $s$?
-
-You might want to use the {\tt pylab}
-package, which provides easy-to-use functions to generate
-a variety of plots.  In particular, {\tt pylab.loglog} plots
-a series of points on a log-log scale.  {\tt pylab} is part of
-a larger package called {\tt matplotlib}; it is
-not included in all Python distributions, so you might have to
-install it.
-
-Here is an example that generates a simple graph:
-
-\begin{verbatim}
-import pylab
-
-# compute lists of x and y values
-xs = range(0, 10)
-ys = [x**2 for x in xs]
-
-# plot the data
-pylab.plot(xs, ys, '-ro')
-
-# set title and labels
-pylab.title('Parabola')
-pylab.xlabel('x')
-pylab.ylabel('y = x**2')
-
-# show the plot
-pylab.show()
-\end{verbatim}
-
-{\tt pylab.plot} takes two lists as parameters.  If you have a list of
-pairs instead, you can use {\tt zip} and the scatter operator to
-``transpose'' it.  For example, if {\tt t} is a list of pairs, {\tt
-  zip(*t)} returns a pair of lists.
-
-The most common gotcha with {\tt pylab} is that you have to
-call {\tt pylab.show} to see the plot.  You can read more
-about it at \url{matplotlib.sourceforge.net}.
+a straight line.  For plotting suggestions, see Section~\ref{pyplot}.
+Can you estimate the value of $s$?
 
 You can download my solution from
 \url{thinkcomplex.com/Zipf.py}
@@ -2472,67 +2476,67 @@ in the U.S., you would have a set of about 14,000 integers.
 
 The simplest description of this set is a list of numbers, which
 would be complete but not very informative.  A more concise description
-would be a statistical summary like the mean and variation, but
+is a statistical summary like the mean and variation, but
 that is not a complete description because there are many sets
 of values with the same summary statistics.
 
 One alternative is a histogram, which divides the range of
 possible values into ``bins'' and counts the number of values that
 fall in each bin.  Histograms are common, so they are
-easy to understand, but they have some drawbacks: the primary
-one is that it is tricky to get the bin size right.  If the bins
-are too small, then the number of values in each bin is also small,
+easy to understand, but it is tricky to get the bin size right.  If the bins
+are too small, the number of values in each bin is also small,
 so the histogram doesn't give much insight.  If the bins are
 too large, they lump together a wide range of values, which
 obscures details that might be important.
 
-A better alternative is a {\bf cumulative distribution}, which shows
-the percentage of values less than or equal to $x$ for a range of
-$x$ that sweeps from the smallest value in the set to the
-highest.
+A better alternative is a {\bf cumulative distribution function}
+(CDF), which maps from a value, $x$, to the fraction of values less
+than or equal to $x$.  If you choose a value at random, $CDF(x)$
+is the probability that the value you get is less
+than or equal to $x$.
 
-For example, the following figure shows the cumulative distribution
-function (CDF), for the values $(1,2,2,4,5)$.
+For a list of $n$ values, the simplest way to compute CDF is to
+sort the values.  Then the CDF of the $i$th value (starting from 1)
+is $i/n$.
 
-\beforefig
-\centerline{\includegraphics[width=2.5in]{figs/cdf.eps}}
-\afterfig
+I have written a class called {\tt Cdf} that provides functions
+for creating and manipulating CDFs.  You can download it from
+\url{thinkcomplex.com/Cdf.py}.
 
-The range of the CDF is always from 0 to 1.  The values on the
-$y$-axis are sometimes called {\bf percentiles}, although
-strictly-speaking the range of a percentile is from 0 to 100.  The
-values on the $x$-axis are called {\bf quantities}, or sometimes
-``quantiles.''
-
-The filled and empty circles indicate the value
-of the function at integral values: for example, $cdf(1) = 0.2$
-because 20\% of the values in the set are less than or equal to 1.
-
-\begin{ex}
-Write a definition for a class named {\tt Dist} that provides the
-following methods:
-
-\begin{description}
-
-\item[{\tt\_\_init\_\_}:] Takes a histogram object similar to
-the one defined in \url{thinkcomplex.com/Hist.py}
-and builds a representation of the distribution.
-
-For example, to make a distribution of the values $(1,2,2,4,5)$
-you would run:
+As an example, we'll compute the CDF for the values $\{1,2,2,4,5\}$:
 
 \begin{verbatim}
-h = Hist([1,2,2,4,5])
-d = Dist(h)
+import Cdf
+cdf = Cdf.MakeCdfFromList([1,2,2,4,5])
 \end{verbatim}
 
-\item[percentile:] Takes a quantity and returns the corresponding
-percentile.  For example, given the previous values, {\tt d.percentile(2)}
-should return $0.6$.
+{\tt MakeCdfFromList} can take any sequence or iterator.
+Once you have the {\tt Cdf}, you can find the probability, $CDF(x)$, for
+a given value:
 
-\item[{\tt print\_cdf}:] Print the quantities in the distribution
-and their corresponding percentiles, with two lines per
-quantity.  For the previous distribution, the output should be:
+\begin{verbatim}
+prob = cdf.Prob(2)
+\end{verbatim}
+
+The result is 0.6, because 3/5 of the values are less than or equal to 2.
+You can also compute the value for a given probability:
+
+\begin{verbatim}
+value = cdf.Value(0.5)
+\end{verbatim}
+
+The value with probability 0.5 is the median, which in this example is 2.
+
+To plot the {\tt Cdf}, you can use {\tt Render}, which returns
+a list of value-probability pairs.
+
+\begin{verbatim}
+    xs, ps = cdf.Render()
+    for x, p in zip(xs, ps):
+        print x, p
+\end{verbatim}
+
+The result is:
 
 \begin{verbatim}
 1 0.0
@@ -2545,50 +2549,64 @@ quantity.  For the previous distribution, the output should be:
 5 1.0
 \end{verbatim}
 
-\item[{\tt plot\_cdf}:] Use {\tt pylab} to plot the distribution
-in the style of the figure above.  You should plot two points
-per quantity to make a stair-step pattern.  You don't have to
-plot the filled and empty circles, but you can.
+Notice that each value appear twice.  That way when we plot the
+CDF, we get a stair-step pattern.
 
+\begin{verbatim}
+import matplotlib.pyplot as pyplot
 
-\end{description}
+    xs, ps = cdf.Render()
 
-You should give some thought to choosing a data structure to
-represent a distribution.  {\tt percentile} should be $O(\log n)$,
-where $n$ is the
-number of {\em unique} quantities in the distribution.
-The other methods should be linear in $n$.
+    pyplot.plot(xs, ps, linewidth=3)
+    pyplot.axis([0.9, 5.1, 0, 1])
+    pyplot.title('CDF')
+    pyplot.xlabel('value, x')
+    pyplot.ylabel('probability, CDF(x)')
+    pyplot.show()
+\end{verbatim}
 
-You can download my solution from
-\url{thinkcomplex.com/Dist.py}
+The following figure shows the cumulative distribution
+function (CDF), for the values $(1,2,2,4,5)$.
+
+\beforefig
+\centerline{\includegraphics[width=2.5in]{figs/cdf_example.eps}}
+\afterfig
+
+I drew vertical lines at each of the values, which is not
+mathematically correct.  To be more rigorous, I should draw
+a discontinuous function.
+
+\begin{ex}
+
+Read the code in {\tt Cdf.py}.  What is the order of growth for
+{\tt MakeCdfFromList} and the methods {\tt Prob} and {\tt Value}?
 
 \end{ex}
 
 
-\section{Closed-form distributions}
+\section{Continuous distributions}
 
 The distributions we have seen so far are sometimes called
 {\bf empirical distributions} because they are based on a
 dataset that comes from some kind of empirical observation.
 
-An alternative is what I will call a {\bf closed-form distribution},
-which is characterized by a CDF that can be expressed as a closed-form
-function.  Some of these distributions, like the
-Gaussian\footnote{This is not a perfect example, since the CDF of a
-  Gaussian is an integral with no closed-form solution.} or normal
+An alternative is a {\bf continuous distribution},
+which is characterized by a CDF that is a continuous function.
+Some of these distributions, like the
+Gaussian or normal
 distribution, are well known, at least to people who have studied
 statistics.  Many real world phenomena can be approximated by
-closed-form distributions, which is why they are useful.
+continuous distributions, which is why they are useful.
 
 For example, if you observe a mass of radioactive material with
 an instrument that can detect decay events, the distribution
 of times between events will most likely fit an exponential
-distribution.  The same is true for any series of events where
+distribution.  The same is true for any series where
 an event is equally likely at any time.
 
 The CDF of the exponential distribution is:
 
-\[ cdf(x) = 1 - e^{-\lambda x} \]
+\[ CDF(x) = 1 - e^{-\lambda x} \]
 
 The parameter, $\lambda$, determines the mean and variance
 of the distribution.  This equation can be used to derive
@@ -2597,12 +2615,12 @@ approximated by an exponential distribution.  All you
 have to do is plot the {\bf complementary distribution}
 on a log-$y$ scale.
 
-The complementary distribution (CCDF) is just $1 - cdf(x)$; 
+The complementary distribution (CCDF) is just $1 - CDF(x)$; 
 if you plot the complementary distribution of a dataset
 that you think is exponential, you expect to see a function
 like:
 
-\[ y = 1 - cdf(x) \sim e^{-\lambda x} \]
+\[ y = 1 - CDF(x) \sim e^{-\lambda x} \]
 
 If you take the log of both sides of this equation, you get:
 
@@ -2611,52 +2629,31 @@ If you take the log of both sides of this equation, you get:
 So on a log-$y$ scale the CCDF should look like a straight line
 with slope $-\lambda$.
 
-As an example, I will analyze the time of
-birth for 44 babies born in a 24-hour period in a hospital in
-Brisbane, Australia.\footnote{This example is based on information
-  and data from Dunn, ``A Simple Dataset for Demonstrating Common
-  Distributions,'' Journal of Statistics Education v.7, n.3 (1999).
-You can download a file with this data from 
-\url{thinkcomplex.com/babyboom.dat}.}.
-
-Using the list of birth times, I computed the ``interarrival times;''
-that is, the times between successive births.  The following figure
-shows the CCDF of these values.  The graph on the right is on a
-log-$y$ scale.  It is not particularly straight, which suggests that
-the exponential model is only an approximation of the observed
-process.  Most likely the underlying assumption---that a birth is
-equally likely at any time of day---is not exactly true.
-
-\beforefig
-\centerline{\includegraphics[width=5.5in]{figs/babyboom_cdf.eps}}
-\afterfig
-
 \begin{ex}
-In your {\tt Dist} class, add
-a method called \verb"plot_ccdf" that plots the complementary
-CDF of the distribution.
-\end{ex}
 
-\begin{ex}
-Use the function {\tt expovariate} in the {\tt random} module
-to generate 44 values from an exponential distribution with
-mean 32.6.  Plot the CCDF on linear and log-$y$ scales and compare
-it to the figure above.  
+Write a function called \verb"plot_ccdf" that takes
+a list of values and the corresponding list of probabilities
+and plots the CCDF on a log-$y$ scale.
+
+To test your function, use {\tt expovariate} from the {\tt random}
+module to generate 100 values from an exponential distribution.  Plot
+the CCDF on a log-$y$ scale and see if it falls on a straight line.
+
 \end{ex}
 
 
 \section{Pareto distributions}
 
 The Pareto distribution is named after the economist Vilfredo
-Pareto, who used it to describe the distribution of wealth
-(see \url{wikipedia.org/wiki/Pareto_distribution}).  Since then,
+Pareto, who used it to describe the distribution of wealth;
+see \url{wikipedia.org/wiki/Pareto_distribution}.  Since then,
 people have used it to describe
-a variety of phenomena in the natural and social sciences,
+phenomena in the natural and social sciences
 including sizes of cities and towns, sand particles
 and meteorites, forest fires and earthquakes.
 
 The Pareto distribution is characterized by a CDF with the following
-functional form:
+form:
 
 \[ 1- \left( \frac{x}{x_m} \right) ^{-\alpha} \]
 
@@ -2671,7 +2668,7 @@ Values from a Pareto distribution often have these properties:
 and a few very large ones.  
 
 \item[80/20 rule:] The large values in a Pareto distribution are
-so large that they add up to a disproportionate share of the total.
+so large that they make up a disproportionate share of the total.
 In the context of wealth, the 80/20 rule says that 20\% of the
 people own 80\% of the wealth.
 
@@ -2688,44 +2685,25 @@ are ``scale-free.''
 
 To get a sense of the difference between the Pareto and Gaussian
 distributions, imagine what the world would be like if the
-distribution of human height were Pareto.  Using the same minimum
-height, $x_m = 100$ cm, we could choose $\alpha = 1.7$, so that the median
-height is about 150 cm.
+distribution of human height were Pareto.  
 
-Here are empirical CDFs for samples with $n=9000$ drawn 
-from these two distributions:
+In Pareto World, the shortest person is 100 cm,
+and the median is 150 cm, so that part of the distribution is not
+very different from ours.
 
-\beforefig
-\centerline{\includegraphics[width=5.5in]{figs/height_cdf.eps}}
-\afterfig
-
-The figure on the left is on a log-$x$ scale.  It shows that the
-median and lower bounds of the distributions are the same, but
-the Pareto distribution has a longer tail.  The figure on the
-right is on a log-log scale.  The Pareto distribution is a straight
-line except in the extreme tail, where it is noisy because of
-the limitations of a finite sample.
-
-If you generate 6 billion random values from the Gaussian distribution
-shown in the figure, you would guess that the tallest person in the
-world is about 255 cm.  In fact, the tallest currently living person,
-Leonid Stadnyk, is 259 cm.
-
-But if you generate 6 billion random values from the Pareto
-distribution, you will see that the tallest person in the world could
-easily be taller than 80.5 km, which would technically make him or her
-an astronaut, at least in the United States (see
-\url{wikipedia.org/wiki/Earth's_atmosphere}).  That's what it means to
+But if you generate 6 billion values from this distribution
+distribution, the tallest person might
+be 100 km---that's what it means to
 be scale-free!
 
-There is a simple visual test that can indicate whether an empirical
+There is a simple visual test that indicates whether an empirical
 distribution is well-characterized by a Pareto distribution: on a
 log-log scale, the CCDF looks like a straight line.  The derivation is
 similar to what we saw in the previous section.
 
 The equation for the CCDF is:
 
-\[ y = 1 - cdf(x) \sim \left( \frac{x}{x_m} \right) ^{-\alpha} \]
+\[ y = 1 - CDF(x) \sim \left( \frac{x}{x_m} \right) ^{-\alpha} \]
 
 Taking the log of both sides yields:
 
@@ -2736,55 +2714,36 @@ straight line with slope $-\alpha$ and intercept $-\alpha \log x_m$.
 
 \begin{ex}
 
-The Weibull distribution is a generalization of the exponential
-distribution that comes up in failure analysis
-(see \url{wikipedia.org/wiki/Weibull_distribution}).
+Write a version of \verb"plot_ccdf" that plots the complementary
+CCDF on a log-log scale.
 
-Can you find a transformation that makes a Weibull distribution look
-like a straight line?  What do the slope and intercept of the
-line indicate?
-
-Use {\tt random.weibullvariate} to generate a sample from a
-Weibull distribution and use it to test your transformation.
+To test your function, use {\tt paretovariate} from the {\tt random}
+module to generate 100 values from an exponential distribution.  Plot
+the CCDF on a log-$y$ scale and see if it falls on a straight line.
+What happens to the curve as you increase the number of values?
 
 \end{ex}
 
 
 \begin{ex}
+
 The distribution of populations for cities and towns has been proposed
 as an example of a real-world phenomenon that can be described
 with a Pareto distribution.
 
 The U.S. Census Bureau publishes data on the population of every
-incorporated city and town in the United States.  I have written a
+incorporated city and town in the United States.  I wrote a
 small program that downloads this data and converts it into a
 convenient form.  You can download it from
 \url{thinkcomplex.com/populations.py}.  
 
-\begin{enumerate}
+Read over the program to make sure you know what it does and then
+write a program that computes and plots the distribution of
+populations for the 14593 cities and towns in the dataset.
 
-\item Read over the program to make sure you know what it does and then
-  write a program that computes and plots the distribution of
-  populations for the 14593 cities and towns in the dataset.
-
-\item In your {\tt Dist} class, write a function called {\tt quantile}
-  that takes a percentile as a parameter and returns the corresponding
-  quantity.  What is the median size in this distribution (the
-  quantity that corresponds to the 50th percentile)?  What are the
-  25th and 75th percentiles?
-
-\item Plot the CDF on linear and log-$x$ scales so you can get a sense
-  of the shape of the distribution.  Then plot the CCDF on a log-log
-  scale to see if it has the characteristic shape of a Pareto
-  distribution.
-
-\item Use your plot to estimate values for the parameters $x_m$ and
-  $\alpha$.  Then use the function {\tt paretovariate} in the {\tt random}
-  module to generate 14593 values from a Pareto distribution with the
-  parameters you estimated in the previous problem.  Plot the CCDF on
-  a log-log scale and compare it the CCDF of the observed data.
-
-\end{enumerate}
+Plot the CDF on linear and log-$x$ scales so you can get a sense of
+the shape of the distribution.  Then plot the CCDF on a log-log scale
+to see if it has the characteristic shape of a Pareto distribution.
 
 What conclusion do you draw about the distribution of sizes
 for cities and towns?
@@ -2793,9 +2752,9 @@ for cities and towns?
 
 \newcommand{\Barabasi}{Barab\'{a}si}
 
-\section{\Barabasi~ and Albert}
+\section{\Barabasi~and Albert}
 
-In 1999 \Barabasi~ and Albert published a paper in {\em Science},
+In 1999 \Barabasi~and Albert published a paper in {\em Science},
 ``Emergence of Scaling in Random Networks,''
 that characterizes the structure (also called ``topology'') of
 several real-world networks, including graphs that represent
@@ -2806,9 +2765,10 @@ United States.
 They measure the degree (number of connections) of each node and
 compute $P(k)$, the probability that a vertex has degree $k$; then
 they plot $P(k)$ versus $k$ on a log-log scale.  The tail of the plot
-fits a straight line, so they conclude that it obeys a {\bf power law}:
-as $k$ gets large, $P(k)$ is asymptotic to $k^{- \gamma}$, where
-$\gamma$ is a parameter that determines the rate of decay.
+fits a straight line, so they conclude that it obeys a {\bf power
+  law}; that is, as $k$ gets large, $P(k)$ is asymptotic to
+$k^{- \gamma}$, where $\gamma$ is a parameter that determines the rate
+of decay.
 
 They also propose a model that generates random graphs with the same
 property.  The essential features of the model, which distinguish it
@@ -2817,9 +2777,7 @@ from the \Erdos-\Renyi~ model and the Watts-Strogatz model, are:
 \begin{description}
 
 \item[Growth:]  Instead of starting with a fixed number of vertices,
-\Barabasi~ and Albert start with a small graph, add vertices over
-time, and characterize the structure of the graph as the number
-of vertices grows.
+\Barabasi~and Albert start with a small graph and add vertices gradually.
 
 \item[Preferential attachment:] When a new edge is created, it is
 more likely to connect to a vertex that already has a large number
@@ -2830,13 +2788,13 @@ the growth patterns of some real-world networks.
 
 Finally, they show that graphs generated by this model have a
 distribution of degrees that obeys a power law.  Graphs that
-have this property are sometimes called {\bf scale-free networks}
-(see \url{wikipedia.org/wiki/Scale-free_network}),
-but the name can be confusing because it is the distribution
-of degrees that is scale-free.  
+have this property are sometimes called {\bf scale-free networks};
+see \url{wikipedia.org/wiki/Scale-free_network}.
+That name can be confusing because it is the distribution
+of degrees that is scale-free, not the network.
 
 In order to maximize confusion, distributions that obey the power law
-are also sometimes called {\bf scaling distributions} because they are
+are sometimes called {\bf scaling distributions} because they are
 invariant under a change of scale.  That means that if you change the
 units the quantities are expressed in, the slope parameter, $\gamma$,
 doesn't change.  You can read \url{wikipedia.org/wiki/Power_law} for
@@ -2850,17 +2808,17 @@ and \Barabasi-Albert (BA) models:
 
 \begin{enumerate}
 
-\item Read \Barabasi~ and Albert's paper and implement their algorithm
+\item Read \Barabasi~and Albert's paper and implement their algorithm
 for generating graphs.  See if you can replicate their Figure 2(A),
 which shows $P(k)$ versus $k$ for a graph with 150 000 vertices.
 
 \item Use the WS model to generate the largest graph you can in
 a reasonable amount of time.  Plot $P(k)$ versus $k$ and see if
-you can characterize the rate of decay.
+you can characterize the tail behavior.
 
 \item Use the BA model to generate a graph with about 1000 vertices
 and compute the characteristic length and clustering coefficient
-as defines in the Watts and Strogatz paper.  Do scale-free networks
+as defined in the Watts and Strogatz paper.  Do scale-free networks
 have the characteristics of a small-world graph?
 
 \end{enumerate}
@@ -2878,12 +2836,11 @@ on a log-log plot:
 
 \begin{description}
 
-\item[Zipf law:] A Zipf plot shows frequency as a function of rank. 
+\item[Zipf plot:] Frequency as a function of rank. 
 
-\item[Pareto CCDF:] A CCDF shows percentile as a function of quantile.
+\item[Pareto CCDF:] The complementary CDF of a Pareto distribution.
 
-\item[Power law distribution:] A power law plot shows frequency
-(or probability) as a function of quantile.
+\item[Power law plot:] A histogram of frequencies.
 
 \end{description}
 
@@ -2894,25 +2851,29 @@ Starting with a power-law distribution, we have:
 
 \[ P(k) \sim k^{- \gamma} \]
 
-$P(k)$ is the probability that a random variable $X$ equals $k$,
-so the cumulative distribution of $X$ is:
+If we choose a random node in a scale free network,
+$P(k)$ is the probability that its degree equals $k$.
 
-\[ cdf(x) = Pr\{X \le x \} = \sum_{k=0}^x P(k) \]
+The cumulative distribution function, $CDF(k)$, is the probability
+that the degree is less than or equal to $k$, so we can
+get that by summation:
+
+\[ CDF(k) = \sum_{i=0}^k P(i) \]
 
 For large values of $k$ we can approximate the summation with
 an integral:
 
-\[ \sum_{k=0}^x k^{- \gamma} \sim \int_{k=0}^x k^{- \gamma} = 
-\frac{1}{\gamma -1} (1 - x^{-\gamma + 1}) \]
+\[ \sum_{i=0}^k i^{- \gamma} \sim \int_{i=0}^k i^{- \gamma} = 
+\frac{1}{\gamma -1} (1 - k^{-\gamma + 1}) \]
 
 To make this a proper CDF we could normalize it so that it
-goes to 1 as $x$ goes to infinity, but that's not necessary,
+goes to 1 as $k$ goes to infinity, but that's not necessary,
 because all we need to know is:
 
-\[ cdf(x) \sim 1 - x^{-\gamma + 1} \]
+\[ CDF(k) \sim 1 - k^{-\gamma + 1} \]
 
-Which shows that the distribution of $x$ is asymptotic to a
-Pareto distribution with $x_m = 1$ and $\alpha = \gamma - 1$.
+Which shows that the distribution of $k$ is asymptotic to a
+Pareto distribution with $\alpha = \gamma - 1$.
 
 Similarly, if we start with a straight line on a Zipf plot,
 we have\footnote{This derivation follows
@@ -2937,29 +2898,37 @@ then $(r-1)/n$ is the fraction of words with lower ranks, which is
 the fraction of words with higher frequency, which is the
 CCDF of the distribution of frequencies:
 
-\[ ccdf(x) = Pr\{X > x \} = \frac{(f/c)^{-{1/s}}}{n} - \frac{1}{n} \]
+\[ CCDF(x) = \frac{(f/c)^{-{1/s}}}{n} - \frac{1}{n} \]
 
-Where $X$ is a random variable drawn from the distribution of
-frequencies.  To characterize the asymptotic behavior
+To characterize the asymptotic behavior
 for large $n$ we can ignore $c$ and $1/n$, which yields:
 
-\[ ccdf(x) \sim f^{-{1/s}} \]
+\[ CCDF(x) \sim f^{-{1/s}} \]
 
-Which shows that if a set of words obeys Zipf's law then the
+Which shows that if a set of words obeys Zipf's law, the
 distribution of their frequencies is asymptotic to a
-Pareto distribution with $x_m = 1$ and $\alpha = 1/s$.
+Pareto distribution with $\alpha = 1/s$.
 
 So the three visual tests are mathematically equivalent; a dataset
 that passes one test will pass all three.  But as a practical
 matter, the power law plot is noisier than the other two, because
-it is the (discrete) derivative of the CCDF.
+it is the derivative of the CCDF.
 
 The Zipf and CCDF plots are more robust, but Zipf's law is only
 applicable to discrete data (like words), not continuous quantities.
 CCDF plots work with both.
 
 For these reasons---robusteness and generality---I recommend
-using CCDFs exclusively.
+using CCDFs.
+
+
+\begin{ex}
+
+Are social networks scale-free?
+
+% NOTE: fill me in.
+
+\end{ex}
 
 
 
@@ -3033,12 +3002,91 @@ that maps from each actor to a list of his or her films.
 \end{ex}
 
 
-%\section{Theory Choice}
+\section{Explanatory models}
 
-%Which model is right?
+We started the discussion of networks with Milgram's Small World
+Experiment, which shows that path lengths in social
+networks are surprisingly small; hence, ``six degrees of separation''.
 
-%Particle-wave duality.
+When we see something surprising, it is natural to ask ``Why?''
+but sometimes it's not clear what kind of answer we are looking
+for.  One kind of answer is an {\bf explanatory model}; the logical
+structure of an explanatory model is:
 
+\begin{enumerate}
+
+\item In a system, S, we see a behavior, B, that warrants explanation.
+
+\item We construct a model, M, that is analogous to the system; that
+  is, there is a correspondence between the elements of the model and
+  the elements of the system.
+
+\item By simulation or mathematical derivation, we show that the model
+  exhibits a behavior, B', that is analogous to B.
+
+\item We conclude that S exhibits B {\em because} S is similar to M, M
+  exhibits B', and B' is similar to B.
+
+\end{enumerate}
+
+At its core, this is an argument by analogy, which says that if two
+things are similar in some ways, they are likely to be similar in
+other ways.  
+
+Argument by analogy can be useful, and explanatory models can be
+satisfying, but they do not constitute a proof in the mathematical
+sense of the word.
+
+First, remember that all models leave out, or ``abstract away''
+details that we think are unimportant.  But for any system there
+are many possible models that include or ignore different features.
+And there might be models that exhibit different behaviors,
+B', B'' and B''', that are similar to B in different ways.
+
+In that case, which model explains B?
+
+The small world phenomenon is a case in point: the
+Watts-Strogatz (WS) model and the \Barabasi-Albert (BA) model
+both exhibit small world behavior, but they offer different
+explanations:
+
+\begin{itemize}
+
+\item The WS model suggests that social networks are ``small'' because
+  they include both strongly-connected clusters and ``weak ties'' that
+  connect clusters\footnote{See
+    \url{http://en.wikipedia.org/wiki/Mark_Granovetter}.}.
+
+\item The BA model suggests that social networks are small because
+  they include nodes with high degree that act as hubs, and that
+  hubs grow, over time, due to preferential attachment.
+
+\end{itemize}
+
+As is often the case in young areas of science, the problem is
+not that we have no explanations, but too many.
+
+
+\begin{ex}
+
+Are these explanations compatible; that is, can they both be right?
+
+Which do you find more satisfying as an explanation, and why?
+
+Is there data you could collect, or experiments you could perform,
+that would provide evidence in favor of one model over the other?
+
+Choosing among competing models is the topic of Thomas Kuhn's
+essay, ``Objectivity, Value Judgment, and Theory Choice.''
+Kuhn was a historian of science who wrote {\em The
+Structure of Scientific Revolutions} in 1962, and spent the rest of
+his life explaining what he meant to say.
+
+What criteria does Kuhn propose for choosing among competing models?
+Do these criteria influence your opinion about the WS and BA models?
+Are there other criteria you think should be considered?
+
+\end{ex}
 
 
 
