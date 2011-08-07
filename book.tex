@@ -3015,17 +3015,18 @@ structure of an explanatory model is:
 
 \begin{enumerate}
 
-\item In a system, S, we see a behavior, B, that warrants explanation.
+\item In a system, S, we see something observable, O, that warrants
+  explanation.
 
 \item We construct a model, M, that is analogous to the system; that
   is, there is a correspondence between the elements of the model and
   the elements of the system.
 
 \item By simulation or mathematical derivation, we show that the model
-  exhibits a behavior, B', that is analogous to B.
+  exhibits a behavior, B, that is analogous to O.
 
 \item We conclude that S exhibits B {\em because} S is similar to M, M
-  exhibits B', and B' is similar to B.
+  exhibits B, and B is similar to O.
 
 \end{enumerate}
 
@@ -3041,9 +3042,9 @@ First, remember that all models leave out, or ``abstract away''
 details that we think are unimportant.  But for any system there
 are many possible models that include or ignore different features.
 And there might be models that exhibit different behaviors,
-B', B'' and B''', that are similar to B in different ways.
+B, B' and B'', that are similar to O in different ways.
 
-In that case, which model explains B?
+In that case, which model explains O?
 
 The small world phenomenon is a case in point: the
 Watts-Strogatz (WS) model and the \Barabasi-Albert (BA) model
@@ -3092,33 +3093,32 @@ Are there other criteria you think should be considered?
 
 \chapter{Cellular Automata}
 
-A cellular automaton is a model of a world with very simple
-physics.  ``Cellular'' means that the space is divided into
-discrete chunks, called cells.  An ``automaton'' is a machine
-that performs computations---it could be a real machine, but
-more often the ``machine'' is a mathematical abstraction or
-a computer simulation.
+A cellular automaton is a model of a world with very simple physics.
+``Cellular'' means that the space is divided into discrete chunks,
+called cells.  An ``automaton'' is a machine that performs
+computations---it could be a real machine, but more often the
+``machine'' is a mathematical abstraction or a computer simulation.
 
-Automata are governed by rules that determine how the system
-evolves in time.  Usually time is divided into discrete steps,
-and the rules specify how to compute the state of the world
-during the next time step based on the current state.
+Automata are governed by rules that determine how the system evolves
+in time.  Time is divided into discrete steps, and the rules
+specify how to compute the state of the world during the next time
+step based on the current state.
 
 As a trivial example, consider a cellular automaton (CA) with
-a single cell.  The state of the cell is an integer I will represent
+a single cell.  The state of the cell is an integer represented
 with the variable $x_i$, where the subscript $i$ indicates
 that $x_i$ is the state of the system during timestep $i$.
-As an initial condition, I'll specify $x_0 = 0$.
+As an initial condition, $x_0 = 0$.
 
 Now all we need is a rule.  Arbitratily, I'll pick $x_i = x_{i-1} + 1$,
 which says that after each time step, the state of the CA gets
 incremented by 1.  So far, we have a simple CA that performs
 a simple calculation: it counts.
 
-But this CA is a little bit nonstandard; normally the number of
+But this CA is atypical; normally the number of
 possible states is finite.  To bring it into line, I'll choose the
 smallest interesting number of states, 2, and another simple rule,
-$x_i = (x_{i-1} + 1) \% 2$, where $\%$ represents the remainder (or
+$x_i = (x_{i-1} + 1) \% 2$, where $\%$ is the remainder (or
 modulus) operator.
 
 This CA performs a simple calculation: it blinks.  That is,
@@ -3131,10 +3131,10 @@ CAs, but I will not address them here.
 
 
 
-\section{Wolfram}
+\section{Stephen Wolfram}
 
-The CA in the previous was 0-dimensional and it wasn't very
-interesting.  1-dimensional CAs turn out to be surprisingly
+The CA in the previous section was 0-dimensional and it wasn't very
+interesting.  But 1-dimensional CAs turn out to be surprisingly
 interesting.
 
 In the early 1980s Stephen Wolfram published a series of papers
@@ -3212,14 +3212,14 @@ that includes all of the cells that can be affected by it.
 \section{Implementing CAs}
 
 To generate the previous figure, I wrote a Python program that
-uses the NumPy and PyLab packages.  NumPy provides a
-data structure called an {\bf array}; PyLab provides the plotting
-functions I used to generate the figure.  
+implements and draws CAs.
 You can download my code from \url{thinkcomplex.com/CA.py}.
+and \url{thinkcomplex.com/CADrawer.py}.
 
-An array is a multi-dimensional data structure whose elements
-are all the same type.  It is simular to a nested list, but it
-is usually smaller and faster.  The following figure shows why:
+To store the state of the CA, I use a NumPy array.  An array is a
+multi-dimensional data structure whose elements are all the same type.
+It is simular to a nested list, but usually smaller and faster.  The
+following figure shows why:
 
 [Will someone please send me a nice figure in .fig or a similar
 format?]
@@ -3235,95 +3235,86 @@ than by reference.  It saves time because the location
 of an element can be computed directly from the indices; there
 is no need to follow a series of references.
 
-Here is a definition of a CA that uses an array to store the states
-of the cells:
+Here is a definition of a CA object:
 
 \begin{verbatim}
-from numpy import *
-import pylab
+import numpy
 
 class CA(object):
 
-    def __init__(self, n=100):
+    def __init__(self, rule, n=100, ratio=2):
+        self.table = make_table(rule)
         self.n = n
-        self.m = n*2 + 1
-        self.array = zeros((n, self.m), dtype=int8)
-        self.array[0, self.m/2] = 1
-        self.next = 1
-        self.table = make_table()
+        self.m = ratio*n + 1
+        self.array = numpy.zeros((n, self.m), dtype=numpy.int8)
+        self.next = 0
 \end{verbatim}
+
+{\tt rule} is an integer in the range 0-255, which represents the
+CA rule table using Wolfram's encoding.  \verb"make_table" converts
+the rule to a dictionary that maps from neighborhood states to cell
+states.  For example, in Rule 50 the table contains a map from
+$(1,1,1)$ to 0.
 
 {\tt n} is the number of rows in the array, which is the number
 of timesteps we will compute.  {\tt m} is the number of columns,
-which is the number of cells.  At least to get started, we will implement
-a finite sequence of cells.
+which is the number of cells.  At least to get started, we implement
+a finite array of cells.
 
 {\tt zeros} is provided by NumPy; it creates a new array with
-the given dimensions, {\tt n} by {\tt m}.  Arrays can have any
-number of dimensions, but let's start small.  {\tt dtype} stands
+the given dimensions, {\tt n} by {\tt m}; {\tt dtype} stands
 for ``data type,'' and is specifies the type of the array elements.
 {\tt int8} is an 8-bit integer, so we are limited to 256 states,
 but that's no problem: we only need two.
 
-Array indexing is similar to list indexing.  The line
+{\tt next} is the index of the next timestep.
+
+There are two common starting conditions for CAs: a single cell, or a row
+of random cells.  \verb"start_single" initializes the first row with
+a single cell and increments {\tt next}:
 
 \begin{verbatim}
+    def start_single(self):
+        """Starts with one cell in the middle of the top row."""
         self.array[0, self.m/2] = 1
+        self.next += 1
 \end{verbatim}
 %
-turns the cell in the middle of the first row on.  The rest
-of the array is all zero.
+Array indexing is similar to list and dictionary indexing.
+Array indexing is similar to list indexing.
 
-The attribute {\tt next} keeps track of the next row of the
-array---the one that will be filled in during the next timestep.
-
-\verb"make_table" builds a dictionary that maps from the state
-of the neighborhood to the next state of the middle cell:
-
-\begin{verbatim}
-def make_table():
-    d = {}
-    d[1,1,1] = 0
-    d[1,1,0] = 0
-    d[1,0,1] = 1
-    d[1,0,0] = 1
-    d[0,1,1] = 0
-    d[0,1,0] = 0
-    d[0,0,1] = 1
-    d[0,0,0] = 0
-    return d
-\end{verbatim}
-
-This example is the table for Rule 50.
-
-CA objects provide a method named 
-{\tt step} that computes the next state of the CA:
+{\tt step} computes the next state of the CA:
 
 \begin{verbatim}
     def step(self):
-        """execute one time step by computing the next row of the array"""
         i = self.next
         self.next += 1
 
+        a = self.array
+        t = self.table
         for j in xrange(1,self.m-1):
-            neighborhood = tuple(self.array[i-1, j-1:j+2])
-            self.array[i,j] = self.table[neighborhood]
+            a[i,j] = t[tuple(a[i-1, j-1:j+2])]
 \end{verbatim}
 
-{\tt i} indicates the row of the matrix, which is the timestep
-we are about to compute.  {\tt j} loops through the cells, skipping
-the first and last, which are always off.
+{\tt i} is the timestep and the index of the row we are about to
+compute.  {\tt j} loops through the cells, skipping the first and
+last, which are always off.
 
 Arrays support slice operations, so {\tt self.array[i-1, j-1:j+2]}
 gets three elements from row {\tt i-1}.
-The last line looks up the neighborhood tuple in the table to get
-the next state and stores it in the array.
+Then we look up the neighborhood tuple in the table, get
+the next state, and store it in the array.
 
 Array indexing is constant time, so {\tt step} is linear in $n$.
 Filling in the whole array is $O(nm)$.
 
 You can read more about NumPy and arrays at
 \url{scipy.org/Tentative_NumPy_Tutorial}.
+
+
+\section{CADrawer}
+
+%%% Abstract classes
 
 CA objects also provide a method named {\tt draw} that uses
 PyLab to display a graphical representation of the evolution
@@ -3375,7 +3366,7 @@ You can download my solution from
 
 \section{Classifying CAs}
 
-Wolfram proposed that the behavior of CAs can be grouped
+Wolfram proposes that the behavior of CAs can be grouped
 into four classes.  Class 1 contains the simplest (and least
 interesting) CAs, the ones that evolve from almost any starting
 condition to the same uniform pattern.  As a trivial example,
@@ -3400,25 +3391,20 @@ simple.
 
 \section{Randomness}
 
-Rule 30 is an example of Class 3; here is what it looks like
+Class 3 is a pattern that generate randomness.
+Rule 30 is an example; here is what it looks like
 after 100 timesteps:
 
 \beforefig
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule30.eps}}
 \afterfig
 
-There is a repeating pattern along the left boundary; in the
-center and right there are triangles in various sizes, but if
-there is a pattern, it is hard to see.  In fact, if you think it
-looks completely random, you may be right.
-
-For example, if you take the center column and treat it as a
+Along the left side there is an apparent pattern, and on the right
+side there are triangles in various sizes, but the center seems
+quite random.  In fact, if you take the center column and treat it as a
 sequence of bits, it is hard to distinguish from a truly random
 sequence.  It passes many of the statistical tests people use
-to test whether a sequence of bits is random.  In fact, the
-the computer algebra system Mathematica uses the Rule 30 CA as
-a random-number generator.  This choice is not a coincidence:
-Wolfram conceived and led the development of Mathematica.
+to test whether a sequence of bits is random.  
 
 Programs that produce random-seeming numbers are called
 {\bf pseudo-random number generators} (PRNGs).  They are not considered
@@ -3431,8 +3417,8 @@ can be detected statistically.  For example, the original implementation
 of {\tt rand} in the C library used a linear congruential generator
 that yielded sequences with easily detectable serial correlations.
 
-\item Any deterministic generator that uses a finite amount
-of state will eventually repeat itself.  One of the
+\item Any PRNG that uses a finite amount
+of state (that is, storage) will eventually repeat itself.  One of the
 characteristics of a generator is the {\bf period} of this
 repetition.
 
@@ -3506,18 +3492,16 @@ least in principle) be predicted.
 \end{description}
 
 My goal in constructing this range is to make D1 so weak that
-virtually everyone would accept it, D4 so strong that almost
-no one would accept it, with intermediate statements that
-some people accept.
+virtually everyone would accept it, D4 so strong that almost no one
+would accept it, with intermediate statements that some people accept.
 
-The center of mass of world opinion swings along this
-range in response to historical developments and scientific
-discoveries.  Prior to the scientific revolution, many people
-regarded the working of the universe as fundamentally unpredictable
-or controlled by supernatural forces.  After the triumphs of
-Newtonian mechanics, some optimists came to believe something
-like D4; for example, in 1814 Pierre-Simon Laplace
-wrote
+The center of mass of world opinion swings along this range in
+response to historical developments and scientific discoveries.  Prior
+to the scientific revolution, many people regarded the working of the
+universe as fundamentally unpredictable or controlled by supernatural
+forces.  After the triumphs of Newtonian mechanics, some optimists
+came to believe something like D4; for example, in 1814 Pierre-Simon
+Laplace wrote
 
 \begin{quote}
 We may regard the present state of the universe as the effect of its
@@ -3531,10 +3515,10 @@ nothing would be uncertain and the future just like the past would be
 present before its eyes.
 \end{quote}
 
-This ``intellect'' came to be called ``Laplace's Demon.
-\footnote{See \url{wikipedia.org/wiki/Laplace's_demon}.  The word
+This ``intellect'' came to be called ``Laplace's Demon''.
+See \url{wikipedia.org/wiki/Laplace's_demon}.  The word
   ``demon'' in this context has the sense of ``spirit,'' with no
-  connotation of malevolence.}''
+  connotation of malevolence.
 
 Discoveries in the 19th and 20th centuries gradually dismantled
 this hope.  The thermodynamic concept of entropy, radioactive decay
@@ -3545,12 +3529,11 @@ In the 1960s chaos theory showed that in some deterministic systems
 prediction is only possible over short time scales,  limited by
 the precision of measurements of initial conditions.
 
-Most of these systems were continuous in space (if not time)
-and nonlinear, so the complexity of their behavior was not
-entirely suprising.  Wolfram's demonstration of
-complex behavior in simple cellular automata is
-more surprising---and disturbing, at least to a classical
-world view.
+Most of these systems were continuous in space (if not time) and
+nonlinear, so the complexity of their behavior was not entirely
+suprising.  Wolfram's demonstration of complex behavior in simple
+cellular automata is more surprising---and disturbing, at least to a
+deterministic world view.
 
 So far I have focused on scientific challenges to determinism, but the
 longest-standing objection is the conflict between
@@ -3595,14 +3578,14 @@ structures are sometimes called {\bf spaceships}.
 
 Collisions between spaceships yield different results
 depending on the types of the spaceships and the phase they are in
-when the collide.  Some collisions annihilate both ships; others
+when they collide.  Some collisions annihilate both ships; others
 leave one ship unchanged; still others yield one or more ships of
 different types.
 
 These collisions are the basis of computation in a Rule 110 CA.  If
 you think of spaceships as signals that propagate on wires, and
 collisions as gates that compute logical operations like AND and OR,
-you can get a sense of what it means to perform a computation.
+you can see what it means for a CA to perform a computation.
 To get a sense of how Cook proved the universality of Rule 110,
 see \url{wikipedia.org/wiki/Rule_110_cellular_automaton}
 
@@ -3614,9 +3597,9 @@ many spaceships you can find.
 
 \begin{enumerate}
 
-\item Modify your program from the previous exercises so it
-starts with the initial condition that yields the stable
-background pattern.
+\item Modify your program from the previous exercises so it starts
+  with the initial condition that yields the stable background
+  pattern.
 
 \item Modify the initial condition by adding different patterns in the
   center of the row and see which ones yield spaceships.  You might
@@ -3632,26 +3615,24 @@ background pattern.
 
 \section{Universality}
 
-To understand universality, we have to understand
-computability theory, which is about models of
-computation and what they compute.
+To understand universality, we have to understand computability
+theory, which is about models of computation and what they compute.
 
 One of the most general models of computation is the Turing machine,
-which is an abstract computer proposed by 
-Alan Turing in 1936.  A Turing machine is a 1-D CA, infinite in both
-directions, augmented with a read-write head.  At any time, the head
-is positioned over a single cell.  It can read the state of that cell
-(usually there are only two states) and it can write a new value into
-the cell.
+which is an abstract computer proposed by Alan Turing in 1936.  A
+Turing machine is a 1-D CA, infinite in both directions, augmented
+with a read-write head.  At any time, the head is positioned over a
+single cell.  It can read the state of that cell (usually there are
+only two states) and it can write a new value into the cell.
 
 In addition, the machine has a register, which records which
 of a finite number of states the machine is in, and a table
 of rules.  For each machine state and cell state, the table
-specifies an action.  Actions can include modifying the cell
+specifies an action.  Actions include modifying the cell
 the head is over and moving one cell to the left or right.
 
 A Turing machine is not a practical design for a computer, but it
-can be used as a model of common computer architectures.  For
+models common computer architectures.  For
 a given program running on a real computer, it is possible
 (at least in principle) to construct a Turing machine that performs
 an equivalent computation.
@@ -3671,12 +3652,11 @@ exactly the same set of functions as the Turing machine.
 Some of these models, like lamdba calculus, are very different
 from a Turing machine, so their equivalence is surprising.
 
-This observation led to the Church-Turing Thesis, which is
-essentially a definition of what it means to be computable.
-The ``thesis'' is that Turing-computability is the right,
-or at least natural, definition of computability, because 
-it describes the power of such a diverse collection of models
-of computation.
+This observation led to the Church-Turing Thesis, which is essentially
+a definition of what it means to be computable.  The ``thesis'' is
+that Turing-computability is the right, or at least natural,
+definition of computability, because it describes the power of such a
+diverse collection of models of computation.
 
 The Rule 110 CA is yet another model of computation, and remarkable
 for its simplcity.  That it, too, turns out to be universal lends
@@ -3712,7 +3692,7 @@ Wolfram holds that his principle is a stronger claim than the
 Church-Turing Thesis because it is about the natural world rather
 than abstract models of computation.  But saying that natural processes
 ``can be viewed as computations'' strikes me as a statement about
-model selection more than a hypothesis about the natural world.
+theory choice more than a hypothesis about the natural world.
 
 Also, with qualifications like
 ``almost'' and undefined terms like ``obviously simple,'' his
@@ -3737,7 +3717,7 @@ unfalsifiable because there is nothing that we could observe about the
 natural world that would contradict it.  Any outcome of any experiment
 could be attributed to the will of the creator.  
 
-Unfalsifiable hypotheses can be appealing, at first, because
+Unfalsifiable hypotheses can be appealing because
 they are impossible to refute.  If your goal is never to be
 proved wrong, you should choose hypotheses that are as
 unfalsifiable as possible.
@@ -3753,7 +3733,7 @@ would it do me to know it?  It wouldn't tell me anything about the
 creator except that he has an ``inordinate fondness for beetles.
 \footnote{Attributed to J. B. S. Haldane.}''  And unlike the
 theory of common descent, which informs many areas of science
-and engineering, it would be of no use for understanding
+and bioengineering, it would be of no use for understanding
 the world or acting in it.
 
 \begin{ex}
@@ -3762,7 +3742,8 @@ Falsifiability is an appealing and useful idea, but among
 philosophers of science it is not generally accepted 
 as a solution to the demarcation problem, as Popper claimed.
 
-Read \url{wikipedia.org/wiki/Falsifiability} and answer the following questions.
+Read \url{wikipedia.org/wiki/Falsifiability} and answer the following
+questions.
 
 \begin{enumerate}
 
@@ -3798,13 +3779,16 @@ creating new mathematics (like the Church-Turing thesis).
 But it is not clear that they are models of physical systems.  And if
 they are, they are highly abstracted, which is to say that they are
 not very detailed or realistic.  For example, some species of cone
-snail\footnote{See \url{en.wikipedia.org/wiki/Cone_snail}} produce a
+snail produce a
 pattern on their shells that resembles the patterns generated by
-cellular automata.  So it is natural to imagine that a CA is a model
-of the mechanism that produces patterns on shells as they grow.  But,
-at least initially, it is not clear how the elements of the model
-(cells, communication between neighbors, rules) correspond to the
-elements of a growing snail.
+cellular automata.  See \url{en.wikipedia.org/wiki/Cone_snail.
+
+So it is natural to suppose that a CA is a model of the mechanism that
+produces patterns on shells as they grow.  But, at least initially, it
+is not clear how the elements of the model (so-called cells,
+communication between neighbors, rules) correspond to the elements of
+a growing snail (real cells, chemical signals, protein interaction
+networks).
 
 For conventional physical models, being realistic is a virtue, at
 least up to a point.  If the elements of a model correspond to the
@@ -3826,7 +3810,7 @@ models.  With a detailed model, the argument goes something
 like this: ``We are interested in physical system S, so we
 construct a detailed model, M, and show by analysis and simulation
 that M exhibits a behavior, B, that is similar (qualitatively
-and/or quantitatively) to an observation of the real system, O.
+or quantitatively) to an observation of the real system, O.
 So why does O happen?  Because S is similar to M, and
 B is similar to O, and we can prove that M leads to B.''
 
@@ -3834,7 +3818,7 @@ With simple models we can't claim that S is similar to M, because it
 isn't.  Instead, the argument goes like this: ``There is a set of
 models, ${M_0, M_1, ...}$ that share a common set of features, ${F_0,
   F_1, ...}$.  
-Any model that has these features will exhibit some
+Any model that has these features exhibits some
 behavior, B.  $M_0$ is the simplest model that has all of these
 features and exhibits B.  If we make an observation, O, that
 resembles B, one way to explain it is to show that the system,
@@ -3847,6 +3831,7 @@ realistic doesn't make the model more reliable; it only
 obscures the difference between the essential features that
 cause O and the incidental features that are particular to
 S.
+
 
 \chapter{Games of Life}
 

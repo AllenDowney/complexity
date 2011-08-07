@@ -1,37 +1,53 @@
-import CA
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
+
+http://greenteapress.com/complexity
+
+Copyright 2011 Allen B. Downey.
+Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+"""
+
 import numpy
+
+class UnimplementedMethodException(Exception):
+    """Used to indicate that a child class has not implemented an
+    abstract method."""
+
 
 class Drawer(object):
     """Drawer is an abstract class that should not be instantiated.
     It defines the interface for a CA drawer; subclasses of Drawer
     should implement draw, show and save.
 
-    draw_array is a utility that is used by several implementations.
+    draw_array is used by several implementations.
     """
     def __init__(self):
         msg = 'Drawer is an abstract type and should not be instantiated.'
         raise ValueError, msg
 
     def draw(self, ca):
-        """draw a representation of cellular automaton (ca).
+        """Draws a representation of cellular automaton (CA).
         This function generally has no visible effect."""
+        raise UnimplementedMethodException
     
     def show(self):
-        """display the representation on the screen, if possible"""
+        """Displays the representation on the screen, if possible."""
+        raise UnimplementedMethodException
 
     def save(self, filename):
-        """save the representation of the CA in (filename)"""
+        """Saves the representation of the CA in filename."""
+        raise UnimplementedMethodException
         
     def draw_array(self, a):
-        """iterate through array (a) and draw any non-zero cells"""
+        """Iterate through array (a) and draws any non-zero cells."""
         for i in xrange(self.rows):
             for j in xrange(self.cols):
                 if a[i,j]:
                     self.cell(j, self.rows-i-1)
 
 
-
 class PyLabDrawer(Drawer):
+    """Implementation of Drawer using matplotlib."""
 
     def __init__(self):
         # we only need to import these modules if a PyLabDrawer
@@ -64,9 +80,8 @@ class PyLabDrawer(Drawer):
         pylab.savefig(filename)
     
 
-
-
 class PILDrawer(Drawer):
+    """Implementation of Drawer using PIL and Swampy."""
 
     def __init__(self):
         # we only need to import these modules if a PILDrawer
@@ -109,6 +124,8 @@ class PILDrawer(Drawer):
 
 
 class EPSDrawer(Drawer):
+    """Implementation of Drawer using encapsulated Postscript (EPS)."""
+
     def __init__(self):
         self.cells = []
 
@@ -124,11 +141,10 @@ class EPSDrawer(Drawer):
         for i, j in self.cells:
             fp.write('%s %s c\n' % (i, j))
 
-    def print_head(self, fp):
+    def print_header(self, fp, size=0.9):
         fp.write('%!PS-Adobe-3.0 EPSF-3.0\n')
         fp.write('%%%%BoundingBox: -2 -2 %s %s\n' % (self.cols+2, self.rows+2))
 
-        size = .9
         fp.write('/c {\n')
         fp.write('   newpath moveto\n')
         fp.write('   0 %g rlineto\n' % size)
@@ -144,18 +160,18 @@ class EPSDrawer(Drawer):
         fp.write('0 -%s rlineto\n' % self.rows)
         fp.write('closepath stroke\n')
 
-    def print_tail(self, fp):
+    def print_footer(self, fp):
         fp.write('%%EOF\n')
 
     def show(self):
-        pass
+        raise UnimplementedMethodException
 
     def save(self, filename='ca.eps'):
         fp = open(filename, 'w')
-        self.print_head(fp)
+        self.print_header(fp)
         self.print_outline(fp)
         self.print_cells(fp)
-        self.print_tail(fp)
+        self.print_footer(fp)
 
     
 
@@ -164,7 +180,8 @@ def main(script, rule=30, n=100, *args):
     rule = int(rule)
     n = int(n)
 
-    ca = CA.CA(rule, n)
+    from CA import CA
+    ca = CA(rule, n)
 
     if 'random' in args:
         ca.start_random()
