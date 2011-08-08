@@ -25,11 +25,21 @@ class CA(object):
         array:  the numpy array that contains the data.
         next:   the index of the next empty row.
         """
-        self.table = make_table(rule)
+        self.table = self.make_table(rule)
         self.n = n
         self.m = ratio*n + 1
         self.array = numpy.zeros((n, self.m), dtype=numpy.int8)
         self.next = 0
+
+    def make_table(self, rule):
+        """Returns a table for the given CA rule.  The table is a 
+        dictionary that maps 3-tuples to binary values.
+        """
+        table = {}
+        for i, bit in enumerate(binary(rule, 8)):
+            t = binary(7-i, 3)
+            table[t] = bit
+        return table
 
     def start_single(self):
         """Starts with one cell in the middle of the top row."""
@@ -38,7 +48,7 @@ class CA(object):
 
     def start_random(self):
         """Start with random values in the top row."""
-        self.array[0] = random.random([1,self.m]).round()
+        self.array[0] = numpy.random.random([1,self.m]).round()
         self.next += 1
 
     def loop(self, steps=1):
@@ -74,17 +84,6 @@ def binary(n, digits):
         t.append(r)
 
     return tuple(reversed(t))
-
-
-def make_table(rule):
-    """Returns a table for the given CA rule.  The table is a 
-    dictionary that maps 3-tuples to binary values.
-    """
-    table = {}
-    for i, bit in enumerate(binary(rule, 8)):
-        t = binary(7-i, 3)
-        table[t] = bit
-    return table
 
 
 def print_table(table):
