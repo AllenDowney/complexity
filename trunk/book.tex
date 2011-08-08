@@ -51,7 +51,7 @@
 \usepackage{upquote}
 
 \newcommand{\thetitle}{Complexity and Computation}
-\newcommand{\theversion}{0.9.2}
+\newcommand{\theversion}{0.9.4}
 
 % these styles get translated in CSS for the HTML version
 \newstyle{a:link}{color:purple;}
@@ -3221,21 +3221,22 @@ multi-dimensional data structure whose elements are all the same type.
 It is simular to a nested list, but usually smaller and faster.  The
 following figure shows why:
 
-[Will someone please send me a nice figure in .fig or a similar
-format?]
+\beforefig
+\centerline{\includegraphics[height=1.5in]{figs/array.eps}}
+\afterfig
 
-\vspace{3in}
+The diagram on the left shows a list of lists of integers; each
+dot represents a reference, which takes up 4--8 bytes.  To access
+one of the integers, you have to follow two references.
 
-The diagram on the left shows a list of lists of integers; the
-diagram on the right shows an array of the same integers.  Because
-all of the elements are the same type, they are all the same size,
-so they are stored contiguously in memory.  This arrangement
-saves space because it stores the elements directly rather
-than by reference.  It saves time because the location
-of an element can be computed directly from the indices; there
-is no need to follow a series of references.
+The diagram on the right shows an array of the same integers.  Because
+the elements are all the same size, they can be stored contiguously in
+memory.  This arrangement saves space because it doesn't use
+references, and it saves time because the location of an element can
+be computed directly from the indices; there is no need to follow a
+series of references.
 
-Here is a definition of a CA object:
+Here is a CA object that uses a NumPy array:
 
 \begin{verbatim}
 import numpy
@@ -3314,45 +3315,94 @@ You can read more about NumPy and arrays at
 
 \section{CADrawer}
 
-%%% Abstract classes
+An {\bf abstract class} is a class definition that specifies the
+interface for a set of methods without providing an implementation.
+Child classes extend the abstract class and implement the incomplete
+methods.  See \url{http://en.wikipedia.org/wiki/Abstract_type}.
 
-CA objects also provide a method named {\tt draw} that uses
-PyLab to display a graphical representation of the evolution
-of the CA.  The graph is 2-D because it shows the state of the
-CA over time (not to be confused with the 2-D CAs we will see
-in the next chapter.
+As an example, I present an abstract class, {\tt CADrawer},
+that defines an interface for drawing CAs, and child classes
+that implement this interface.
+
+Here's the definition for {\tt CADrawer}:
 
 \begin{verbatim}
-    def draw(self):
-        pylab.gray()
-        pylab.pcolor(-flipud(self.array))
-        pylab.axis([0, self.m, 0, self.n])
-        pylab.xticks([])
-        pylab.yticks([])
+class Drawer(object):
+    """Drawer is an abstract class that should not be instantiated.
+    It defines the interface for a CA drawer; child classes of Drawer
+    should implement draw, show and save.
+
+    If draw_array is not overridden, the child class should provide
+    draw_cell.
+    """
+    def __init__(self):
+        msg = 'CADrawer is an abstract type and should not be instantiated.'
+        raise UnimplementedMethodException, msg
+
+    def draw(self, ca):
+        """Draws a representation of cellular automaton (CA).
+        This function generally has no visible effect."""
+        raise UnimplementedMethodException
+    
+    def draw_array(self, a):
+        """Iterate through array (a) and draws any non-zero cells."""
+        for i in xrange(self.rows):
+            for j in xrange(self.cols):
+                if a[i,j]:
+                    self.draw_cell(j, self.rows-i-1)
+
+    def draw_cell(self, ca):
+        """Draws a single cell.
+        Not required for all implementations."""
+        raise UnimplementedMethodException
+    
+    def show(self):
+        """Displays the representation on the screen, if possible."""
+        raise UnimplementedMethodException
+
+    def save(self, filename):
+        """Saves the representation of the CA in filename."""
+        raise UnimplementedMethodException
 \end{verbatim}
 
-{\tt gray} tells PyLab to use a grayscale color map;
-{\tt pcolor} generates a ``pseudocolor'' plot that shows a
-rectangle for each element in the array, with a color that
-corresponds to the value of the element.  Since the elements
-of the array are 0 and 1, the colors are black and white.
+Abstract classes should not be instantiated; if you try, you
+get an {\tt UnimplementedMethodException}, which is a simple
+extension of {\tt Exception}:
 
-{\tt flipup} stands for ``flip up-down;'' it flips the array
-so that row 0 is at the time and time flows down, which is the
-convention for these plots.  Negating the elements of the array
-makes 1 black and 0 white, which is also the convention.
+\begin{verbatim}
+class UnimplementedMethodException(Exception):
+    """Used to indicate that a child class has not implemented an
+    abstract method."""
+\end{verbatim}
 
-{\tt axis} sets the bounds of the display to fit the dimensions of
-the array.  {\tt xticks} and {\tt yticks} specify where the
-labels and tick-marks should be on the axes; the empty list means
-that we don't want any ticks at all.
+To instantiate a {\tt CADrawer} you have to define a child class
+that implements the methods, then instantiate the child.
+
+{\tt CADrawer.py} provides three implementations, one that uses
+{\tt pyplot}, one that uses the Python Imaging Library (PIL), and
+one that generates Encapsulated Postscript (EPS).
+
+Here is an example that uses {\tt PyplotDrawer} to display a
+CA on the screen:
+
+\begin{verbatim}
+    ca = CA(rule, n)
+    ca.start_single()
+    ca.loop(n-1)
+
+    drawer = CADrawer.PyplotDrawer()
+    drawer.draw(ca)
+    drawer.show()
+\end{verbatim}
 
 
 \begin{ex}
 
-Download my CA implementation from
-\url{thinkcomplex.com/CA.py}
-and add a new class called {\tt CircularCA} that extends
+Download \url{thinkcomplex.com/CA.py} and \url{thinkcomplex.com/CADrawer.py}
+and confirm that they run on your system; you might have to install
+additional Python packages.
+
+Create a new class called {\tt CircularCA} that extends
 {\tt CA} so that the cells are arranged in a ring.
 
 Hint: you might find it useful to add a column of ``ghost cells'' to
@@ -3464,7 +3514,6 @@ Test it using DieHarder.
 \end{ex}
 
 
-
 \section{Determinism}
 
 The existence of Class 3 CAs is surprising.  To understand how
@@ -3517,17 +3566,17 @@ present before its eyes.
 
 This ``intellect'' came to be called ``Laplace's Demon''.
 See \url{wikipedia.org/wiki/Laplace's_demon}.  The word
-  ``demon'' in this context has the sense of ``spirit,'' with no
-  connotation of malevolence.
+``demon'' in this context has the sense of ``spirit,'' with no
+implication of evil.
 
 Discoveries in the 19th and 20th centuries gradually dismantled
-this hope.  The thermodynamic concept of entropy, radioactive decay
+this hope.  The thermodynamic concept of entropy, radioactive decay,
 and quantum mechanics posed successive challenges to strong
-forms of determinism.  
+forms of determinism.
 
 In the 1960s chaos theory showed that in some deterministic systems
 prediction is only possible over short time scales,  limited by
-the precision of measurements of initial conditions.
+the precision of measurement of initial conditions.
 
 Most of these systems were continuous in space (if not time) and
 nonlinear, so the complexity of their behavior was not entirely
@@ -3544,11 +3593,11 @@ will stop there for now.
 
 \section{Structures}
 
-If you agree that Class 3 CAs are surprising, then Class 4 will blow
-your mind.  It turns out that several 1-D CAs, most notably Rule 110,
-are {\bf Turing complete}, which means that they can compute any
-computable function.  This property, also called {\bf universality},
-was proved by Matthew Cook in 1998.
+The behavior of Class 4 CAs is even more surprising.  Several 1-D CAs,
+most notably Rule 110, are {\bf Turing complete}, which means that
+they can compute any computable function.  This property, also called
+{\bf universality}, was proved by Matthew Cook in 1998.  See
+\url{http://en.wikipedia.org/wiki/Rule_110}.
 
 Here is a what Rule 110 looks like with an initial condition of
 a single cell and 100 timesteps:
@@ -3561,12 +3610,14 @@ At this time scale it is not apparent that anything special is
 going on.  There are some regular patterns but also some features
 that are hard to characterize.
 
-Here is a bigger picture, starting with a random initial
+Figure~\ref{rule110} shows a bigger picture, starting with a random initial
 condition and 600 timesteps:
 
-\beforefig
+\begin{figure}
+\label{rule110}
 \centerline{\includegraphics[width=5.5in,height=5.5in]{figs/rule110random.eps}}
-\afterfig
+\caption{Rule 110 with random initial conditions and 600 timesteps.}
+\end{figure}
 
 After about 100 steps the background settles into a simple repeating
 pattern, but there are a number of persistent structures that appear
@@ -3586,9 +3637,6 @@ These collisions are the basis of computation in a Rule 110 CA.  If
 you think of spaceships as signals that propagate on wires, and
 collisions as gates that compute logical operations like AND and OR,
 you can see what it means for a CA to perform a computation.
-To get a sense of how Cook proved the universality of Rule 110,
-see \url{wikipedia.org/wiki/Rule_110_cellular_automaton}
-
 
 \begin{ex}
 
@@ -3598,7 +3646,7 @@ many spaceships you can find.
 \begin{enumerate}
 
 \item Modify your program from the previous exercises so it starts
-  with the initial condition that yields the stable background
+  with an initial condition that yields the stable background
   pattern.
 
 \item Modify the initial condition by adding different patterns in the
@@ -3632,10 +3680,9 @@ specifies an action.  Actions include modifying the cell
 the head is over and moving one cell to the left or right.
 
 A Turing machine is not a practical design for a computer, but it
-models common computer architectures.  For
-a given program running on a real computer, it is possible
-(at least in principle) to construct a Turing machine that performs
-an equivalent computation.
+models common computer architectures.  For a given program running on
+a real computer, it is possible (at least in principle) to construct a
+Turing machine that performs an equivalent computation.
 
 The Turing machine is useful because it is possible to characterize
 the set of functions that can be computed by a Turing machine,
@@ -3684,6 +3731,30 @@ perfect randomness is as simple as perfect order; complexity happens
 in between.  So Wolfram's claim is that Class 4 behavior is common in
 the natural world, and that almost all of the systems that manifest it
 are computationally equivalent.
+
+\begin{ex}
+
+The goal of this exercise is to implement a Turing machine.
+See \url{http://en.wikipedia.org/wiki/Turing_machine}.
+
+\begin{enumerate}
+
+\item Start with a copy of {\tt CA.py} named {\tt TM.py}.
+Add attributes to represent the location of the head, the action
+table and the state register.
+
+\item Override {\tt step} to implement a Turing machine update.
+
+\item For the action table, use the rules for a 3-state busy beaver.
+
+\item Write a class named {\tt TMDrawer} that generates an
+image that represents the state of the tape and the position and
+state of the head.  For one example of what that might look like,
+see \url{http://mathworld.wolfram.com/TuringMachine.html}.
+
+\end{enumerate}
+
+\end{ex}
 
 
 \section{Falsifiability}
@@ -3781,7 +3852,7 @@ they are, they are highly abstracted, which is to say that they are
 not very detailed or realistic.  For example, some species of cone
 snail produce a
 pattern on their shells that resembles the patterns generated by
-cellular automata.  See \url{en.wikipedia.org/wiki/Cone_snail.
+cellular automata.  See \url{en.wikipedia.org/wiki/Cone_snail}.
 
 So it is natural to suppose that a CA is a model of the mechanism that
 produces patterns on shells as they grow.  But, at least initially, it
@@ -3818,117 +3889,32 @@ With simple models we can't claim that S is similar to M, because it
 isn't.  Instead, the argument goes like this: ``There is a set of
 models, ${M_0, M_1, ...}$ that share a common set of features, ${F_0,
   F_1, ...}$.  
-Any model that has these features exhibits some
-behavior, B.  $M_0$ is the simplest model that has all of these
-features and exhibits B.  If we make an observation, O, that
-resembles B, one way to explain it is to show that the system,
-S, has the minimum set of features, in common with $M_0$, that
-produce B.''
 
-For this kind of argument, 
-adding more features doesn't help.  Making the model more
-realistic doesn't make the model more reliable; it only
-obscures the difference between the essential features that
-cause O and the incidental features that are particular to
-S.
+Any model that has these features exhibits behavior B, and $M_0$ is
+the simplest.  If we make an observation, O, that resembles B, one way
+to explain it is to show that the system, S, has the set of
+features in common with $M_0$ that produce B.
+
+For this kind of argument, adding more features doesn't help.  Making
+the model more realistic doesn't make the model more reliable; it only
+obscures the difference between the essential features that cause O
+and the incidental features that are particular to S.
 
 
 \chapter{Games of Life}
 
-
-\section{Abstract classes}
-
-In the previous chapter we used PyLab to generate a graphical
-representation of the evolution of a 1-D cellular automaton.  Using
-{\tt pylab.pcolor} is easy but for large numbers of cells the
-performance is a little slow.  Also, the Postscript PyLab generates is
-not very efficient.  For the figures in this book, I wrote some Python
-code that generates small, fast Postscript.
-Along the way, I also wrote code to generate GIF images using
-the Python Imaging Library (PIL).
-
-I ended up with three different ways to draw a CA, and it was
-a challenge to organize the code in a sensible way.  I ended up
-using a design pattern called an {\bf abstract type} (see
-\url{wikipedia.org/wiki/Abstract_type}).
-
-An abstract type is a class definition that defines an interface, but
-leaves the implementation of the interface unspecified.  As an
-example, here is the definition of a class named {\tt Drawer}:
-
-\begin{verbatim}
-class Drawer(object):
-
-    def draw(self, ca):
-        """draw a representation of cellular automaton (ca).
-        This function generally has no visible effect."""
-    
-    def show(self):
-        """display the representation on the screen, if possible"""
-
-    def save(self, filename):
-        """save the representation of the CA in (filename)"""        
-\end{verbatim}
-
-These methods have no statements in the body, only dosctrings.
-It is up to the subclasses to provide implementations.
-In my program, I defined three subclasses that inherit from
-Drawer: PyLabDrawer, which uses {\tt pylab.pcolor}, 
-PILDrawer, which uses PIL and Tkinter to generate and display
-a GIF, and EPSDrawer, which generates encapsulated postscript.
-
-Some programming languages provide explict support for abstract types,
-so they can generate appropriate error messages if something goes
-wrong.  For example, it is usually illegal to instantiate an abstract
-type---it doesn't provide an implementation, so it can't really do
-anything.  Python does not enforce this rule, so it is possible (but
-not very useful) to instantiate a Drawer.  In Python, it is up to the
-programmer to use abstract types correctly.
-
-
-\begin{ex}
-Can you think of a way to change the definition of Drawer
-so that it raises an exception if you try to instantiate it?
-\end{ex}
-
-
-\begin{ex}
-
-Rewrite your code from the previous chapter using {\tt Drawer}
-as an abstract type.  One of the advantages of this reorganization
-is that you can separate the CA code from the
-graphics code.  All of the code that pertains to PyLab should
-be moved into the definition of {\tt PyLabDrawer}.
-
-Then write another implementation of a {\tt Drawer} that uses PIL
-to generate a GIF.  To get you started, you can download
-\url{thinkcomplex.com/pil.py}, which contains example
-code that creates an image, draws a rectangle, displays the
-image using Tkinter, and generates a GIF.
-
-Finally, if you are familiar with Postscript, write a third
-implementation of {\tt Drawer} that generates encapsulated
-Postscript.  Or you might consider writing an implementation using
-a Tkinter Canvas.
-
-You can download my solution from
-\url{thinkcomplex.com/CADrawer.py}
-
-\end{ex}
-
-
-
-\section{Conway}
-
 One of the first cellular automata to be studied, and probably the
-most popular of all time, 2-D CA called ``The Game of Life,'' or GoL
+most popular of all time, is a 2-D CA called ``The Game of Life,'' or GoL
 for short.  It was developed by John H. Conway and popularized in 1970
 in Martin Gardner's column in {\em Scientific American}.
+See \url{http://en.wikipedia.org/wiki/Conway_Game_of_Life}.
 
-The cells in GoL are arranged in a 2-D grid, either infinite in both
-directions or wrapped in both directions.  A grid that is wrapped
+The cells in GoL are arranged in a 2-D {\bf grid}, 
+either infinite in both
+directions or wrapped around.  A grid wrapped
 in both directions is called a {\bf torus} because it is topographically
-equivalent to the surface of a doughnut (see \url{wikipedia.org/wiki/Torus}).
+equivalent to the surface of a doughnut.
+See \url{wikipedia.org/wiki/Torus}.
 
 Each cell has two states---live and dead---and 8 neighbors---north,
 south, east, west, and the four diagonals.  This set of neighbors
@@ -3951,15 +3937,19 @@ neighbors     &   state        & state \\
 \hline
 \end{tabular}
 
-GoL turned out to be popular because
+This behavior is loosely analogous to real cell growth: cells
+that are isolated or overcrowded die; at moderate densities they
+flourish.
+
+GoL is popular because
 
 \begin{itemize}
 
-\item There are a number of simple initial conditions that yield
+\item There are simple initial conditions that yield
 surprisingly complex behavior.
 
-\item There are a number of interesting stable patterns: some
-oscillate (with various periods) and some translate like the
+\item There are many interesting stable patterns: some
+oscillate (with various periods) and some move like the
 spaceships in Wolfram's Rule 110 CA.
 
 \item Like Rule 110, GoL is Turing complete.
@@ -3982,10 +3972,9 @@ using a checkerboard.
 Write a class that implements a ``Game of Life'' CA, and another
 class that displays an animated sequence of timesteps on the screen.
 
-Remember that all cells have to be updated ``simultaneously;'' for
-example, if you traverse an array and update cells as you go, you
-will end up using some new values in subsequent updates.  The
-result is not a correct implementation of Conway's rules.
+Remember that cells have to be updated ``simultaneously;'' 
+that is, all cells should check the state of their neighbors
+before any cells are updated.
 
 There are many implementation options:
 
@@ -3996,14 +3985,13 @@ could use a NumPy array, a list of lists, a dictionary, or even
 a PIL Image.  If you choose a PIL Image, you might find
 {\tt ImageFilter.Kernel} useful.
 
-\item To display the CA, you could use PyLab, PIL, Postscript, or
+\item To display the CA, you could use Pyplot, PIL, Postscript, or
 {\tt CellWorld}, which is part of Swampy.
 
 \end{itemize}
 
-Try to choose an implementation that can update and display a large CA
-quickly\footnote{For some speed tips, see Alan Hensel's implementation
-or check out HashLife.}.
+Choose an implementation that can update and display a large CA
+quickly.
 
 Start the CA in a random state and run it until it stabilizes.
 What stable patterns can you identify?
@@ -4015,17 +4003,11 @@ What stable patterns can you identify?
 
 If you run GoL from a random starting state, a number of stable
 patterns are likely to appear.  Blocks, boats, beehives, blinkers and
-gliders are among the most common.  People have spent embarassing
-amount of time finding (and naming) these patterns.  If you search
+gliders are among the most common.
+
+People have spent embarrassing
+amounts of time finding and naming these patterns.  If you search
 the web, you will find many collections.
-
-\begin{ex}
-
-Many named patterns are available in portable file formats.
-Modify your program to parse one of them in order to place patterns
-into your grid and run them.
-
-\end{ex}
 
 From most initial conditions, GoL quickly reaches a stable
 state where the number of live cells is nearly constant
@@ -4034,24 +4016,33 @@ state where the number of live cells is nearly constant
 But there are a some simple starting conditions that take a
 long time to settle down and yield a surprising
 number of live cells.  These patterns are called ``Methuselahs''
-because they are so long-lived.  One of the simplest is the
+because they are so long-lived.
+
+One of the simplest is the
 r-pentomino, which has only five cells in the shape of a ``r,'' hence
 the name.  It runs for 1103 steps and yields 6 gliders, 8 blocks, 4
 blinkers, 4 beehives, 1 boat, 1 ship, and 1 loaf.
 One of the longest-lived small patterns is rabbits, which starts
 with 9 live cells and takes 17 331 steps to stabilize.
 
+\begin{ex}
+
+Start with an r-pentomino as an initial condition and confirm
+that your results are consistent with the description above.
+
+\end{ex}
+
 
 \section{Conway's conjecture}
 
-These long-lived patterns bring us back to Conway's original question:
-are there initial patterns that never stabilize?  Conway thought not,
-but he described two kinds of pattern that would prove him wrong, a
-``gun'' and a ``puffer train.''  A gun is an stable pattern that
-periodically produces a spaceship---as the stream of spaceships moves
-out from the source, the number of live cells grows indefinitely.  A
-puffer train is a translating pattern that leaves live cells in its
-wake.
+The existence of long-lived patterns bring us back to Conway's
+original question: are there initial patterns that never stabilize?
+Conway thought not, but he described two kinds of pattern that would
+prove him wrong, a ``gun'' and a ``puffer train.''  A gun is an stable
+pattern that periodically produces a spaceship---as the stream of
+spaceships moves out from the source, the number of live cells grows
+indefinitely.  A puffer train is a translating pattern that leaves
+live cells in its wake.
 
 It turns out that both of these patterns exist.  A team led
 by Bill Gosper discovered the first, a glider gun now called
@@ -4069,11 +4060,18 @@ was also avoiding Wolfram's Class 1 and Class 2 behavior, and
 probably Class 3 as well.
 
 If we believe Wolfram's Principle of Computational Equivalence, we
-should expect GoL to be in Class 4.  And it is.  The Game of Life was
-proven to be Turing complete in 1982 (and again, independently in
-1983).  Since then several people have constructed GoL patterns that
-implement a Turing machine or another machine known to be Turing
-complete.
+expect GoL to be in Class 4.  And it is.  The Game of Life was proved
+Turing complete in 1982 (and again, independently, in 1983).
+Since then several people have constructed GoL patterns that implement
+a Turing machine or another machine known to be Turing complete.
+
+\begin{ex}
+
+Many named patterns are available in portable file formats.
+Modify your program to parse one of these formats and initialize
+your grid.
+
+\end{ex}
 
 
 
@@ -4090,12 +4088,12 @@ imaginations, but they are not real.
 
 Right?
 
-Well, not so fast.  Many entities that we consider
-``real'' are also persistent patterns of entities at a smaller
-scale.  Hurricanes are just patterns of air flow, but we give
-them personal names!  And people, like gliders, are not made
-up of the same cells over time.  But even if you replace every
-cell in your body, we consider you the same person.
+Well, not so fast.  Many entities that we consider ``real'' are also
+persistent patterns of entities at a smaller scale.  Hurricanes are
+just patterns of air flow, but we give them personal names.  And
+people, like gliders, are not made up of the same cells over time.
+But even if you replace every cell in your body, we consider you the
+same person.
 
 This is not a new observation---about 2500 years ago Heraclitus
 pointed out that you can't step in the same river twice---but the
@@ -4112,9 +4110,17 @@ use that image to construct a 3-D model of the objects in the
 scene.
 
 {\bf Scientific realism} pertains to scientific theories and the
-entities they posulate.  Again, I find it useful to state
-philosophical positions in a range of strengths, where SR1 is
-a weak form of scientific realism and SR4 is a strong form:
+entities they postulate.
+A theory postulates an entity if it is
+expressed in terms of the properties and behavior of the entity.  For
+example, Mendelian genetics postulated a ``gene'' as a unit that
+controls a heritable characteristic.  Eventually we discovered that
+genes are encoded in DNA, but for about 50 years, a gene was just a
+postulated entity.  See \url{http://en.wikipedia.org/wiki/Gene}.
+
+Again, I find it useful to state philosophical positions in a range of
+strengths, where SR1 is a weak form of scientific realism and SR4 is a
+strong form:
 
 \begin{description}
 
@@ -4162,7 +4168,7 @@ the following statements:
 \begin{quote}
 ``A hurricane is just a pattern of air flow, but it is a useful
   description because it allows us to make predictions and communicate
-  about the weather.
+  about the weather.''
 \end{quote}
 
 \begin{quote}
@@ -4207,7 +4213,8 @@ a principled distinction between them?
 
 \begin{ex}
 
-Read the Wikipedia page on instrumentalism and construct a sequence
+Read \url{http://en.wikipedia.org/wiki/Instrumentalism}
+and construct a sequence
 of statements that characterize instrumentalism in a range of
 strengths.
 
@@ -4216,14 +4223,16 @@ strengths.
 
 \section{Turmites}
 
-If you generalize the Turing machine to two dimensions or
-add a read-write head to a 2-D CA, either way you get a
+If you generalize the Turing machine to two dimensions, or
+add a read-write head to a 2-D CA, the result is a
 cellular automaton called a Turmite.  It is named after a
 ``termite'' because of the way the read-write head moves, but
 spelled wrong as an homage to Turing. 
 
-One of the most famous Turmites is Langton's Ant, discovered
-by Chris Langton in 1986.  The ant is a read-write head with
+The most famous Turmite is Langton's Ant, discovered by Chris Langton
+in 1986.  See \url{http://en.wikipedia.org/wiki/Langton_ant}.
+
+The ant is a read-write head with
 four states, which you can think of as facing north, south,
 east or west.  The cells have two states, black and white.
 
@@ -4239,7 +4248,7 @@ better by now.  Starting with all white cells, Langton's ant
 moves in a seemingly random pattern for more than 10 000 steps
 before it enters a cycle with a period of 104 steps.  After
 each cycle, the ant is translated diagonally, so it leaves
-a linear trail called the ``highway.''
+a trail called the ``highway.''
 
 If you start with multiple Turmites, they interact with each
 other in seemingly complex ways.  If one Turmite is on the
@@ -4249,11 +4258,10 @@ only white cells behind.
 
 \begin{ex}
 
-Read \url{wikipedia.org/wiki/Langton's_ant}.
+Write an implementation of Langton's Ant.
 
-Swampy includes a module called {\tt TurmiteWorld} that contains
-an implementation of Langton's Ant.  Read the code to get a sense
-of how it works, then run it with a variety of initial conditions.
+You can find a solution in {\tt TurmiteWorld.py}, which is
+part of Swampy.  See \url{http://thinkpython.com/swampy/}.
 
 \end{ex}
 
@@ -4261,23 +4269,19 @@ of how it works, then run it with a variety of initial conditions.
 \section{Percolation}
 
 The CAs we have seen so far are not physical models; that is, they are
-not intended to describe systems in the real world.  As it turns out,
-there are some real systems that have the same structure as a CA.  For
-example, Wolfram has argued that patterns on some animals, especially
-cone snails, may be generated by processes that are equivalent to a CA
-(see
-\url{stephenwolfram.com/publications/articles/ca/83-cellular/2/text.html}).
+not intended to describe systems in the real world.
 
 But some CAs are designed explicitly as physical models.  In this
-section we will consider a simple grid-based model of percolation;
-in the next chapter we will see examples that model forest fires,
+section we consider a simple grid-based model of percolation;
+in the next chapter we see examples that model forest fires,
 avalanches, and earthquakes.
 
 Percolation is a process in which a fluid flows through a semi-porous
-material.  Examples include oil in porous rock, water in paper, and
-hydrogen gas in micropores.  Percolation models are also used to study
-systems that are not literally percolation, including epidemics and
-networks of electrical resistors.
+material.  Examples include oil in rock formations, water in paper,
+and hydrogen gas in micropores.  Percolation models are also used to
+study systems that are not literally percolation, including epidemics
+and networks of electrical resistors.  See
+\url{http://en.wikipedia.org/wiki/Percolation_theory}.
 
 Percolation processes often exhibit a phase change; that is, an
 abrupt transition from one behavior (low flow) to another
@@ -4286,7 +4290,7 @@ the porosity of the material).  This transition is sometimes
 called a ``tipping point.''
 
 There are two common models of these systems: bond percolation
-and site percolation.  Bond percolation is based on a square lattice
+and site percolation.  Bond percolation is based on a grid
 of sites, where each site is connected to four neighbors by
 a bond.  Each bond is either porous or non-porous.  A set of sites
 that are connected (directly or indirectly) by porous bonds is
@@ -4294,21 +4298,20 @@ called a cluster.  In the vocabulary of graphs, a site is a vertex,
 a bond is an edge, and a cluster is a connected subgraph.
 
 Site percolation is based on a grid of cells, where each cell
-represents a porous
-segment of the material or a non-porous segment.  If two porous
-cells are adjacent, they are considered connected; a set of
-connected cells is considered a cluster.
+represents a porous segment of the material or a non-porous segment.
+If two porous cells are adjacent, they are considered connected; a set
+of connected cells is considered a cluster.
 
 The rate of flow in a percolation system is primarily determined by
 whether or not the porous cells form a path all the way through the
 material, so it is useful to know whether a set of cells (or bonds)
-contains a ``spanning cluster.''  There are several possible
+contains a ``spanning cluster.''  There are several
 definitions of a spanning cluster; the choice depends on the system
 you are trying to model. The simplest choice is a cluster that reaches
 the top and bottom row of the grid.
 
 To model the porosity of the material, it is common to define
-a parameter, $p$, which the possibility that any cell (or bond)
+a parameter, $p$, which the probability that any cell (or bond)
 is porous.  For a given value of $p$, you can estimate 
 $R(p)$, which is the probability that there is a spanning cluster,
 by generating a large number of random grids and computing the
@@ -4316,7 +4319,7 @@ fraction that contain a spanning cluster.  This way of estimating
 probabilities is called a ``Monte Carlo simulation'' because
 it a similar to a game of chance.
 
-Percolation models are often used to compute the critical value,
+Percolation models are often used to compute a critical value,
 $p_c$, which is the fraction of porous segments where the phase
 change occurs; that is, where the probability of a spanning cluster
 increases quickly from near 0 to near 1.
@@ -4351,16 +4354,13 @@ Figure 2(a).
 
 \chapter{Self-organized criticality}
 
-\section{Bak, Tang and Wiesenfeld}
-
 In 1987 Bak, Tang and Wiesenfeld published a paper in Physical Review
 Letters, ``Self-organized criticality: an explanation of $1/f$ noise.''
 The title takes some explaining.  A system is ``critical'' if it is
-in transition between two phases; for example, water at exactly
+in transition between two phases; for example, water at
 its freezing point is a critical system.
 
-A wide variety of critical systems demonstrate a few common
-behaviors:
+A variety of critical systems demonstrate a common behaviors:
 
 \begin{itemize}
 
@@ -4379,26 +4379,26 @@ behaviors:
   ``pink'' noise, low-frequency components have more power than
   high-frequency components.  Specifically, the power at frequency $f$
   is proportional to $1/f$.  Visible light with this power spectrum
-  appears pink, hence the name.
+  looks pink, hence the name.
 
 \end{itemize}
 
 Critical systems are usually unstable.  For example, to keep
 water in a partially frozen state requires active control of
-the temperature.  If the system is left near the critical
-temperature, any small deviation will tend to move the system
+the temperature.  If the system is near the critical
+temperature, a small deviation tends to move the system
 into one phase or the other.
 
-Many natural systems exhibit behaviors indicative of
+Many natural systems exhibit characteristic behaviors of
 criticality, but if critical points are unstable, they should
 not be common in nature.  This is the puzzle Bak, Tang and
-Wiesenfeld addressed.  Their solution is called self-organized
+Wiesenfeld address.  Their solution is called self-organized
 criticality (SOC), where ``self-organized'' means that from
 any initial condition, the system tends to move toward a
-critical state and stay there, without external control.
+critical state, and stay there, without external control.
 
 As an example, they propose a model of a sand pile.  The model
-is not a very realistic description of a real sand pile, but
+is not realistic, but
 it has become the standard example of self-organized criticality.
 
 The model is a 2-D cellular automaton where the state of each cell,
@@ -4417,8 +4417,8 @@ by 1, and evolve the system, again, until it stabilizes.
 
 For each perturbation, they measure $D$, the total number
 of cells that are affected by the resulting avalanche.  Most of
-the time, $D$ is very small, usually 1.  But occasionally
-there is a large avalanche that affects a substantial fraction
+the time, $D$ is small, usually 1.  But occasionally
+a large avalanche affects a substantial fraction
 of the grid.  The distribution of $D$ turns out to be long-tailed,
 which supports the claim that the system is in a critical state.
 
@@ -4440,12 +4440,12 @@ be described by its power spectral density, $P(f)$, which is a
 function that maps from a frequency, $f$, to the amount of power the
 signal contains at that frequency.
 
-This analysis applies to any varying signal, but I will use sound as
+This analysis applies to any varying signal, but I use sound as
 an example.  The note we call ``middle A'' corresponds to a frequency
 of 440 cycles per second, or Hertz (Hz).  If you strike a middle A
 tuning fork, it produces a sound that is close to a pure sine wave at
 440 Hz.  But if you play the same note on a piano, what you hear is
-actually a complex sound that contains components at many different
+a complex sound that contains components at many different
 frequencies.  The frequency with the most power is 440, which is why
 we perceive the sound as a middle A, but there are also components at
 660, 880, and many higher frequencies.  These components are called
@@ -4493,7 +4493,6 @@ DFT is written $H_n$, where $n$ is an index related to frequency:
 H_n = \sum_{k=0}^{N-1} h_k e^{2 \pi i k n / N}
 \end{equation}
 
-
 Each element of this sequence corresponds to a particular frequency.
 If the elements of $h_k$ are equally spaced in time, with time
 step $d$, the frequency that corresponds to $H_n$ is
@@ -4538,6 +4537,19 @@ complex numbers:
 
 What is the order of growth run time of {\tt dft}?
 
+{\bf Hoisting} is a way to speed up code by moving an
+expression that does not change out of a loop.
+See \url{http://en.wikipedia.org/wiki/Loop-invariant_code_motion}.
+You can make your code easier to read and more efficient
+by hoisting:
+
+\begin{equation}
+\label{dft}
+W = e^{2 \pi i / N}
+\end{equation}
+%
+What effect does hoisting have on the order of growth?
+
 \end{ex}
 
 
@@ -4546,6 +4558,7 @@ What is the order of growth run time of {\tt dft}?
 The Fast Fourier Transform (FFT) is an efficient algorithm for
 computing the DFT.  It is often attributed to Cooley and Tukey,
 but it was independently discovered several times earlier.
+See \url{http://en.wikipedia.org/wiki/Fast_Fourier_transform}.
 
 The first step toward the FFT is to rewrite Equation~\ref{dft}
 with the substitution $W = e^{2 \pi i/N}$:
@@ -4578,9 +4591,8 @@ Otherwise:
 \end{enumerate}
 
 If $H$ has $2N$ elements, $H^e$ and $H^o$ have only $N$.
-In order to merge them, you have to remember that they are
-periodic, so $H^e_{n+N} = H^e_{n}$.  So you can double the
-length of a sequence just by concatenating it with itself.
+In order to merge them, you have to wrap around, but you
+can do that because $H^e_{n+N} = H^e_{n}$.
 
 This recursive algorithm is the Fast Fourier Transform.
 
@@ -4651,6 +4663,8 @@ and estimate the slope.
 
 \section{Forest fire models}
 
+Original source?
+
 In 1992 Drossel and Schwabl proposed a cellular automaton that is
 an abstract model of a forest fire.  Each cell is in one of three
 states: empty, occupied by a tree, or on fire.
@@ -4661,10 +4675,10 @@ The rules of the CA are:
 
 \item An empty cell becomes occupied with probability $p$.
 
-\item A cell with a tree will burn if any of its neighbors
+\item A cell with a tree burns if any of its neighbors
   is on fire.
 
-\item A cell with a tree will spontaneously burn, with
+\item A cell with a tree spontaneously burns, with
   probability $f$, even if none of its neighbors is on fire.
 
 \item A cell with a burning tree becomes an empty cell in the next
@@ -4674,7 +4688,7 @@ The rules of the CA are:
 
 \begin{ex}
 
-Implement it and test it.
+Implement this model...
 
 \end{ex}
 
@@ -4726,27 +4740,26 @@ reductionist model describes a system by describing its parts
 and their interactions.  When a reductionist model is used
 as an explanation, it depends on an analogy between the 
 components of the model and the components of the system.
+
 For example, to explain why the ideal gas law holds, we can
-model the molecules that make up the gas with a large number
-of point masses with random velocities.  We can model their
-interactions as elastic collisions with no molecular forces.
-If you simulate or analyze this model you will find that it
+model the molecules that make up a gas with
+point masses, and model their
+interactions as elastic collisions.
+If you simulate or analyze this model you find that it
 obeys the ideal gas law.
+This model is satisfactory to the degree that
+molecules in a gas behave like molecules in the model.
+The analogy is between the parts of the system and the parts of
+the model.
 
-This model is satisfactory as an explanation to the degree that
-the molecules in a gas behave like the molecules in the model.
-So the argument that this model explains the ideal gas law
-is essentially an argument by analogy.
-
-Holisitic models are more focused on similarities between
-systems and less focused on the relationship between the system
-and its parts.  A holistic approach to modeling often consists
-of two steps, not necessarily in this order:
+Holistic models are more focused on similarities between systems and
+less interested in analogous parts.  A holistic approach to modeling
+often consists of two steps, not necessarily in this order:
 
 \begin{itemize}
 
 \item Identify a kind of behavior that appears in a variety of
-systems. 
+systems.
 
 \item Find the simplest model that demonstrates that behavior.
 
@@ -4755,26 +4768,26 @@ systems.
 For example, in {\em The Selfish Gene}, Richard Dawkins suggests that
 genetic evolution is just one example of an evolutionary system.  He
 identifies the essential elements of the category---discrete
-replicators, variability and differential reprodcuction---and proposes
-that any system that has these elements will display similar
-behavior, including complexity without design.  As another
-example of an evolutionary system, he proposes memes, which are
-thoughts or behaviors that are ``replicated'' by transmission
-from person to person.  As memes compete for the resource of
-human attention, they evolve in ways that are similar to
-genetic evolution.
+replicators, variability and differential reproduction---and proposes
+that any system that has these elements displays similar
+behavior, including complexity without design.
+
+As another example of an evolutionary system, he proposes memes, which
+are thoughts or behaviors that are ``replicated'' by transmission from
+person to person.  As memes compete for the resource of human
+attention, they evolve in ways that are similar to genetic evolution.
 
 Critics of memetics have pointed out that memes are a poor analogy
 for genes.  Memes differ from genes in many obvious ways.  But
 Dawkins has argued that these differences are beside the point
 because memes are not {\em supposed} to be analogous to genes.
-Memes and genes are both supposed to be examples of the same
+Rather, memetics and genetics are examples of the same
 category---evolutionary systems.  The differences between them
 emphasize the real point, which is that evolution is a general model
 that applies to many seemingly disparate systems.
 
 Bak has made a similar argument that self-organized criticality is a
-general model for a broad category of systems.  According to the
+general model for a broad category of systems.  According to
 Wikipedia, ``SOC is typically observed in slowly-driven
 non-equilibrium systems with extended degrees of freedom and a high
 level of nonlinearity.''
@@ -4788,16 +4801,15 @@ exhibits SOC.  The second is to show that SOC is a feature of many
 diverse models, and to identify the essential characteristics
 those models have in common.
 
-The first approach, which I would characterize as reductionist,
+The first approach, which I characterize as reductionist,
 can explain the behavior of a particular system.  The
-second, holistic, approach, can explain the prevalence of
+second, holistic, approach, explains the prevalence of
 criticality in natural systems.  They are different models
 with different purposes.
 
 For reductionist models, realism is the primary virtue, and
 simplicity is secondary.  For holistic models, it is the other
 way around.
-
 
 \begin{ex}
 
@@ -4892,7 +4904,7 @@ or holist?
 
 If a stock market index drops by a small fraction of a percent in a
 day, there is no need for an explanation.  But if it drops 10\%,
-people want to know why.  Plenty of people
+people want to know why.  Pundits
 on television are willing to offer explanations, but the real
 answer may be that there is no explanation.
 
@@ -4955,16 +4967,14 @@ does self-organized criticality have for this theory?
 
 \chapter{Agent-based models}
 
-\section{Schelling}
-
+\section{Thomas Schelling}
 
 In 1971 Thomas Schelling published ``Dynamic Models of Segregation,''
-which proposes a simple model of racial segregation.
-The Schelling model is a grid; each cell in the grid represents
-a house.
-The houses are occupied by two kinds of ``agents,'' which I will label
-red and blue, in roughly equal numbers.  About 10\% of the houses are
-empty.
+which proposes a simple model of racial segregation.  The Schelling
+model of the world is a grid; each cell represents a
+house.  The houses are occupied by two kinds of ``agents,'' which I
+label red and blue, in roughly equal numbers.  About 10\% of the
+houses are empty.
 
 At any point in time, an agent might be happy or unhappy, depending
 on the other agents in the neighborhood.
@@ -4980,8 +4990,8 @@ random and moves.
 
 You might not be surprised to hear that this model leads to some
 segregation, but you might be surprised by the degree.  Fairly
-quickly, clusters of similar agents start to appear.  The clusters
-tend to grow and coalesce over time until there are a small number
+quickly, clusters of similar agents appear.  The clusters
+grow and coalesce over time until there are a small number
 of large clusters and most agents live in homogeneous
 neighborhoods.
 
@@ -4989,19 +4999,20 @@ If you did not know the process and only saw the result, you might
 assume that the agents were virulent racists, but in fact all of them
 would be perfectly happy in a mixed neighborhood.  Since they prefer
 not to be greatly outnumbered, they might be considered xenophobic at
-worst.  Of course, these agents are a wild oversimplification of real
+worst.  Of course, these agents are a wild simplification of real
 people, so it may not be appropriate to apply these descriptions at
 all.
 
 Racism is a complex human problem; it is hard to imagine that such a
-simple model could shed much light on it.
-And, in fact, Schelling's model does not make an affirmative
-argument about what causes segregation in real cities.  But it
-does provide a negative argument: if you observe
-segregation in a real city, you cannot conclude that the people
-in the city are racists.  Schelling's model is an existence
-proof that there is at least one alternative cause of segregation.
+simple model could shed light on it.  But in fact it provides a strong
+argument about the relationship between a system and its parts: if you
+observe segregation in a real city, you cannot conclude that
+individual racism is the immediate cause, or even that the people in
+the city are racists.
 
+But we have to keep in mind the limitations of this argument:
+Schelling's model demonstrates a possible cause of segregation, but
+says nothing about actual causes.
 
 \begin{ex}
 
