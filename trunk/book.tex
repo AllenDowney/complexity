@@ -3425,7 +3425,7 @@ Rule 0 always generates an empty pattern after one time step.
 Rule 50 is an example of Class 2.  It generates a simple pattern with
 nested structure; that is, the pattern contains many smaller versions
 of itself.  Rule 18 makes the nested structure even clearer; here is
-what it looks like after 64 timesteps:
+what it looks like after 64 steps:
 
 \beforefig
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule18.eps}}
@@ -4226,7 +4226,7 @@ strengths.
 If you generalize the Turing machine to two dimensions, or
 add a read-write head to a 2-D CA, the result is a
 cellular automaton called a Turmite.  It is named after a
-``termite'' because of the way the read-write head moves, but
+termite because of the way the read-write head moves, but
 spelled wrong as an homage to Turing. 
 
 The most famous Turmite is Langton's Ant, discovered by Chris Langton
@@ -4263,6 +4263,149 @@ Write an implementation of Langton's Ant.
 You can find a solution in {\tt TurmiteWorld.py}, which is
 part of Swampy.  See \url{http://thinkpython.com/swampy/}.
 
+\end{ex}
+
+
+
+
+\chapter{Fractals}
+
+To understand fractals, we have to start with dimensions.  The
+dimension of a space is the number of coordinates we need to specify a
+point in a space.  A number line takes one coordinate, a Euclidean
+plane takes 2, a solid takes 3, etc.  See
+\url{http://en.wikipedia.org/wiki/Dimension}.
+
+For simple geometric objects, dimension is defined in terms of scaling
+behavior; that is, how ``size'' depends on length, $l$.  For example,
+the area of a square is $l^2$; the exponent, 2, indicates that a
+square is 2-dimensional.  Similarly, the volume of a cube is $l^3$ and
+a cube is 3-dimensional.  A line has dimension 1 and, if we think of a
+point as infinitesimally small, it has dimension 0.
+
+{\bf Fractal dimension} is a more precise and more general extension
+of this definition.  There are several versions; the one I find
+easiest to understand and apply is the {\bf box-counting dimension},
+which is defined for a set, $S$, of points in a $d$-dimensional
+space.  See \url{http://en.wikipedia.org/wiki/Box-counting_dimension}.
+
+\newcommand{\veps}{\varepsilon}
+
+To compute the box-counting dimension, we divide the space into a grid
+where the size of each cell is $\veps$.  Then we count $N(\veps)$,
+the number of cells that contain at least one element of $S$.  As
+$\veps$ gets smaller, $N(\veps)$ gets bigger.  For many objects
+the relationship has the form:
+
+\[ N(\veps) \sim \left( 1 / \veps \right)^D \]
+
+The box counting dimension, $D_{box}$, is defined to be the exponent, $D$.
+Taking the log of both sides and rearranging yields:
+
+\[ D_{box} = \frac{log N(\veps)}{log \left( 1 / \veps \right)} \]
+
+More formally, $D_{box}$ is the limit of this ratio as $\veps$ goes
+to zero.
+
+
+\section{Fractal CAs}
+
+To investigate the behavior of fractal dimension, we'll apply it
+to cellular automata.  Box-counting for CAs is simple; we
+just count the number of ``on'' cells.
+
+As an example, consider Rule 254.  Here's what it looks like after
+$t=4$ time steps.
+
+\beforefig
+\centerline{\includegraphics[height=1.5in]{figs/fractal254.4.eps}}
+\afterfig
+
+And here's what it looks like after $t=8$ time steps:
+
+\beforefig
+\centerline{\includegraphics[height=1.5in]{figs/fractal254.8.eps}}
+\afterfig
+
+As $t$ increases, we can imagine the triangle getting bigger, 
+but for purposes of box-counting, it makes more sense to imagine
+the cells getting smaller.  In that case the size of the cells,
+$\veps$, is just $1/t$.
+
+After 1 time step, there is 1 black cell.  After 2 time steps, there
+are a total of 4, then 9, then 16, then 25.  As expected, the area
+of the triangle goes up quadratically.  More formally,
+$N(\veps) = \left( 1 / \veps \right)^2$, so $D_{box} = 2$.  And we conclude
+that a triangle is 2-dimensional.
+
+Rule 18 is more interesting.  Here's what it looks like after 64 steps:
+
+\beforefig
+\centerline{\includegraphics[height=1.5in]{figs/rule18.eps}}
+\afterfig
+
+And here's $N(\veps)$ versus $1/\veps$ on a log-log scale:
+
+\beforefig
+\centerline{\includegraphics[width=3.5in]{figs/fractal_dim18.64.eps}}
+\afterfig
+
+To estimate $D_{box}$ I fit a line to this curve; its slope is 1.56.
+$D_{box}$ is a non-integer, which means that this set of
+points is a {\bf fractal}.  As $t$ increases, the slope approaches
+$log 3 / log 2$, which is the fractal dimension of Sierpinski's
+triangle.  See \url{wikipedia.org/wiki/Sierpinski_triangle}.
+
+\begin{ex}
+
+Write a function that takes a CA object, plots $N(\veps)$ versus
+$1/\veps$, where $\veps = 1/t$, and estimates $D_{box} = 2$.
+
+Can you find other CAs with non-integer fractal dimensions?  Be
+careful, you might have to run the CA for a while before
+$D_{box}$ converges.
+
+Here are some functions from {\tt numpy} you might find useful:
+{\tt cumsum}, {\tt log}, and {\tt polyfit}.
+
+You can download my solution from \url{fractal.py}.
+
+\end{ex}
+
+
+\begin{ex}
+
+In 1990 Bak, Chen and Tang proposed a cellular automaton that is
+an abstract model of a forest fire.  Each cell is in one of three
+states: empty, occupied by a tree, or on fire.
+
+The rules of the CA are:
+
+\begin{enumerate}
+
+\item An empty cell becomes occupied with probability $p$.
+
+\item A cell with a tree burns if any of its neighbors
+  is on fire.
+
+\item A cell with a tree spontaneously burns, with
+  probability $f$, even if none of its neighbors is on fire.
+
+\item A cell with a burning tree becomes an empty cell in the next
+  time step.
+
+\end{enumerate}
+
+Read about this model at
+\url{http://en.wikipedia.org/wiki/Forest-fire_model} and write a program
+that implements it.  
+
+Starting from a random initial condition, run the CA until it reaches
+a steady state where the number of trees no longer increases or
+decreases consistently.
+
+What is the fractal dimension of the forest?
+ 
 \end{ex}
 
 
@@ -4352,7 +4495,10 @@ Figure 2(a).
 
 
 
+
 \chapter{Self-organized criticality}
+
+\section{Sand piles}
 
 In 1987 Bak, Tang and Wiesenfeld published a paper in Physical Review
 Letters, ``Self-organized criticality: an explanation of $1/f$ noise.''
@@ -4544,7 +4690,6 @@ You can make your code easier to read and more efficient
 by hoisting:
 
 \begin{equation}
-\label{dft}
 W = e^{2 \pi i / N}
 \end{equation}
 %
@@ -4661,39 +4806,6 @@ and estimate the slope.
 \end{ex}
 
 
-\section{Forest fire models}
-
-Original source?
-
-In 1992 Drossel and Schwabl proposed a cellular automaton that is
-an abstract model of a forest fire.  Each cell is in one of three
-states: empty, occupied by a tree, or on fire.
-
-The rules of the CA are:
-
-\begin{enumerate}
-
-\item An empty cell becomes occupied with probability $p$.
-
-\item A cell with a tree burns if any of its neighbors
-  is on fire.
-
-\item A cell with a tree spontaneously burns, with
-  probability $f$, even if none of its neighbors is on fire.
-
-\item A cell with a burning tree becomes an empty cell in the next
-  time step.
-
-\end{enumerate}
-
-\begin{ex}
-
-Implement this model...
-
-\end{ex}
-
-
-
 \begin{ex}
 
 In a 1989 paper, ``Self-organized criticality in the 'Game of Life',''
@@ -4741,16 +4853,13 @@ and their interactions.  When a reductionist model is used
 as an explanation, it depends on an analogy between the 
 components of the model and the components of the system.
 
-For example, to explain why the ideal gas law holds, we can
-model the molecules that make up a gas with
-point masses, and model their
-interactions as elastic collisions.
-If you simulate or analyze this model you find that it
-obeys the ideal gas law.
-This model is satisfactory to the degree that
-molecules in a gas behave like molecules in the model.
-The analogy is between the parts of the system and the parts of
-the model.
+For example, to explain why the ideal gas law holds, we can model the
+molecules that make up a gas with point masses, and model their
+interactions as elastic collisions.  If you simulate or analyze this
+model you find that it obeys the ideal gas law.  This model is
+satisfactory to the degree that molecules in a gas behave like
+molecules in the model.  The analogy is between the parts of the
+system and the parts of the model.
 
 Holistic models are more focused on similarities between systems and
 less interested in analogous parts.  A holistic approach to modeling
@@ -4861,39 +4970,6 @@ To support this argument, Mandelbrot points out:
 
 \end{itemize}
 
-In a few special cases we can compute the convolution of two
-distributions analytically.  For example, the convolution of
-two normal distributions is also normal.  But for most pairs
-of distributions there is no analytical solution.
-
-Here are some simple simulations you can do to explore the
-effect of convolution:
-
-\begin{enumerate}
-
-\item Use the functions in the {\tt random} module to generate values
-  from a variety of distributions.  For each pair of distributions,
-  $A$ and $B$, choose a value from each, $a$ and $b$, and compute the
-  empirical distribution of the sum.  Plot the distribution under
-  various transforms to test whether it can be characterized as more
-  like a uniform, exponential, Weibull, or Pareto distribution.
-
-\item The Central Limit Theorem says that if you choose a large number
-  of values from almost any distribution, the distribution of their
-  sum tends toward a normal distribution.  Test this theorem by
-  drawing samples from exponential, lognormal and Pareto
-  distributions, and see how large the number of values has to be
-  before the distribution of the sum looks, at least visually, like a
-  normal distribution.
-
-  You might consider using a normal probability plot, which you
-  can read about at \url{wikipedia.org/wiki/Normal_probability_plot}.
-  
-% that Wikipedia page is not very good; I should come back to this
-% and provide more info.
-
-\end{enumerate}
-
 Would you characterize Mandelbrot's argument as reductionist
 or holist?
 
@@ -4902,7 +4978,7 @@ or holist?
 
 \section{SOC, causation and prediction}
 
-If a stock market index drops by a small fraction of a percent in a
+If a stock market index drops by a fraction of a percent in a
 day, there is no need for an explanation.  But if it drops 10\%,
 people want to know why.  Pundits
 on television are willing to offer explanations, but the real
@@ -5350,442 +5426,6 @@ Implement it and see.
 \section{Emergence}
 
 
-
-\chapter{Stochastic modeling}
-
-\section{Monty Hall}
-
-The Monty Hall problem might be the most contentious question in
-the history of probability.  The problem is simple, but the correct
-answer is so counterintuitive that many people just can't accept
-it, and many smart people have embarrassed themselves not just by
-getting it wrong but by arguing the wrong side, aggressively,
-in public.
-
-Monty Hall was the original host of the game show {\em Let's Make a
-Deal}.  The Monty Hall problem is based on one of the regular
-games on the show.  If you were on the show, here's what
-happens:
-
-\begin{itemize}
-
-\item Monty shows you three closed doors and tells you that there is a
-  prize behind each door: one prize is a car, the other two are less
-  valuable prizes like peanut butter and fake finger nails.  The
-  prizes are arranged at random.
-
-\item The object of the game is to guess which door has the car.  If
-  you guess right, you get to keep the car.
-
-\item So you pick a door, which we will call Door A.  We'll call the
-  other doors B and C.
-
-\item Before opening the door you chose, Monty likes to increase the
-  suspense by opening either Door B or C, whichever does not
-  have the car.  (If the car is actually behind Door A, Monty can
-  safely open B or C, so he chooses one at random).
-
-\item Then Monty offers you the option to stick with your original
-  choice or switch to the one remaining unopened door.
-
-\end{itemize}
-
-The question is, should you ``stick'' or ``switch'' or does it
-make no difference?
-
-Most people have the very strong intuition that it makes no difference.
-There are two doors left, they reason, so the chance that the car
-is behind Door A is 50\%.
-
-But that is wrong.  In fact, the chance of winning if you stick
-with Door A is only 1/3; if you switch, your chances are 2/3.
-I will explain why, but I don't expect you to believe me.
-
-The key is to realize that there are three possible scenarios:
-the car is either behind Door A, B or C.  Since the prizes are
-arranged at random, the probability of each scenario is 1/3.
-
-If your strategy is to stick with Door A, then you will only
-win in Scenario A, which has probability 1/3.
-
-If your strategy is to switch, you will win in either Scenario
-B or Scenario C, so the total probability of winning is 2/3.
-
-If you are not completely convinced by this argument, you are
-in good company.  When a friend presented this solution to
-Paul \Erdos, he replied, ``No, that is impossible.  It should
-make no difference.\footnote{See Hoffman, {\em The Man Who Loved
-Only Numbers}, page 83.}''
-
-No amount of argument could convince him.  In the end, it took
-a computer simulation to bring him around.
-
-\begin{ex}
-
-Write a program that simulates the Monty Hall problem and use
-it to estimate the probability of winning if you stick, and if
-you switch.
-
-Then read the discussion of the problem at
-\url{wikipedia.org/wiki/Monty_Hall_problem}.
-
-Which do you find more convincing, the simulation or the arguments,
-and why?
-
-\end{ex}
-
-
-\begin{ex}
-
-To understand the Monty Hall problem, it is important to realize
-that by deciding which door to open, Monty is giving you information.
-To see why this matters, imagine the case where Monty doesn't
-know where the prizes are, so he chooses Door B or C at random.
-
-Assuming that Monty gets lucky and doesn't open the door with the
-car, are you better off switching or sticking?
-
-\end{ex}
-
-
-\begin{ex}
-
-The following questions\footnote{Adapted from
-  Mlodinow, {\em The Drunkard's Walk}.} are similar to the Monty Hall
-  problem---they are easy to get wrong, but also easy
-  to simulate:
-
-\begin{enumerate}
-
-\item If a family has two children, what is the chance that they
-  have two girls?
-
-\item If a family has two children and we know that one of them is a
-  girl, what is the chance that they have two girls?
-
-\item If a family has two children and we know that the older one is a
-  girl, what is the chance that they have two girls?
-
-\item If a family has two children and we know that at least one of
-  them is a girl named Florida, what is the chance that they have
-  two girls?
-
-\end{enumerate}
-
-You can use the assumptions that the probability that any child
-is a girl is 50\%, and that the percentage of girls named
-Florida is small.
-
-\end{ex}
-
-
-\newcommand{\Poincare}{Poincar\'{e}}
-
-\section{\Poincare}
-
-Henri \Poincare~ was a French mathematician who taught at the
-Sorbonne from 1881 until his death in 1912.  The following
-anecdote about him is probably apocryphal, but it makes
-an interesting probability problem.
-
-Supposedly \Poincare~ suspected that his local bakery was
-selling loaves of bread that were lighter than the advertised
-weight of 1 kg, so every day for a year he bought a loaf of
-bread, brought it home and weighed it.  At the end of the
-year, he plotted the distribution of his measurements and
-showed that it fit a normal distribution with mean 950 g and
-standard deviation 50 g.  He brought this evidence to
-the bread police, who gave the baker a warning.
-
-For the next year, \Poincare~ continued the practice of weighing his
-bread every day.  At the end of the year, he found that the average
-weight was 1000 g, just as it should be, but again he complained to
-the bread police, and this time they fined the baker.
-
-Why?  Because the shape of the distribution was asymmetric.  Unlike
-the normal distribution, it was skewed to the right, which is
-consistent with the hypothesis that the baker was still making 950 g
-loaves, but deliberately giving \Poincare~ the heavier ones.
-
-
-\begin{ex}
-
-Write a program that simulates a baker who chooses $n$ loaves from a
-distribution with mean 950 g and standard deviation 50 g, and gives
-the heaviest one to \Poincare.  What value of $n$ yields a
-distribution with mean 1000 g?  What is the standard deviation?
-
-Compare this distribution to a normal distribution with the same mean
-and the same standard deviation.  Is the difference in the shape of
-the distribution big enough to convince the bread police?
-
-\end{ex}
-
-
-\begin{ex}
-
-If you go to a dance where partners are paired up randomly,
-what percentage of (opposite sex) couples will you see where
-the woman is taller than the man?
-
-You might have to look around to get the average and standard
-deviation of height for men and women.
-
-\end{ex}
-
-
-\section{Streaks and hot spots}
-
-People do not have very good intuition for random processes.
-If you ask people to generate ``random'' numbers,
-they tend to generate sequences that are random-looking, but
-actually more ordered than real random sequences.  Conversely,
-if you show them a real random sequence, they tend to see
-patterns where there are none.
-
-A classic example of the second phenomenon is the prevalence
-of belief in ``streaks'' in sports: a player that has been
-successful recently is said to have a ``hot hand;'' a player
-that has been unsuccessful is ``in a slump.''
-
-Statisticians have tested these hypotheses in a number of sports, and
-the consistent result is that there is no such thing as a
-streak\footnote{For example, see Gilovich, Vallone and Tversky, ``The
-  hot hand in basketball: On the misperception of random sequences,''
-  1985.}.  If you assume that each attempt is independent of previous
-attempts, you will see occasional long strings of successes or
-failures.  These apparent streaks are not sufficient evidence that
-there is any correlation between successive attempts.
-
-A related phenomenon is the clustering illusion, which is the
-tendency to see clusters in spatial patterns that are actually
-random (see \url{wikipedia.org/wiki/Clustering_illusion}).
-Monte Carlo simulations are a useful way to test whether an apparent
-cluster is likely to be meaningful.
-
-\begin{ex}
-
-If there are 10 players in a basketball game and each one takes
-15 shots during the course of the game, and each shot has a
-50\% probability of going in, what is the probability that 
-you will see, in a given game, at least one player who
-hits 10 shots in a row?  If you watch a season of 82 games,
-what are the chances you will see at least one streak of
-10 hits or misses?
-
-This problem demonstrates some strengths and weaknesses of Monte
-Carlo simulation.  A strength is that it is often easy and fast
-to write a simulation, and no great knowledge of probability is
-required.  A weakness is that estimating the probability of
-rare events can take a long time!  A little bit of analysis can
-save a lot of computing.
-
-\end{ex}
-
-
-\begin{ex}
-
-A cancer cluster is defined by the Centers for Disease Control (CDC)
-as ``greater-than-expected number of cancer cases that occurs within a
-group of people in a geographic area over a period of
-time.\footnote{From \url{cdc.gov/nceh/clusters/about.htm}.}''
-
-Many people interpret a cancer cluster as evidence of an environmental
-hazard, but many scientists and statisticians think that investigating
-cancer clusters is a waste of time\footnote{See Gawande, ``The Cancer
-  Cluster Myth,'' {\em New Yorker}, Feb 8, 1997.}.  Why?  One reason
-(among several) is that identifying cancer clusters is a classic case
-of the Sharpshooter Fallacy (see
-\url{wikipedia.org/wiki/Texas_sharpshooter_fallacy}).
-
-Nevertheless, when someone reports a cancer cluster, the CDC is
-obligated to investigate.  According to their web page:
-
-\begin{quote}
-
-``Investigators develop a `case' definition, a time period of concern,
-  and the population at risk. They then calculate the expected number
-  of cases and compare them to the observed number. A cluster is
-  confirmed when the observed/expected ratio is greater than 1.0, and
-  the difference is statistically significant.''
-
-\end{quote}
-
-\begin{enumerate}
-
-\item Suppose that a particular cancer has an incidence of 1 case
-per thousand people per year.  If you follow a particular cohort
-of 100 people for 10 years, you would expect to see about 1 case.
-If you saw two cases, that would not be very surprising, but more
-than than two would be rare.  
-
-Write a program that simulates a large number of cohorts over
-a 10 year period and estimate the distribution of total cases.
-
-\item An observation is considered statistically significant if its
-  probability by chance alone, called a $p$-value, is less than 5\%.
-  In a cohort of 100 people over 10 years, how many cases would you
-  have to see to meet this criterion?
-
-\item Now imagine that you divide a population of 10000 people into 100
-  cohorts and follow them for 10 years.  What is the chance that at
-  least one of the cohorts will have a ``statistically significant''
-  cluster?  What if we require a $p$-value of 1\%.?
-
-\item Now imagine that you arrange 10000 people in a 100 $\times$ 100
-  grid and follow them for 10 years.  What is the chance that there
-  will be at least one 10 $\times$ 10 block anywhere in the grid
-  with a statistically significant cluster?
-
-\item Finally, imagine that you follow a grid of 10000 people for 30
-  years.  What is the chance that there will be a 10-year interval
-  at some point with a 10 $\times$ 10 block anywhere in the grid
-  with a statistically significant cluster?
-
-\end{enumerate}
-
-
-
-\end{ex}
-
-
-\begin{ex}
-
-In 1941 Joe DiMaggio got at least one hit
-in 56 consecutive games\footnote{See
-  \url{wikipedia.org/wiki/Hitting_streak}.}.  Many baseball fans
-consider this streak the greatest achievement in any sport in history,
-because it was so unlikely.
-
-Use a Monte Carlo simulation to estimate the probability that
-any player in major league baseball will have a hitting streak
-of 57 or more games in the next century.
-
-\end{ex}
-
-
-
-\section{Bayes' theorem}
-
-Bayes' theorem is a relationship between the conditional probabilities
-of two events.  A conditional probability, often written $P(A|B)$ is
-the probability that Event A will occur given that we know that
-Event B has occurred.  Bayes' theorem states:
-
-\[ P(A|B) = \frac{P(B|A)P(A)}{P(B)} \]
-
-To see that this is true, it helps to write $P(A and B)$, which
-is the probability that A and B occur
-
-\[ P(A and B) = P(A) P(B|A) \]
-
-But it is also true that 
- 
-\[ P(A and B) = P(B) P(A|B) \]
-
-So
-
-\[ P(B) P(A|B) = P(A) P(B|A) \]
-
-Dividing through by $P(B)$ yields Bayes' theorem.
-
-Bayes' theorem is often interpreted as a statement about 
-how a body of evidence, $E$, affects the probability of a 
-hypothesis, $H$:
-
-\[ P(H|E) = P(H) \frac{P(E|H)}{P(E)} \]
-
-In word, this equation says that the probability of $H$
-after you have seen $E$ is the product of $P(H)$, which
-is the probability of $H$ before you saw the evidence,
-and the ratio of $P(E|H)$, the probability of seeing the
-evidence assuming that $H$ is true, and 
-$P(E)$, the probability of seeing the evidence under
-any circumstances ($H$ true or not).
-
-This way of reading Bayes' theorem is called the ``diachronic''
-interpretation because it describes how the probability
-of a hypothesis gets updated over time in light of
-new evidence.  In this context, $P(H)$ is called the
-{\bf prior} probability and $P(H|E)$ is called the
-{\bf posterior}.  The update term $P(E|H)/P(E)$ is called
-the {\bf likelihood ratio}.
-
-A classic use of Bayes' Theorem is the interpretation of clinical
-tests.  For example, routine testing for illegal drug use is
-increasingly common in workplaces and schools (See
-\url{aclu.org/drugpolicy/testing/index.html}.).  The companies that
-perform these tests maintain that the tests are
-sensitive, which means that they are likely to produce a positive
-result if there are drugs in a sample, and specific, which
-means that they are likely to yield a negative result if
-there are no drugs.
-
-Studies from the Journal of the American Medical
-Association\footnote{I got these number from Gleason and Barnum,
-  ``Predictive Probabilities In Employee Drug-Testing,'' at
-  \url{piercelaw.edu/risk/vol2/winter/gleason.htm}.} to estimate that
-the sensitivity of common drug tests is about 60\% and the specificity
-is about 99\%.
-
-Now suppose these tests are applied to a workforce where the
-actual rate of drug use is 5\%.  Of the employees who test positive,
-how many of them actually use drugs?
-
-In Bayesian terms, we want to compute the probability of
-drug use given a positive test, $P(D|+)$.  By Bayes' Theorem:
-
-\[ P(D|+) = P(D) \frac{P(+|D)}{P(+)} \]
-
-The prior, $P(D)$ is the probability of drug use before we
-see the outcome of the test, which is 5\%.
-The numerator of the likelihood ratio, $P(+|D)$, is the probability
-of a positive test assuming drug use, which is the sensitivity.
-
-The denominator, $P(+)$ is a little harder to evaluate.  We have to
-consider two possibilities, $P(+|D)$ and $P(+|N)$, where $N$ is the
-hypothesis that the subject of the test does not use drugs:
-
-\[ P(+) = P(D) P(+|D) + P(N) P(+|N) \]
-
-The probability of a false positive, $P(+|N)$, is the complement
-of the specificity, or 1\%.
-
-Putting it together, we have
-
-\[ P(D|+) = \frac{P(D) P(+|D)}{P(D) P(+|D) + P(N) P(+|N)}\]
-
-Plugging in the given values yields $P(D|+) = 0.76$, which means
-that of the people who test positive, about 1 in 4 is innocent. 
-
-\begin{ex}
-
-Write a program that takes the actual rate of drug use, and the
-sensitivity and specificity of the test, and uses Bayes' Theorem
-to compute $P(D|+)$.
-
-Suppose the same test is applied to a population where the actual
-rate of drug use is 1\%.  What is the probability that someone
-who tests positive is actually a drug user?
-
-\end{ex}
-
-
-\begin{ex}
-
-This exercise is from \url{wikipedia.org/wiki/Bayesian_inference}.
-
-\begin{quote}
-
-``Suppose there are two full bowls of cookies. Bowl 1 has 10 chocolate
-  chip and 30 plain cookies, while Bowl 2 has 20 of each. Our friend
-  Fred picks a bowl at random, and then picks a cookie at random. The
-  cookie turns out to be a plain one. How probable is it that Fred
-  picked it out of Bowl 1?''
-
-\end{quote}
-
-\end{ex}
 
 
 
