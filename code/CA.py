@@ -110,37 +110,3 @@ def print_table(table):
     print '\\end{tabular}}'
 
 
-def main(script, rule=30, n=100, *args):
-    import CADrawer
-
-    rule = int(rule)
-    n = int(n)
-
-    ca = CA(rule, n)
-
-    if 'random' in args:
-        ca.start_random()
-    else:
-        ca.start_single()
-
-    ca.loop(n-1)
-
-    if 'eps' in args:
-        drawer = CADrawer.EPSDrawer()
-    elif 'pil' in args:
-        drawer = CADrawer.PILDrawer()
-    else:
-        drawer = CADrawer.PyLabDrawer()
-
-    if 'trim' in args:
-        drawer.draw(ca, start=n/2, end=3*n/2+1)
-    else:
-        drawer.draw(ca)
-
-    drawer.show()
-    drawer.save()
-
-
-if __name__ == '__main__':
-    import sys
-    main(*sys.argv)
