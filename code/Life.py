@@ -14,45 +14,14 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as pyplot
 
-import fractal
 
-
-def vfunc(con, rand, p=0.05, f=0.005):
-    """Computes an update in the forest fire model.
-
-    con: an element from the convolution array
-    rand: an element from a random array
-
-    The output is 0 for an empty cell, 1 for a tree, and 10 for
-    a burning tree.
-    """
-    # tree + neighbor on fire = burning
-    if con >= 110:
-        return 10
-
-    # no tree, check for a new tree
-    if con < 100:
-        if rand < p:
-            return 1
-        else:
-            return 0
-    
-    # otherwise, tree + no neighbor on fire, check spark
-    if rand < f:
-        return 10
-    else:
-        return 1
-
-update_func = numpy.vectorize(vfunc, [numpy.int8])
-
-
-class Forest(object):
-    """Implements the Bak-Chen-Tang forest fire model.
+class Life(object):
+    """Implements Conway's Game of Life.
 
     n:     the number of rows and columns
     """
 
-    def __init__(self, n, mode='wrap'):
+    def __init__(self, n, mode='wrap', random=False):
         """Attributes:
         n:      number of rows and columns
         mode:   how border conditions are handled
@@ -61,10 +30,19 @@ class Forest(object):
         """
         self.n = n
         self.mode = mode
-        self.array = numpy.zeros((n, n), numpy.int8)
+        if random:
+            self.array = numpy.random.random_integers(0, 1, (n, n))
+        else:
+            self.array = numpy.zeros((n, n), numpy.int8)
+
         self.weights = numpy.array([[1,1,1],
-                                    [1,100,1],
+                                    [1,10,1],
                                     [1,1,1]])
+
+    def add_glider(self, x=0, y=0):
+        coords = [(0,1), (1,2), (2,0), (2,1), (2,2)]
+        for i, j in coords:
+            self.array[x+i, y+j] = 1
 
     def loop(self, steps=1):
         """Executes the given number of time steps."""
@@ -75,26 +53,19 @@ class Forest(object):
         con = scipy.ndimage.filters.convolve(self.array, 
                                              self.weights,
                                              mode=self.mode)
-        rand = numpy.random.rand(self.n, self.n)
-        self.array = update_func(con, rand)
 
-    def count(self):
-        data = []
-        a = numpy.int8(self.array == 1)
-        for i in range(self.n):
-            total = numpy.sum(a[:i, :i])
-            data.append((i+1, total))
-        return zip(*data)
+        boolean = (con==3) | (con==12) | (con==13)
+        self.array = numpy.int8(boolean)
 
 
-class ForestViewer(object):
-    """Generates an animated view of the forest."""
-    def __init__(self, forest, cmap=matplotlib.cm.gray_r):
-        self.forest = forest
+class LifeViewer(object):
+    """Generates an animated view of the grid."""
+    def __init__(self, life, cmap=matplotlib.cm.gray_r):
+        self.life = life
         self.cmap = cmap
 
         self.fig = pyplot.figure()
-        pyplot.axis([0, forest.n, 0, forest.n])
+        pyplot.axis([0, life.n, 0, life.n])
         pyplot.xticks([])
         pyplot.yticks([])
 
@@ -102,12 +73,12 @@ class ForestViewer(object):
         self.update()
 
     def update(self):
-        """Updates the display with the state of the forest."""
+        """Updates the display with the state of the grid."""
         if self.pcolor:
             self.pcolor.remove()
 
-        a = self.forest.array
-        self.pcolor = pyplot.pcolor(a, vmax=10, cmap=self.cmap)
+        a = self.life.array
+        self.pcolor = pyplot.pcolor(a, cmap=self.cmap)
         self.fig.canvas.draw()
 
     def animate(self, steps=10):
@@ -122,25 +93,18 @@ class ForestViewer(object):
     def animate_callback(self):
         """Runs the animation."""
         for i in range(self.steps):
-            self.forest.step()
+            self.life.step()
             self.update()
 
 
-def main(script, n=50, steps=50, *args):
+def main(script, n=20, *args):
 
     n = int(n)
-    steps = int(steps)
 
-    forest = Forest(n)
-
-    for i in range(steps):
-        forest.step()
-        xs, ys = forest.count()
-
-        slope, inter = fractal.fit_loglog(xs, ys, n/4)
-        print i+1, slope
-
-    fractal.plot_loglog(xs, ys)    
+    life = Life(n, random=False)
+    life.add_glider()
+    viewer = LifeViewer(life)
+    viewer.animate(steps=100)
 
 
 if __name__ == '__main__':

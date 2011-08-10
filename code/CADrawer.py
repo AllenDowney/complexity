@@ -57,7 +57,7 @@ class PyplotDrawer(Drawer):
     """Implementation of Drawer using matplotlib."""
 
     def __init__(self):
-        # we only need to import these modules if a PyplotDrawer
+        # we only need to import pyplot if a PyplotDrawer
         # gets instantiated
         global pyplot
         import matplotlib.pyplot as pyplot
@@ -69,7 +69,7 @@ class PyplotDrawer(Drawer):
         rows, cols = a.shape
 
         # flipud puts the first row at the top; 
-        # negating it makes the non-zero cells black."""
+        # negating it makes the non-zero cells black.
         pyplot.pcolor(-numpy.flipud(a))
         pyplot.axis([0, cols, 0, rows])
 

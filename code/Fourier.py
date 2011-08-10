@@ -1,10 +1,22 @@
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
+
+http://greenteapress.com/complexity
+
+Copyright 2011 Allen B. Downey.
+Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+"""
+
 # importing cmath makes exp and other math functions handle
 # complex numbers
 from cmath import *
 
+import numpy
+import matplotlib.pyplot as pyplot
+
 
 def fft(h):
-    """compute the discrete Fourier transform of the sequence h.
+    """Computes the discrete Fourier transform of the sequence h.
     Assumes that len(h) is a power of two.
     """
     N = len(h)
@@ -23,36 +35,38 @@ def fft(h):
     H = [e + w*o for w, e, o in zip(ws, He+He, Ho+Ho)]
     return H
 
-if __name__ == '__main__':
+def psd(H, N):
+    p = [Hn * Hn.conjugate() for Hn in H]
+    freqs = range(N/2 + 1)
+    p = [p[f].real for f in freqs]
+    return freqs, p
 
+def main(script, use_numpy=False):
     # make a signal with two sine components, f=6 and f=12
     N = 128
     t = [1.0*n/N for n in range(N)]
     h = [sin(2*pi*6*tn) + sin(2*pi*12*tn) for tn in t]
 
     # compute the Fourier transform
-    H = fft(h)
+    if use_numpy:
+        H = numpy.fft.fft(h)
+    else:
+        H = fft(h)
 
-    # print the power spectral density
-    sdf = [Hn * Hn.conjugate() for Hn in H]
-    freq = range(N/2 + 1)
-    for f in freq:
-        print '%d  %.3f' % (f, sdf[f].real)
+    # compute the power spectral density
+    freqs, p = psd(H, N)
 
-
-    try:
-        from pylab import *
-    except:
-        "no pylab, no plot"
-        sys.exit()
-
-    sdf = [sdf[f].real for f in freq]
-    bar(freq, sdf)
-    xlabel('frequency')
-    ylabel('amplitude')
-    show()
+    # plot the real part
+    pyplot.bar(freqs, p)
+    pyplot.xlabel('frequency')
+    pyplot.ylabel('amplitude')
+    pyplot.show()
 
     # estimate the power spectral density by Welches average
     # periodogram method using the psd function provided by pylab.
-    psd(h)
-    show()
+    pyplot.show()
+
+if __name__ == '__main__':
+    import sys
+    main(*sys.argv)
+
