@@ -26,7 +26,7 @@ def fit_loglog(xs, ys, start=0):
     return coefs
 
 
-def plot_loglog(ts, ys, rule, n):
+def plot_loglog(ts, ys, filename=None):
     """Makes a log-log plot showing number of boxes vs 1/epsilon,
     where epsilon is the size of the boxes.
 
@@ -40,8 +40,10 @@ def plot_loglog(ts, ys, rule, n):
     pyplot.xlabel(r'$1/\varepsilon$')
     pyplot.ylabel(r'$N(\varepsilon)$')
     
-    filename = 'fractal_dim%d.%d.eps' % (rule, n)
-    pyplot.savefig(filename)
+    if filename:
+        pyplot.savefig(filename)
+    else:
+        pyplot.show()
 
 
 def count(ca):
@@ -54,12 +56,10 @@ def count(ca):
     return ts, ys
 
 
-def save_ca(ca, rule, n):
+def save_ca(ca, filename):
     """Draws the CA and saves it in an EPS file."""
     drawer = CADrawer.EPSDrawer()
     drawer.draw(ca)
-
-    filename = 'fractal%d.%d.eps' % (rule, n)
     drawer.save(filename)
 
 
@@ -71,11 +71,13 @@ def fractal_dimension(rule=18, n=512, save=False):
     ca.loop(n-1)
 
     if save:
+        filename = 'fractal%d.%d.eps' % (rule, n)
         save_ca(ca, rule, n)
 
     ts, ys = count(ca)
     if save:
-        plot_loglog(ts, ys, rule, n)
+        filename = 'fractal_dim%d.%d.eps' % (rule, n)
+        plot_loglog(ts, ys, filename)
 
     slope, inter = fit_loglog(ts, ys, n/2)
     return slope
