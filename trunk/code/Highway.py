@@ -104,6 +104,7 @@ class Driver(Turtle):
 
         self.speed_limit = 4
         self.speed = random.randrange(0, self.speed_limit)
+        self.safe_distance = 30
 
         self.heading = self.world.lane_heading()
         self.next = None
@@ -128,18 +129,19 @@ class Driver(Turtle):
         self.accelerate(-change)
 
     def step(self):
-        """Checks the distance to the next driver, adjusts speed, and moves."""
+        """Checks the distance to the next driver, adjusts speed, and moves.
+        
+        This function enforces the rules for all drivers.
+        
+        Driver decision-making is in choose_acceleration().
+        """
         dist = self.find_distance()
 
-        # get acceleration, add some randomness
+        # get acceleration
         change = self.choose_acceleration(dist)
-
-        # Turtles have limited acceleration
-        if change > 2:
-            change = 2
         self.accelerate(change)
 
-        # if the current speed would cause a collision, jam on the brakes
+        # if the resulting speed would cause a collision, jam on the brakes
         if self.speed > dist:
             self.speed = 0
 
@@ -159,7 +161,7 @@ class Driver(Turtle):
 
     def choose_acceleration(self, dist):
         """Adjusts the speed of the Driver."""
-        if dist < 30:
+        if dist < self.safe_distance:
             return -1
         else:
             return 0.3
