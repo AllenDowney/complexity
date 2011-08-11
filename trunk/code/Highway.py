@@ -1,12 +1,10 @@
+""" Code example from Complexity and Computation, a book about
+exploring complexity science with Python.  Available free from
 
-"""
+http://greenteapress.com/complexity
 
-Code example from _Computational_Modeling_
-http://greenteapress.com/compmod
-
-Copyright 2008 Allen B. Downey.
+Copyright 2011 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
-
 """
 
 import math
@@ -16,84 +14,105 @@ from TurtleWorld import TurtleWorld, Turtle
 import color_list
 
 
-def ReadColors():
-    """Reads color names from rgb.txt (which is where Tk gets them).
-
-    Returns:
-        list of strings
-    """
-    colors, rgbs = color_list.read_colors()
-    names = colors.keys()
-
-    # for some reason DebianRed causes an error
-    names.remove('DebianRed')
-    return names
-
-
 class Highway(TurtleWorld):
-    """A TurtleWorld with a one-dimensional lane that spirals down the canvas.
+    """A circular Highway with one lane that spirals down the canvas.
     
-    Each Turtle has a position
-    attribute, which gets projected onto the canvas by Highway.project.
-    (rows) is the number of rows that spiral down the canvas.
+    Attributes:
+
+    rows: the number of rows that spiral down the canvas.
+    delay: time between steps in seconds
+    colors: list of RGB strings
     """
     def __init__(self):
         TurtleWorld.__init__(self)
-        self.rows = 5.0
+        self.rows = 2.0
         self.delay = 0.01
-        self.colors = ReadColors()
+        self.colors = color_list.make_color_dict().values()
 
-    def get_colors(self):
-        return self.colors
+    def random_color(self):
+        """Returns a random RGB string in #RRGGBB format."""
+        return random.choice(self.colors)
 
     def get_length(self):
-        """Return the total length of this highway."""
+        """Returns the total length of this highway."""
         return self.ca_width * self.rows
 
     def project(self, turtle):
-        """Project (turtle) onto the highway.
+        """Project the turtle onto the highway.
 
-        Maps position onto the canvas and setting its x and y attributes"""
+        Reads the Turtle's position position and returns its
+        x,y coordinates.
+        """
         p = 1.0 * turtle.position % self.get_length()
-        turtle.x = p % self.ca_width
-        turtle.y = p / self.ca_width * self.ca_height / self.rows
+        x = p % self.ca_width
+        y = p / self.ca_width * self.ca_height / self.rows
+        return x, y
 
-    def align(self, turtle):
-        """Aligns the turtle so it faces along the lane."""
+    def lane_heading(self):
+        """Returns the heading that aligns the turtle with the lane."""
         x = self.ca_width
         y = 1.0 * self.ca_height / self.rows
         angle = math.atan2(y, x)
-        turtle.heading = angle * 180 / math.pi
+        heading = angle * 180 / math.pi
+        return heading
 
     def step(self):
+        """Performs one time step."""
         TurtleWorld.step(self)
         
+        # compute average turtle speed
         total = 0.0
         for turtle in self.animals:
             total += turtle.speed
 
         print total / len(self.animals)
 
+    def make_drivers(self, n, constructor):
+        """Make drivers at random positions.
+
+        Args:
+            n: number of Drivers
+            constructor: function that returns a Driver
+
+        Returns:
+            a list of Drivers.
+        """
+        t = []
+        for i in range(n):
+            turtle = constructor(self)
+            t.append((turtle.position, turtle))
+
+        # link up the drivers so each has an attribute (next) that
+        # refers to the driver in front
+        t.sort()
+        turtles = [t[1] for t in t]
+        for i in range(n-1):
+            turtles[i].next = turtles[i+1]
+        turtles[-1].next = turtles[0]
+
+        return turtles
+
 
 class Driver(Turtle):
     """A Turtle with a random position, speed and color."""
+
     def __init__(self, *args, **kwds):
         Turtle.__init__(self, *args, **kwds)
         self.delay = 0
+        self.color = self.world.random_color()
         self.position = random.randrange(0, self.world.get_length())
 
-        self.speed_limit = 10
-        self.speed = random.randrange(5,10)
+        self.speed_limit = 4
+        self.speed = random.randrange(0, self.speed_limit)
 
-        colors = self.world.get_colors()
-        self.color = random.choice(colors)
-
-        self.world.align(self)
-        self.world.project(self)
+        self.heading = self.world.lane_heading()
+        self.next = None
+        self.project()
         self.redraw()
 
-    def get_speed(self):
-        return self.speed
+    def project(self):
+        """Sets x and y according to position."""
+        self.x, self.y = self.world.project(self)
 
     def accelerate(self, change):
         """Speeds up the Turtle by the given amount, within bounds."""
@@ -110,10 +129,10 @@ class Driver(Turtle):
 
     def step(self):
         """Checks the distance to the next driver, adjusts speed, and moves."""
-        dist = find_distance(self)
+        dist = self.find_distance()
 
         # get acceleration, add some randomness
-        change = get_acceleration(self, dist)
+        change = self.choose_acceleration(dist)
 
         # Turtles have limited acceleration
         if change > 2:
@@ -126,48 +145,26 @@ class Driver(Turtle):
 
         # move
         self.position += self.speed
-
-        # redraw
-        self.world.project(self)
+        self.project()
         self.redraw()
 
+    def find_distance(self):
+        """Finds the distance between this Turtle and the next."""
+        dist = self.next.position - self.position
 
-def find_distance(turtle):
-    """Finds the distance between this Turtle and the next."""
-    dist = turtle.next.position - turtle.position
+        # deal with wrap-around
+        if dist < 0:
+            dist += self.world.get_length()
+        return dist
 
-    # deal with wrap-around
-    if dist < 0:
-        dist += turtle.world.get_length()
-    return dist
+    def choose_acceleration(self, dist):
+        """Adjusts the speed of the Driver."""
+        if dist < 30:
+            return -1
+        else:
+            return 0.3
 
-
-def make_drivers(n, driver=Driver):
-    """Make drivers at random positions.
-
-    Args:
-        n: number of Drivers
-        driver: constructor
-
-    Returns:
-        a list of Drivers.
-    """
-    t = []
-    for i in range(n):
-        turtle = driver()
-        t.append((turtle.position, turtle))
-
-    # link up the drivers so each has an attribute (next) that
-    # refers to the driver in front
-    t.sort()
-    turtles = [t[1] for t in t]
-    for i in range(n-1):
-        turtles[i].next = turtles[i+1]
-    turtles[-1].next = turtles[0]
-
-    return turtles
-
-
+    
 def make_highway(n, driver=Driver):
     """Make the highway and drivers, then run the simulation.
 
@@ -180,21 +177,17 @@ def make_highway(n, driver=Driver):
     world = Highway()
     world.canvas.clear_transforms()
     world.setup_run()
-    
+
     # create (n) drivers
-    make_drivers(n, driver)
+    world.make_drivers(n, driver)
 
     # start the simulation, then wait for user events
+    print len(world.animals)
     world.run()
     world.mainloop()
 
 
-def get_acceleration(turtle, dist):
-    """Adjusts the speed of the Driver."""
-    return 1
-
-    
-def main(script, n=100):
+def main(script, n=50):
     n = int(n)
     make_highway(n)
 
