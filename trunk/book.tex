@@ -50,8 +50,9 @@
 \usepackage{hevea}
 \usepackage{upquote}
 
+
 \newcommand{\thetitle}{Complexity and Computation}
-\newcommand{\theversion}{0.9.4}
+\newcommand{\theversion}{0.9.5}
 
 % these styles get translated in CSS for the HTML version
 \newstyle{a:link}{color:purple;}
@@ -3901,7 +3902,7 @@ obscures the difference between the essential features that cause O
 and the incidental features that are particular to S.
 
 
-\chapter{Games of Life}
+\chapter{Game of Life}
 
 One of the first cellular automata to be studied, and probably the
 most popular of all time, is a 2-D CA called ``The Game of Life,'' or GoL
@@ -3941,7 +3942,7 @@ This behavior is loosely analogous to real cell growth: cells
 that are isolated or overcrowded die; at moderate densities they
 flourish.
 
-GoL is popular because
+GoL is popular because:
 
 \begin{itemize}
 
@@ -3967,31 +3968,153 @@ using a checkerboard.
 \end{itemize}
 
 
+\section{Implementing Life}
+
+To implement GoL efficiently, we can take advantage of the
+multi-dimensional convolution function in SciPy.  SciPy is a Python
+package that provides functions related to scientific computing
+You can read about it at \url{http://www.scipy.org/}; if it is not
+already on your system, you might have to install it.
+
+{\bf Convolution} is an operation common in digital image processing,
+where an image is an array of pixels, and many operations involve
+computing a function of a pixel and its neighbors.
+
+The neighborhood is described by a smaller array, called a {\bf kernel}
+that specifies the location and {\bf weight} of the neighbors.  For
+example, this array:
+
+\begin{verbatim}
+    kernel = numpy.array([[1,1,1],
+                          [1,0,1],
+                          [1,1,1]])
+\end{verbatim}
+
+represents a neighborhood with eight neighbors, all with weight 1.
+
+Convolution computes the weighted sum of the neighbors for each
+element of the array.  So this kernel computes the sum of the
+neighbors (not including the center element).  
+
+For example, if {\tt array} represents a GoL grid with 1s for live
+cells and 0s for dead cells we can use convolution to compute the
+number of neighbors for each cell.
+
+\begin{verbatim}
+    import scipy.ndimage
+    neighbors = scipy.ndimage.filters.convolve(array, kernel) 
+\end{verbatim}
+
+Here's an implementation of GoL using {\tt convolve}:
+
+\begin{verbatim}
+import numpy
+import scipy.ndimage
+
+class Life(object):
+
+    def __init__(self, n, mode='wrap'):
+        self.n = n
+        self.mode = mode
+        self.array = numpy.random.random_integers(0, 1, (n, n))
+        self.weights = numpy.array([[1,1,1],
+                                    [1,10,1],
+                                    [1,1,1]])
+
+    def step(self):
+        con = scipy.ndimage.filters.convolve(self.array, 
+                                             self.weights,
+                                             mode=self.mode)
+
+        boolean = (con==3) | (con==12) | (con==13)
+        self.array = numpy.int8(boolean)
+\end{verbatim}
+
+The attributes of the {\tt Life} object are {\tt n}, the number
+of rows and columns in the grid, {\tt mode}, which controls the
+behaviors of the boundary cells, {\tt array}, which represents
+the grid, and {\tt weights} which is the kernel used to count
+the neighbors.
+
+The weight of the center cell is 10, so the number of neighbors
+is 0-8 for dead cells and 10-18 for live cells.
+
+In {\tt step}, {\tt boolean} is a boolean array with {\tt True}
+for live cells;  {\tt numpy.int8} converts it to integers.
+
+To display an animated sequence of grids, I use {\tt pyplot}.
+Animation in {\tt pyplot} is a little awkward, but here's a class
+that manages it:
+
+\begin{verbatim}
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as pyplot
+
+
+class LifeViewer(object):
+
+    def __init__(self, life, cmap=matplotlib.cm.gray_r):
+        self.life = life
+        self.cmap = cmap
+
+        self.fig = pyplot.figure()
+        pyplot.axis([0, life.n, 0, life.n])
+        pyplot.xticks([])
+        pyplot.yticks([])
+
+        self.pcolor = None
+        self.update()
+\end{verbatim}
+
+{\tt life} is a {\tt Life} object.  {\tt cmap} is a color map
+provided by {\tt matplotlib}; you can see the other
+color maps at \url{http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps}.
+
+{\tt self.fig} is a reference to the {\tt matplotlib} figure, and {\tt
+  self.pcolor} is a reference to the {\bf pseudocolor plot} created by
+{\tt update}:
+
+\begin{verbatim}
+    def update(self):
+        if self.pcolor:
+            self.pcolor.remove()
+
+        a = self.life.array
+        self.pcolor = pyplot.pcolor(a, cmap=self.cmap)
+        self.fig.canvas.draw()
+\end{verbatim}
+
+If there is already a plot, we have to remove it; then we create
+a new one and invoke {\tt draw} to update the display.
+
+To run the animation, we need two methods:
+
+\begin{verbatim}
+    def animate(self, steps=10):
+        self.steps = steps
+        self.fig.canvas.manager.window.after(1000, self.animate_callback)
+        pyplot.show()
+
+    def animate_callback(self):
+        for i in range(self.steps):
+            self.life.step()
+            self.update()
+\end{verbatim}
+
+{\tt animate} gets the animation started.  It invokes {\tt pyplot.show},
+which sets up the GUI and waits for user events, but {\em first} it has
+to invoke {\tt window.after} to set up a callback, so that 
+\verb"animate_callback" gets invoked after the window is set up.
+The first argument is the delay in milliseconds.  The second
+argument is a bound method (see Chapter 19 of {\em Think Python}).
+
+\verb"animate_callback" invokes {\tt step} to update the {\tt Life}
+object and {\tt update} to update the display.
+
 \begin{ex}
 
-Write a class that implements a ``Game of Life'' CA, and another
-class that displays an animated sequence of timesteps on the screen.
-
-Remember that cells have to be updated ``simultaneously;'' 
-that is, all cells should check the state of their neighbors
-before any cells are updated.
-
-There are many implementation options:
-
-\begin{itemize}
-
-\item For the data structure that stores the state of the CA, you
-could use a NumPy array, a list of lists, a dictionary, or even
-a PIL Image.  If you choose a PIL Image, you might find
-{\tt ImageFilter.Kernel} useful.
-
-\item To display the CA, you could use Pyplot, PIL, Postscript, or
-{\tt CellWorld}, which is part of Swampy.
-
-\end{itemize}
-
-Choose an implementation that can update and display a large CA
-quickly.
+Download my implementation of GoL from \url{thinkcomplex.com/Life.py}.
 
 Start the CA in a random state and run it until it stabilizes.
 What stable patterns can you identify?
@@ -4028,7 +4151,8 @@ with 9 live cells and takes 17 331 steps to stabilize.
 \begin{ex}
 
 Start with an r-pentomino as an initial condition and confirm
-that your results are consistent with the description above.
+that the results are consistent with the description above.
+You might have to adjust the size of the grid and the boundary behavior.
 
 \end{ex}
 
@@ -4068,11 +4192,10 @@ a Turing machine or another machine known to be Turing complete.
 \begin{ex}
 
 Many named patterns are available in portable file formats.
-Modify your program to parse one of these formats and initialize
-your grid.
+Modify {\tt Life.py} to parse one of these formats and initialize
+the grid.
 
 \end{ex}
-
 
 
 \section{Realism}
@@ -4397,15 +4520,17 @@ The rules of the CA are:
 \end{enumerate}
 
 Read about this model at
-\url{http://en.wikipedia.org/wiki/Forest-fire_model} and write a program
-that implements it.  
+\url{http://en.wikipedia.org/wiki/Forest-fire_model} and write a
+program that implements it.  You might want to start with a copy of
+\url{thinkcomplex.com/Life.py}.
 
 Starting from a random initial condition, run the CA until it reaches
 a steady state where the number of trees no longer increases or
-decreases consistently.
+decreases consistently.  You might have to tune $p$ and $f$.
 
-What is the fractal dimension of the forest?
- 
+In steady state, is the geometry of the forest fractal?
+What is its fractal dimension?
+
 \end{ex}
 
 
@@ -4543,9 +4668,9 @@ criticality (SOC), where ``self-organized'' means that from
 any initial condition, the system tends to move toward a
 critical state, and stay there, without external control.
 
-As an example, they propose a model of a sand pile.  The model
-is not realistic, but
-it has become the standard example of self-organized criticality.
+As an example, they propose a model of a sand pile.  The model is not
+realistic, but it has become the standard example of self-organized
+criticality.
 
 The model is a 2-D cellular automaton where the state of each cell,
 $z(i,j)$, represents the slope of a part of a sand pile.  During each
@@ -4571,9 +4696,14 @@ which supports the claim that the system is in a critical state.
 \begin{ex}
 
 Read the paper and write a program that implements their CA.
-See if you can reproduce their Figure 2(a).
+You might want to start with a copy of
+\url{thinkcomplex.com/Life.py}.
 
-What happens if you start all cells in state $z=0$?
+See if you can reproduce their Figure 2(a), which shows the
+distribution of cluster sizes.
+
+After the system has been running for a while, compute its
+fractal dimension.
 
 \end{ex}
 
@@ -4751,17 +4881,15 @@ the module {\tt numpy.fft}.
 What is the order of growth run time of your implementation?
 What is the order of growth for the space required?
 
-\end{ex}
-
 Most FFT implementations use a clever indexing scheme to avoid copying
 the sequence; instead, they transform the elements in place.  You can
 read \url{wikipedia.org/wiki/Butterfly_diagram} to get the details.
 
-\begin{ex}
-
 Once your {\tt fft} is working, write a function named
 {\tt psd} that takes a sequence, $h$, and returns its
 one-sided power spectral density, $P$.
+
+You can download my solution from \url{thinkcomplex.com/Fourier.py}.
 
 \end{ex}
 
@@ -5072,7 +5200,7 @@ of large clusters and most agents live in homogeneous
 neighborhoods.
 
 If you did not know the process and only saw the result, you might
-assume that the agents were virulent racists, but in fact all of them
+assume that the agents were racist, but in fact all of them
 would be perfectly happy in a mixed neighborhood.  Since they prefer
 not to be greatly outnumbered, they might be considered xenophobic at
 worst.  Of course, these agents are a wild simplification of real
@@ -5092,8 +5220,16 @@ says nothing about actual causes.
 
 \begin{ex}
 
-Agents that prefer mixed neighborhoods.  Continuous space.
-Robustness as a property of holistic models.
+Implement Schelling's model in a grid.  From random initial conditions,
+how does the system evolve?
+
+Define a statistic that measures the degree of segregation, and plot
+this statistic over time.
+
+Experiment with the parameters of the model.  What happens as the agents
+become more tolerant?  What happens if the agents are only happy in
+mixed neighborhoods; that is, if they are unhappy if too many of their
+neighbors are like themselves?
 
 \end{ex}
 
@@ -5142,11 +5278,11 @@ The characteristics of agent-based models include:
 
 \end{itemize}
 
-Agent-based models are useful for modeling the dynamics
-of systems that are not in equilibrium (although they are also
-used to study equilibrium).  And they are particularly useful for
-understanding relationships between individual decisions and
-system behavior.
+Agent-based models are useful for modeling the dynamics of systems
+that are not in equilibrium (although they are also used to study
+equilibrium).  And they are particularly useful for understanding
+relationships between individual decisions and system behavior, or as
+in the title of Schelling's book, {\em Micromotives and Macrobehavior}.
 
 For more about agent-based modeling, see
 \url{wikipedia.org/wiki/Agent-based_model}.
@@ -5154,124 +5290,68 @@ For more about agent-based modeling, see
 
 \section{Traffic jams}
 
-Agent-based models have been used to study the
-dynamics of highway traffic, especially the behavior of traffic
-jams.  These models yield two non-obvious
-results:
+What causes traffic jams?  In some cases there is an obvious cause,
+like an accident, a speed trap, or something else that disturbs
+the flow of traffic.  But other times traffic jams appear for no
+apparent reason.
 
-\begin{itemize}
+Agent-based models can help explain spontaneous traffic jams.
+As an example, I implemented a simple highway simulation, based on
+a model in Resnick, {\em Turtles, Termites and Traffic Jams}.
 
-\item Under some conditions traffic jams appear spontaneously;
-that is, without any external cause like a collision.
+You can download my program from \url{thinkcomplex.com/Highway.py}.
+It uses {\tt TurtleWorld}, which is part of Swampy.
+See \url{thinkpython.com/swampy}.
 
-\item As some cars pull away from the front of the
-jam, and other cars join the back,  the location of the jam
-moves backward (opposite the flow of traffic).
+This module defines two classes: {\tt Highway}, which inherits from
+TurtleWorld, and {\tt Driver}, which inherits from Turtle.
 
-\end{itemize}
+The Highway is a one-lane road that forms a circle, but it is displayed
+as a series of rows that spiral down the canvas.
 
-As an example, I have implemented a simple highway simulation that you
-can download from \url{thinkcomplex.com/Highway.py}.  This
-module uses {\tt TurtleWorld}, which is part of Swampy.  It defines
-two classes, Highway, which inherits from TurtleWorld, and Driver,
-which inherits from Turtle.
-
-The Highway a one-lane road that forms a circle, but it is displayed
-as a series of rows that spiral down the canvas.  Each Driver has
-a position, which is the distance it has travelled from the origin.
-The function {\tt Highway.project} takes a Driver as a parameter
-and maps its position on the highway into a location on the
-canvas. 
-
-Each driver has a random color, and starts with a random speed and
-position.  The initial speed is in the range from 4 to 8.  Each
-Driver has an attribute, {\tt next}, that refers to the Driver in
-front.
-
-During each time step, each Driver chooses a new speed, based on the
-distance between it and the Driver in front.  Here is the {\tt step}
-function for Drivers.
+Each driver starts with a random position and speed.  At each time
+step, each Driver accelerates or brakes based on the distance between
+it and the Driver in front.  Here is an example:
 
 \begin{verbatim}
-    def step(self):
-        # find the following distance
-        dist = self.next.position - self.position
-        if dist < 0:
-            dist += self.world.length()
-
-        # choose a speed and move (but don't overtake)
-        self.choose_speed(dist)
-        move = min(self.speed, dist)
-        self.position += move
-
-        # redraw
-        self.world.project(self)
-        self.redraw()
+    def choose_acceleration(self, dist):
+        if dist < self.safe_distance:
+            return -1
+        else:
+            return 0.3
 \end{verbatim}
 
-In {\tt Highway.py}, the implementation of \verb"choose_speed"
-does nothing, so Drivers maintain constant speed.  Because
-they are not allowed to overtake, if a fast Driver catches up
-with a slower Driver, it slows down and stays behind.
+If the following distance is too short, the {\tt Driver} brakes;
+otherwise it accelerates.  In addition, if the current speed would
+cause a collision, the {\tt Driver} comes to a complete stop.
+And there is a speed limit for each driver.
 
-If you run this version of the program, you will see that fast
-Drivers quickly stack up behind slower Drivers and stay there.
-So this version of the model is not very interesting.
-
-Real drivers tend to speed up when there is more space
-in front of them and slow down as they approach another car.
-It turns out that this behavior is sufficient to cause
+If you run {\tt Highway.py} you will probably see a traffic jam,
+and the natural question is, ``Why?''  There is nothing about the
+{\tt Highway} or {\tt Driver} behavior that obviously causes
 traffic jams.
 
 \begin{ex}
 
-This exercise asks you to implement a more detailed model
-of driver behavior and explore the conditions that cause
-traffic jams.
+Experiment with the parameters of the system to identify the factors
+that are necessary and sufficient to cause traffic jams.  Some of
+the factors to explore are:
 
-\begin{enumerate}
+\begin{description}
 
-\item Write a definition for a class called {\tt BadDriver}
-that inherits from {\tt Driver} and overrides \verb"choose_speed"
-with a method that implements the following rules:
+\item[Density:] What happens as the number of drivers increases (or
+the length of the highway)?
 
-\begin{itemize}
+\item[Acceleration and braking:]  What happens if drivers accelerate
+faster or brake more gently?
 
-\item If the distance to the next car is less than some minimum
-following distance, slow down.
+\item[Safe distance:] What happens as the safe distance between drivers
+changes?
 
-\item If the distance exceeds the following distance, speed up.
+\item[Heterogeneity:] What if all drivers are not the same; for
+example, if they have different speed limits or following distances?
 
-\item The minimum speed is 0; cars cannot go backward.
-
-\item The speed limit is 10.
-
-\end{itemize}
-
-The function \verb"make_highway" takes an optional parameter, {\tt
-  driver}, which is the constructor it uses to create the Drivers.  By
-default, it uses {\tt Driver}, but if you pass {\tt BadDriver} as a
-parameter, it will instantiate BadDrivers instead.
-
-This way of organizing the program is a variation of the factory
-pattern, which you can read about at
-\url{wikipedia.org/wiki/Factory_method_pattern}.
-
-
-\item There are a number of parameters you can vary to explore the
-  behavior of the system, including the number of Drivers, their
-  minimum following distance, and the rates they speed up and slow
-  down at.  Explore this parameter space and see if you can determine
-  the conditions that are likely to lead to traffic jams.
-
-\item The ``throughput'' of the highway is the rate at which the cars
-  pass a particular point.  What conditions yield the highest
-  throughput?
-
-\item Define a class called {\tt GoodDriver} and write a model of
-  driver behavior that yields the highest possible throughput.
-
-\end{enumerate}
+\end{description}
 
 \end{ex}
 
@@ -5280,13 +5360,13 @@ pattern, which you can read about at
 
 In 1987 Craig Reynolds published an article, ``Flocks, herds and
 schools: A distributed behavioral model,'' that describes an
-agent-based model of herd behavior.  Agents in these kinds of
+agent-based model of herd behavior.  Agents in this
 models are called ``boids,'' which is both a contraction of
-``bird-oid'' and an accented pronunciation of ``bird,'' although
-boids are also used to model fish and herding land animals.
+``bird-oid'' and an accented pronunciation of ``bird,'' (although
+boids are also used to model fish and herding land animals).
 
 You can read an overview of the boid algorithm at
-\url{red3d.com/cwr/boids/}.  Each agent simulates three
+\url{http://red3d.com/cwr/boids/}.  Each agent simulates three
 behaviors:
 
 \begin{description}
@@ -5303,7 +5383,7 @@ Boids make decisions based on local information only; each boid
 only sees (or pays attention to) other boids in its field of
 vision and range.
 
-The {\tt Visual} module, also known as VPython, is well-suited
+The {\tt Visual} package, also known as VPython, is well-suited
 for implementing boids.  It provides simple 3-D graphics as
 well as vector objects and operations that are useful for the
 computations.
@@ -5313,10 +5393,9 @@ You can download my implementation from
 on the description of boids in Flake, {\em The Computational
 Beauty of Nature}.
 
-My program defines two classes: {\tt Boid}, which inherits from a
-VPython cone, implements the boid algorithm; {\tt World}
-contains a list of Boids and a ``carrot,'' which is a sphere
-the Boids are attracted to.
+The program defines two classes: {\tt Boid}, which implements the boid
+algorithm, and {\tt World}, which contains a list of Boids and a
+``carrot'' the Boids are attracted to.
 
 The boid algorithm uses \verb"get_neighbors" to find other
 boids in the field of view:
@@ -5325,14 +5404,18 @@ boids in the field of view:
     def get_neighbors(self, others, radius, angle):
         boids = []
         for other in others:
-            if other is self: continue
+            if other is self:
+               continue
+
             offset = other.pos - self.pos
             
             # if not in range, skip it
-            if offset.mag > radius: continue
+            if offset.mag > radius:
+                continue
 
             # if not within viewing angle, skip it
-            if self.vel.diff_angle(offset) > angle: continue
+            if self.vel.diff_angle(offset) > angle:
+                continue
 
             # otherwise add it to the list
             boids.append(other)
@@ -5368,7 +5451,7 @@ and the average heading of the neighbors, and {\tt love}
 computes the heading toward the carrot.
 
 \verb"set_goal" computes the weighed sum of these goals and
-sets the overall goal accordingly:
+sets the overall goal:
 
 \begin{verbatim}
     def set_goal(self, boids, carrot):
@@ -5392,18 +5475,20 @@ attitude of the boid:
 
 The new velocity is the weighted sum of the old velocity
 and the goal.  The parameter {\tt mu} determines how quickly
-the birds can change direction.  The time step, {\tt dt}
+the birds can change speed and direction.  The time step, {\tt dt}
 determines how far the boids move.
 
-As you can see, there are many parameters that influence the behavior
-of the flock, including the range, angle and weight for each behavior,
-and the maneuverability, {\tt mu}.  These parameters influence the
-ability of the boids to form and maintain a flock and the patterns
-of motion and organization in the flock.  For some settings,
-the boids resemble a flock of birds; other settings resemble
-a school of fish or a cloud flying insects.
+Many parameters influence flock behavior, including the range, angle
+and weight for each behavior, and the maneuverability, {\tt mu}.
+
+These parameters determine the ability of the boids to form and
+maintain a flock and the patterns of motion and organization in the
+flock.  For some settings, the boids resemble a flock of birds; other
+settings resemble a school of fish or a cloud flying insects.
 
 \begin{ex}
+
+% sudo apt-get install python-visual libgtkglextmm-x11-1.2-dev
 
 Run my implementation of the boid algorithm and experiment with
 different parameters.  What happens if you ``turn off'' one
@@ -5413,17 +5498,102 @@ To generate more bird-like behavior,
 Flake suggests adding a fourth behavior to maintain a clear
 line of sight; in other words, if there is another bird nearly
 directly ahead, the boid should move away laterally.  What effect
-would you expect this rule to have on the behavior of the flock?
+do you expect this rule to have on the behavior of the flock?
 Implement it and see.
 
 \end{ex}
 
 
-\section{Ants}
+\section{Prisoner's Dilemma}
 
-\section{Sugarscape}
+The Prisoner's Dilemma is a topic of study in game theory, so
+it's not the fun kind of game.  Instead, it is the kind of game
+that sheds light on human motivation and behavior.
+
+Here is the presentation of the dilemma from
+\url{http://en.wikipedia.org/wiki/Prisoner's_dilemma}.
+
+\begin{quote}
+Two suspects, Alice and Bob, are arrested by the police.  The police
+have insufficient evidence for a conviction, and, having separated the
+prisoners, visit each of them to offer the same deal.  If one
+testifies for the prosecution against the other (defects) and the
+other remains silent (cooperates), the defector goes free and the
+silent accomplice receives the full one-year sentence.  If both remain
+silent, both prisoners are sentenced to only one month in jail for a
+minor charge. If each betrays the other, each receives a three-month
+sentence. Each prisoner must choose to betray the other or to remain
+silent. Each one is assured that the other would not know about the
+betrayal before the end of the investigation.  How should the
+prisoners act?
+\end{quote}
+
+Notice that in this context, ``cooperate'' means to keep silent,
+not to cooperate with police.
+
+It is tempting to say that the players should cooperate, since
+they would both be better off.  But neither player knows
+what the other will do, so they should consider two possibilities:
+
+\begin{itemize}
+
+\item If Alice remains silent, Bob is better off defecting.
+
+\item If Alice defects, Bob is better off defecting.
+
+\end{itemize}
+
+Either way, Bob is better off defecting.  And by the same analysis, so
+is Alice.  So if both players do the math, and no other factors come
+into play, we expect them to defect and be worse off for it.
+
+This result is saddening because it is an example of how good intentions
+can lead to bad outcomes, and, unfortunately, it applies to other
+scenarios in real life, not just hypothetical prisoners.
+
+But in real life, the game is often iterated; that is, the same
+players face each other over and over, so they have the opportunity
+to learn, react and communicate, at least implicitly.
+
+The iterated version of the game is not as easy to analyze; it
+is not obvious what the optimal strategy is or even whether one
+exists.
+
+So in the late 1970s Robert Axelrod organized a tournament to compare
+strategies.  He invited participants to submit strategies in the
+form of computer programs, then played the programs against each other
+and kept score.
+
+I won't tell you the outcome, and if you don't know you should resist
+the temptation to look it up.  Instead, I encourage you to run your
+own tournament.  I'll provide the referee; you provide the players.
+
+\begin{ex}
+
+\end{ex}
+
 
 \section{Emergence}
+
+  These models yield
+two non-obvious results:
+
+\begin{itemize}
+
+\item Under some conditions traffic jams appear spontaneously;
+that is, without any external cause like a collision.
+
+\item As some cars pull away from the front of the
+jam, and other cars join the back,  the location of the jam
+moves backward (opposite the flow of traffic).
+
+Boids
+
+Axelrod: ``The emergence of cooperation can be explained as a consequence
+of individual senators pursuing their own interests.''
+
+\end{itemize}
+
 
 
 
