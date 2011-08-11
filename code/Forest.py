@@ -66,6 +66,15 @@ class Forest(object):
                                     [1,100,1],
                                     [1,1,1]])
 
+    def get_array(self, start=0, end=None):
+        """Gets a slice of columns from the CA, with slice indices
+        (start, end).  Avoid copying if possible.
+        """
+        if start==0 and end==None:
+            return self.array
+        else:
+            return self.array[:, start:end]
+
     def loop(self, steps=1):
         """Executes the given number of time steps."""
         [self.step() for i in xrange(steps)]
@@ -142,6 +151,10 @@ def main(script, n=50, steps=50, *args):
 
     fractal.plot_loglog(xs, ys)    
 
+    import CADrawer
+    drawer = CADrawer.EPSDrawer()
+    drawer.draw(forest)
+    drawer.save('forest.eps')
 
 if __name__ == '__main__':
     import sys
