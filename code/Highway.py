@@ -189,7 +189,7 @@ def make_highway(n, driver=Driver):
     world.mainloop()
 
 
-def main(script, n=50):
+def main(script, n=20):
     n = int(n)
     make_highway(n)
 
