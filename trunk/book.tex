@@ -52,7 +52,7 @@
 
 
 \newcommand{\thetitle}{Complexity and Computation}
-\newcommand{\theversion}{0.9.5}
+\newcommand{\theversion}{0.9.6}
 
 % these styles get translated in CSS for the HTML version
 \newstyle{a:link}{color:purple;}
@@ -5570,33 +5570,100 @@ own tournament.  I'll provide the referee; you provide the players.
 
 \begin{ex}
 
+Download \url{thinkcomplex.com/Referee.py}, which runs the tournament,
+and \url{thinkcomplex.com/PlayerFlipper.py}, which implements a simple
+player strategy.
+
+Here is the code from {\tt PlayerFlipper.py}:
+
+\begin{verbatim}
+def move(history):
+    mine, theirs = history
+    if len(mine) % 2 == 0:
+        return 'C'
+    else:
+        return 'D'
+\end{verbatim}
+
+Any file that matches the pattern {\tt Player*.py} is recognized
+as a player.  The file should contain a definition for {\tt move},
+which takes the history of the match so far and returns a string:
+{\tt 'D'} for defect and {\tt 'C'} for cooperate.
+
+{\tt history} is a pair of lists: the first list contains the
+player's previous responses in order; the second contains the
+opponent's responses.
+
+{\tt PlayerFlipper} checks whether the number of previous rounds
+is even or odd and returns {\tt 'C'} or {\tt 'D'} respectively.
+
+Write a {\tt move} function in a file like {\tt PlayerFlipper.py}, but
+replace {\tt Flipper} with a name that summarizes your strategy.
+
+Run {\tt Referee.py} and see how your strategy does.
+
 \end{ex}
 
 
 \section{Emergence}
 
-  These models yield
-two non-obvious results:
+The examples in this chapter have something in common: emergence.  An
+{\bf emergent property} is a characteristic of a system that results
+from the interaction of its components, not from their properties.
 
-\begin{itemize}
+For example, the agents in Schelling's model are not racist, but the
+outcome of their interactions is as if they were.  Traffic jams move
+backward even though the cars in them are moving forward or standing
+still.  The behavior of flocks and herds emerges from local
+interactions between their members.  And as Axelrod says about the
+iterated prisoner's dilemma: ``The emergence of cooperation can be
+explained as a consequence of individual[s] pursuing their own
+interests.''
 
-\item Under some conditions traffic jams appear spontaneously;
-that is, without any external cause like a collision.
+To clarify what emergence is, we can also consider what it isn't.  For
+example, a brick wall is hard because bricks and mortar are hard, so
+that's not an emergent property.  As another example, some rigid
+structures are built from flexible components, so that seems like
+a kind of emergence.  But it is at best a weak kind,
+because structural properties follow from well-understood laws of
+mechanics.
 
-\item As some cars pull away from the front of the
-jam, and other cars join the back,  the location of the jam
-moves backward (opposite the flow of traffic).
+Emergent properties are surprising: it is hard to predict the behavior
+of the system, even if we know all the rules.  That difficulty is not
+an accident; it may be the defining characteristic of emergence.
 
-Boids
+As Wolfram discusses in {\em A New Kind of Science}, conventional science
+is based on the axiom that if you know the rules that govern a system,
+you can predict its behavior.  What we call ``laws'' are often
+computational shortcuts that allow us to predict the outcome of a
+system without building or observing it.
 
-Axelrod: ``The emergence of cooperation can be explained as a consequence
-of individual senators pursuing their own interests.''
+But many cellular automata are {\bf computationally irreducible},
+which means that there are no shortcuts.  The only way to get the
+outcome is to implement the system.
 
-\end{itemize}
+This result suggests that emergent properties are fundamentally
+unpredictable, and that studying complex systems requires different
+methods, what Wolfram calls a new kind of science.
+
+You can read more about emergence at
+\url{http://en.wikipedia.org/wiki/Emergence}.
 
 
+%\section{Free will}
 
+%Another characteristic of emergent systems is {\bf integrative
+%  levels}.  Often we can describe the same system on several levels.
+%For example, to understand sound we could model air molecules, or
+%pressure waves propagating in air, or human pitch perception.  In some
+%cases we can reduce one level to another; for example, we understand
+%the relationship between musical pitch and the frequency of sound
+%waves, and between the behavior of sound and the properties of air.
 
+%But many of the examples in this book resist reductionist
+%explanations.  In many cases the parts of the system tell us very
+%little about its behavior.  For example, we know how neurons work, but
+%not how neurons create consciousness.
 
 
 %\printindex
