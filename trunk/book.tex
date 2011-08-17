@@ -2,7 +2,7 @@
 % Copyright (c)  2011  Allen B. Downey.
 
 % Permission is granted to copy, distribute, transmit and adapt
-% this work under a Creative Commons 
+% this work under a Creative Commons
 % Attribution-NonCommercial-ShareAlike 3.0 Unported License:
 % http://creativecommons.org/licenses/by-nc-sa/3.0/
 
@@ -63,7 +63,7 @@
 \setlinkstext
   {\imgsrc[ALT="Previous"]{back.png}}
   {\imgsrc[ALT="Up"]{up.png}}
-  {\imgsrc[ALT="Next"]{next.png}} 
+  {\imgsrc[ALT="Next"]{next.png}}
 
 \makeindex
 
@@ -175,7 +175,7 @@ Needham MA 02492
 \end{flushleft}
 
 Permission is granted to copy, distribute, transmit and adapt
-this work under a Creative Commons 
+this work under a Creative Commons
 Attribution-NonCommercial-ShareAlike 3.0 Unported License:
 \url{http://creativecommons.org/licenses/by-nc-sa/3.0/}.
 
@@ -252,7 +252,7 @@ implement graphs, and graph algorithms based on those data structures.
   equivalent knowledge of Python.  I try to emphasize fundamental ideas
   that apply to programming in many languages, but along the way you
   will learn some useful features that are specific to Python.
-\index{{\em Think Python}}
+\index{Think Python@{\em Think Python}}
 
 \item[Computational modeling:] A model of a system is a simplified
   description of a system used for simulation or analysis.
@@ -304,7 +304,7 @@ And that's what this book is about.
 Allen B. Downey \\
 Needham MA\\
 
-Allen Downey is a Professor of Computer Science at 
+Allen Downey is a Professor of Computer Science at
 the Franklin W. Olin College of Engineering.
 
 
@@ -314,7 +314,7 @@ the Franklin W. Olin College of Engineering.
 
 \index{contributors}
 
-If you have a suggestion or correction, please send email to 
+If you have a suggestion or correction, please send email to
 {\tt downey@greenteapress.com}.  If I make a change based on your
 feedback, I will add you to the contributor list
 (unless you ask to be omitted).
@@ -472,7 +472,7 @@ graph algorithms:
 
 \item[Reduce] a real-world problem to an instance of a graph
 problem.
- 
+
 \item[Apply] a graph algorithm to compute the result efficiently.
 
 \item[Interpret] the result of the computation in terms of a
@@ -552,7 +552,7 @@ Later we will come back and evaluate its pros and cons.
 Here is an implementation of a graph as a dictionary of dictionaries:
 \index{dictionary}
 \index{nested dictionary}
-\index{{\tt Graph}}
+\index{Graph@{\tt Graph}}
 
 \begin{verbatim}
 class Graph(dict):
@@ -561,7 +561,7 @@ class Graph(dict):
         (es) is a list of edges."""
         for v in vs:
             self.add_vertex(v)
-            
+
         for e in es:
             self.add_edge(e)
 
@@ -607,7 +607,7 @@ graph.
 \index{undirected edge}
 
 Here is the definition for {\tt Vertex}:
-\index{{\tt Vertex}}
+\index{Vertex@{\tt Vertex}}
 
 \begin{verbatim}
 class Vertex(object):
@@ -629,10 +629,10 @@ representation of an object.  It is similar to \verb"__str__" except
 that the return value from \verb"__str__" is intended to be readable
 for people, and the return value from \verb"__repr__" is supposed to
 be a legal Python expression.
-\index{{\tt \_\_repr\_\_}}
-\index{{\tt \_\_str\_\_}}
-\index{{\tt str}}
-\index{{\tt repr}}
+\index{repr@{\tt \_\_repr\_\_}}
+\index{str@{\tt \_\_str\_\_}}
+\index{str@{\tt str}}
+\index{repr@{\tt repr}}
 
 The built-in function {\tt str} invokes \verb"__str__" on
 an object; similarly the built-in function {\tt repr} invokes
@@ -642,7 +642,7 @@ In this case \verb"Vertex.__str__" and \verb"Vertex.__repr__" refer to
 the same function, so we get the same string either way.
 
 Here is the definition for {\tt Edge}:
-\index{{\tt Edge}}
+\index{Edge@{\tt Edge}}
 
 \begin{verbatim}
 class Edge(tuple):
@@ -660,8 +660,8 @@ and overrides the \verb"__new__" method.  When you invoke
 an object constructor, Python invokes \verb"__new__" to create
 the object and then \verb"__init__" to initialize the attributes.
 \index{tuple}
-\index{{\tt \_\_new\_\_}}
-\index{{\tt \_\_init\_\_}}
+\index{new@{\tt \_\_new\_\_}}
+\index{init@{\tt \_\_init\_\_}}
 
 For mutable objects it is most common to override
 \verb"__init__" and use the default implementation of
@@ -689,7 +689,7 @@ Here is an example that creates two vertices and an edge:
     print e
 \end{verbatim}
 
-Inside \verb"Edge.__str__" the term {\tt self[0]} refers  
+Inside \verb"Edge.__str__" the term {\tt self[0]} refers
 to {\tt v} and {\tt self[1]} refers to {\tt w}.  So the output
 when you print {\tt e} is:
 
@@ -763,7 +763,7 @@ download \url{thinkcomplex.com/GraphWorld.py}.  GraphWorld is
 a simple tool for generating visual representations of graphs.  It is
 based on the World class in Swampy, so you might have to install
 Swampy first: see \url{thinkpython.com/swampy}.
-\index{{\tt GraphWorld}}
+\index{GraphWorld@{\tt GraphWorld}}
 \index{Swampy}
 
 Read through {\tt GraphWorld.py} to get a sense of how it works.  Then
@@ -789,7 +789,7 @@ like this:
 vertices = [ ... list of Vertices ... ]
 g = Graph(vertices, [])
 g.add_regular_edges(2)
-\end{verbatim} 
+\end{verbatim}
 
 It is not always possible to create a regular graph
 with a given degree, so you should figure out and document the
@@ -815,19 +815,19 @@ interesting kind is the \Erdos-\Renyi~model, denoted $G(n,p)$, which
 generates graphs with $n$ nodes, where the probability is $p$ that
 there is an edge between any two nodes.  See
 \url{http://en.wikipedia.org/wiki/Erdos-Renyi_model}.
-\index{\Erdos-\Renyi~model}
+\index{Erdos-Renyi model@\Erdos-\Renyi~model}
 \index{random graph}
 
 \begin{ex}
 \label{ex.randomgraph}
 
-Create a file named {\tt RandomGraph.py} and define a class named 
+Create a file named {\tt RandomGraph.py} and define a class named
 {\tt RandomGraph} that inherits from {\tt Graph} and provides a method
 named \verb"add_random_edges" that takes a probability {\tt p} as a
 parameter and, starting with an edgeless graph, adds edges at random
 so that the probability is $p$ that there is an edge between any two
 nodes.
-\index{{\tt RandomGraph}}
+\index{RandomGraph@{\tt RandomGraph}}
 
 \end{ex}
 
@@ -848,10 +848,10 @@ can reach.  Then check to see whether all vertices are marked.
 \index{BFS}
 
 You can read about breadth-first-search at
-\url{wikipedia.org/wiki/Breadth-first_search}.  
+\url{wikipedia.org/wiki/Breadth-first_search}.
 
 In general, when you process
-a node, we say that you are 
+a node, we say that you are
 {\bf visiting} it.
 \index{visting a node}
 
@@ -887,7 +887,7 @@ Write a Graph method named \verb"is_connected" that returns
 
 
 \section{Paul \Erdos: peripatetic mathematician, speed freak}
-\index{\Erdos, Paul}
+\index{Erdos, Paul@\Erdos, Paul}
 
 Paul \Erdos~ was a Hungarian mathematician who spent most
 of his career (from 1934 until his death in 1992) living out
@@ -904,10 +904,10 @@ been set back by a month\footnote{Much of this biography follows
 \index{caffeine}
 \index{amphetamine}
 
-In the 1960s he and Afr\'{e}d \Renyi~ wrote a series of papers 
+In the 1960s he and Afr\'{e}d \Renyi~ wrote a series of papers
 introducing the \Erdos-\Renyi~
 model of random graphs and studying their properties.
-\index{\Renyi, Afr\'{e}d}
+\index{Renyi, Afred@\Renyi, Afr\'{e}d}
 
 One of their most surprising results is the existence of
 abrupt changes in the characteristics of random graphs as
@@ -974,12 +974,12 @@ the dictionary (the order of the keys is arbitrary).  The second
 time it is invoked, it returns the second element.  The third time,
 and every time thereafter, it raises a {\tt StopIteration}
 exception.
-\index{{\tt StopIteration}}
+\index{StopIteration@{\tt StopIteration}}
 
 An iterator can be used in a {\tt for} loop; for example, the
 following is a common idiom for traversing the key-value
 pairs in a dictionary:
-\index{{\tt for} loop}
+\index{for@{\tt for} loop}
 
 \begin{verbatim}
     for k, v in d.iteritems():
@@ -1015,12 +1015,12 @@ TypeError: 'dictionary-keyiterator' object is unsubscriptable
 If you need indexed access, you should use {\tt keys}.
 Alternatively, the Python module {\tt itertools} provides
 many useful iterator functions.
-\index{{\tt itertools}}
+\index{itertools@{\tt itertools}}
 
 A user-defined object can be used as an iterator if it
 provides methods named {\tt next} and \verb"__iter__".
 The following example is an iterator that always returns {\tt True}:
-\index{{\tt \_\_iter\_\_}}
+\index{iter@{\tt \_\_iter\_\_}}
 
 \begin{verbatim}
 class AllTrue(object):
@@ -1053,7 +1053,7 @@ write a {\bf generator}, which is a function that contains a
 except that the state of the running function is stored and
 can be resumed.
 \index{generator}
-\index{{\tt yield}}
+\index{yield@{\tt yield}}
 
 For example, here is a generator that yields successive letters
 of the alphabet:
@@ -1306,7 +1306,7 @@ answer the following questions:
 
 \item What is the order of growth of $n^3 + n^2$?
 What about $1000000 n^3 + n^2$.
-What about $n^3 + 1000000 n^2$?  
+What about $n^3 + 1000000 n^2$?
 
 \item What is the order of growth of $(n^2 + n) \cdot (n + 1)$?  Before
   you start multiplying, remember that you only need the leading term.
@@ -1383,7 +1383,7 @@ because string concatenation is linear.
 
 The string method {\tt join} is usually faster because it is
 linear in the total length of the strings.
-\index{{\tt join}}
+\index{join@{\tt join}}
 
 As a rule of thumb, if the body of a loop is in $O(n^a)$ then
 the whole loop is in $O(n^{a+1})$.  The exception is if you can
@@ -1506,7 +1506,7 @@ time is linear.
 
 The {\tt in} operator for sequences uses a linear search; so do string
 methods like {\tt find} and {\tt count}.
-\index{{\tt in} operator}
+\index{in@{\tt in} operator}
 
 If the elements of the sequence are in order, you can use a {\bf
   bisection search}, which is $O(\log n)$.  Bisection search is
@@ -1528,7 +1528,7 @@ times faster than a linear search.
 Write a function called {\tt bisection} that takes a sorted list
 and a target value and returns the index of the value
 in the list, if it's there, or {\tt None} if it's not.
-\index{{\tt bisect} module}
+\index{bisect@{\tt bisect} module}
 
 \index{bisect module}
 \index{module!bisect}
@@ -1579,7 +1579,7 @@ is written {\tt d[target]} or {\tt d.get(target)}.
 For now, I assume that each key only appears once.
 The simplest implementation of this interface uses a list of
 tuples, where each tuple is a key-value pair.
-\index{{\tt LinearMap}}
+\index{LinearMap@{\tt LinearMap}}
 
 \begin{verbatim}
 class LinearMap(object):
@@ -1604,7 +1604,7 @@ takes constant time.
 if it finds the target key it returns the corresponding value;
 otherwise it raises a {\tt KeyError}.
 So {\tt get} is linear.
-\index{{\tt KeyError}}
+\index{KeyError@{\tt KeyError}}
 
 An alternative is to keep the list sorted by key.  Then {\tt get}
 could use a bisection search, which is $O(\log n)$.  But inserting a
@@ -1620,7 +1620,7 @@ pairs into smaller lists.  Here's an implementation called
 {\tt BetterMap}, which is a list of 100 LinearMaps.  As we'll see
 in a second, the order of growth for {\tt get} is still linear,
 but {\tt BetterMap} is a step on the path toward hashtables:
-\index{{\tt BetterMap}}
+\index{BetterMap@{\tt BetterMap}}
 
 \begin{verbatim}
 class BetterMap(object):
@@ -1648,7 +1648,7 @@ class BetterMap(object):
 \verb"find_map" is used by
 {\tt add} and {\tt get}
 to figure out which map to put the
-new item in, or which map to search.  
+new item in, or which map to search.
 
 \verb"find_map" uses the built-in function {\tt hash}, which takes
 almost any Python object and returns an integer.  A limitation of this
@@ -1729,7 +1729,7 @@ to wrap into the same LinearMap will get split up (which is
 what we wanted, right?).
 \index{rehashing}
 
-Rehashing is linear, so 
+Rehashing is linear, so
 {\tt resize} is linear, which might seem bad, since I promised
 that {\tt add} would be constant time.  But remember that
 we don't have to resize every time, so {\tt add} is usually
@@ -1788,7 +1788,7 @@ per {\tt add} is linear.
 \index{geometric resizing}
 
 You can download my implementation of HashMap from
-\url{thinkcomplex.com/Map.py}, but remember that there 
+\url{thinkcomplex.com/Map.py}, but remember that there
 is no reason to use it; if you want a map, just use a Python dictionary.
 
 \begin{ex}
@@ -1804,7 +1804,7 @@ Improve it by:
 \item The special method \verb"__len__" is invoked by the built-in
 function {\tt len}.  Write a \verb"__len__" method for {\tt BetterMap}
 and use it in {\tt add}.
-\index{{\tt \_\_len\_\_}}
+\index{len@{\tt \_\_len\_\_}}
 
 \item Use a generator to write {\tt BetterMap.iteritems}, and use it
 in {\tt resize}.
@@ -1821,7 +1821,7 @@ Write an implementation of the dictionary interface called
 {\tt TreeMap} that uses a red-black tree to perform {\tt add}
 and {\tt get} in log time.
 \index{red-black tree}
-\index{{\tt TreeMap}}
+\index{TreeMap@{\tt TreeMap}}
 
 \end{ex}
 
@@ -1866,9 +1866,9 @@ Without knowing how {\tt +=} and {\tt extend} and {\tt sum} are
 implemented, it is hard to analyze their performance.  For example,
 if {\tt total += x} creates a new list every time, the loop
 is quadratic; but if it modifies {\tt total}, it's linear.
-\index{{\tt +=} operator}
-\index{{\tt extend}}
-\index{{\tt sum}}
+\index{+=@{\tt +=} operator}
+\index{extend@{\tt extend}}
+\index{sum@{\tt sum}}
 
 To find out, we could read the source code, but as an exercise, let's see
 if we can figure it out by measuring run times.
@@ -1879,7 +1879,7 @@ a tuple of floats indicating the time your process has used
 (see the documentation for details).  I use a function {\tt etime},
 which returns the sum of ``user time'' and ``system time'' which
 is usually what we care about for performance measurement:
-\index{{\tt os} module}
+\index{os module@{\tt os} module}
 \index{user time}
 \index{system time}
 
@@ -1909,7 +1909,7 @@ To measure the elapsed time of a function you can call
 Alternatively, if you use IPython, you can use the
 {\tt timeit} command. See \url{ipython.scipy.org}.
 \index{IPython}
-\index{{\tt timeit}}
+\index{timeit@{\tt timeit}}
 
 If an algorithm is quadratic, we expect the run time, $t$
 as a function of input size, $n$, to look like this:
@@ -1962,7 +1962,7 @@ implementation of {\tt sum} is quadratic.
 
 
 \section{{\tt pyplot}}
-\index{{\tt pyplot}}
+\index{pyplot@{\tt pyplot}}
 \label{pyplot}
 
 To make the figures in this section I used {\tt pyplot}, which is part of
@@ -2070,7 +2070,7 @@ In this case it is safe to use
 {\tt iteritems}, rather than {\tt items}, because
 the loop does not modify the dictionary; and it is likely to be
 faster because it doesn't have to make a list, just an iterator.
-\index{{\tt iteritems}}
+\index{iteritems@{\tt iteritems}}
 
 It is also possible to nest {\tt for} loops inside
 a list comprehension.  The following example builds a list
@@ -2110,7 +2110,7 @@ $\E$, whichever is ``bigger.''
 \index{breadth first search}
 \index{BFS}
 
-To see why, think about these four operations: 
+To see why, think about these four operations:
 
 \begin{description}
 
@@ -2163,7 +2163,7 @@ A FIFO is a data structure that provides the following operations:
 \end{description}
 
 There are several good implementations of this data structure.
-One is the {\bf doubly-linked list}, which 
+One is the {\bf doubly-linked list}, which
 you can read about at \url{wikipedia.org/wiki/Doubly-linked_list}.
 Another is a circular buffer, which you can read about at
 \url{wikipedia.org/wiki/Circular_buffer}.
@@ -2185,7 +2185,7 @@ integer indices to values.
 
 Here is an implementation based on Raymond Hettinger's recipe
 at \url{http://code.activestate.com/recipes/68436/}.
-\index{{\tt DictFifo}}
+\index{DictFifo@{\tt DictFifo}}
 
 \begin{verbatim}
 class DictFifo(object):
@@ -2390,15 +2390,15 @@ same structure as the graphs generated by their model?
 
 \end{enumerate}
 
-\end{ex}  
+\end{ex}
 
 
 \begin{ex}
 
-Create a file named {\tt SmallWorldGraph.py} and define a class named 
+Create a file named {\tt SmallWorldGraph.py} and define a class named
 {\tt SmallWorldGraph} that inherits from {\tt RandomGraph}.
 
-If you did Exercise~\ref{ex.randomgraph} you can use your own 
+If you did Exercise~\ref{ex.randomgraph} you can use your own
 {\tt RandomGraph.py}; otherwise you can download mine from
 \url{thinkcomplex.com/RandomGraph.py}.
 
@@ -2413,7 +2413,7 @@ computes and returns the clustering coefficient as defined in the
 paper.
 
 \item Make a graph that replicates the line marked $C(p)/C(0)$ in
-Figure 2 of the paper.  In other words, 
+Figure 2 of the paper.  In other words,
 confirm that the clustering coefficient drops off slowly for
 small values of $p$.
 
@@ -2435,7 +2435,7 @@ communicate with each other (see
 \url{wikipedia.org/wiki/Semaphore_(programming)} and Downey, {\em The
   Little Book of Semaphores}).
 \index{Dijkstra, Edsger}
-\index{{\em The Little Book of Semaphores}}
+\index{Little Book of Semaphores@{\em The Little Book of Semaphores}}
 
 Dijkstra is famous (and notorious) as the author of a series
 of essays on computer science.
@@ -2506,7 +2506,7 @@ Write an implementation of Dijkstra's algorithm and use it
 to compute the average path length of a SmallWorldGraph.
 
 Make a graph that replicates the line marked $L(p)/L(0)$ in
-Figure 2 of the Watts and Strogatz paper.  Confirm that the 
+Figure 2 of the Watts and Strogatz paper.  Confirm that the
 average path length drops off quickly for
 small values of $p$.  What is the range of values for $p$
 that yield graphs with high clustering and low path lengths?
@@ -2624,7 +2624,7 @@ more like an example.
 
 Many of the models in this book are like the Watts and
 Strogatz model: abstract, simulation-based and (at least
-superficially) less formal than conventional mathematical 
+superficially) less formal than conventional mathematical
 models.  One of the goals of this book it to consider the
 questions these models raise:
 \index{simulation-based model}
@@ -2694,7 +2694,7 @@ punctuation from the words.
 If you need some help getting started, you can download
 \url{thinkcomplex.com/Pmf.py}, which provides an
 object named {\tt Hist} that maps from value to frequencies.
-\index{{\tt Hist}}
+\index{Hist@{\tt Hist}}
 
 Plot the results and check whether they form
 a straight line.  For plotting suggestions, see Section~\ref{pyplot}.
@@ -2747,7 +2747,7 @@ is $i/n$.
 I have written a class called {\tt Cdf} that provides functions
 for creating and manipulating CDFs.  You can download it from
 \url{thinkcomplex.com/Cdf.py}.
-\index{{\tt Cdf}}
+\index{Cdf@{\tt Cdf}}
 
 As an example, we'll compute the CDF for the values $\{1,2,2,4,5\}$:
 
@@ -2797,7 +2797,7 @@ The result is:
 
 Each value appear twice.  That way when we plot the
 CDF, we get a stair-step pattern.
-\index{{\tt pyplot}}
+\index{pyplot@{\tt pyplot}}
 \index{plotting CDFs}
 
 \begin{verbatim}
@@ -2871,7 +2871,7 @@ on a log-$y$ scale.
 \index{parameter}
 \index{complementary distribution}
 
-The complementary distribution (CCDF) is just $1 - CDF(x)$; 
+The complementary distribution (CCDF) is just $1 - CDF(x)$;
 if you plot the complementary distribution of a dataset
 that you think is exponential, you expect to see a function
 like:
@@ -2894,7 +2894,7 @@ and plots the CCDF on a log-$y$ scale.
 To test your function, use {\tt expovariate} from the {\tt random}
 module to generate 100 values from an exponential distribution.  Plot
 the CCDF on a log-$y$ scale and see if it falls on a straight line.
-\index{{\tt random} module}
+\index{random module@{\tt random} module}
 
 \end{ex}
 
@@ -2925,7 +2925,7 @@ Values from a Pareto distribution often have these properties:
 \begin{description}
 
 \item[Long tail:] Pareto distributions contain many small values
-and a few very large ones.  
+and a few very large ones.
 \index{long tail}
 
 \item[80/20 rule:] The large values in a Pareto distribution are
@@ -2949,7 +2949,7 @@ are ``scale-free.''
 
 To get a sense of the difference between the Pareto and Gaussian
 distributions, imagine what the world would be like if the
-distribution of human height were Pareto.  
+distribution of human height were Pareto.
 
 In Pareto World, the shortest person is 100 cm,
 and the median is 150 cm, so that part of the distribution is not
@@ -2987,7 +2987,7 @@ To test your function, use {\tt paretovariate} from the {\tt random}
 module to generate 100 values from an exponential distribution.  Plot
 the CCDF on a log-$y$ scale and see if it falls on a straight line.
 What happens to the curve as you increase the number of values?
-\index{{\tt random} module}
+\index{random module@{\tt random} module}
 
 \end{ex}
 
@@ -3003,7 +3003,7 @@ The U.S. Census Bureau publishes data on the population of every
 incorporated city and town in the United States.  I wrote a
 small program that downloads this data and converts it into a
 convenient form.  You can download it from
-\url{thinkcomplex.com/populations.py}.  
+\url{thinkcomplex.com/populations.py}.
 \index{U.S. Census Bureau}
 
 Read over the program to make sure you know what it does and then
@@ -3086,7 +3086,7 @@ the details, but it is not important for what we are doing here.
 This exercise asks you to make connections between the Watts-Strogatz (WS)
 and \Barabasi-Albert (BA) models:
 \index{Watts-Strogatz model}
-\index{\Barabasi-Albert model}
+\index{Barabasi-Albert model@\Barabasi-Albert model}
 
 \begin{enumerate}
 
@@ -3117,7 +3117,7 @@ on a log-log plot:
 
 \begin{description}
 
-\item[Zipf plot:] Frequency as a function of rank. 
+\item[Zipf plot:] Frequency as a function of rank.
 \index{Zipf plot}
 
 \item[Pareto CCDF:] The complementary CDF of a Pareto distribution.
@@ -3148,7 +3148,7 @@ get that by summation:
 For large values of $k$ we can approximate the summation with
 an integral:
 
-\[ \sum_{i=0}^k i^{- \gamma} \sim \int_{i=0}^k i^{- \gamma} = 
+\[ \sum_{i=0}^k i^{- \gamma} \sim \int_{i=0}^k i^{- \gamma} =
 \frac{1}{\gamma -1} (1 - k^{-\gamma + 1}) \]
 
 To make this a proper CDF we could normalize it so that it
@@ -3318,7 +3318,7 @@ Kuhn was a historian of science who wrote {\em The
 Structure of Scientific Revolutions} in 1962, and spent the rest of
 his life explaining what he meant to say.
 \index{Kuhn, Thomas}
-\index{{\em The Structure of Scientific Revolutions}}
+\index{Structure of Scientific Revolutions@{\em The Structure of Scientific Revolutions}}
 \index{theory choice}
 \index{objectivity}
 
@@ -3426,9 +3426,9 @@ The following table shows an example:
 \centerline{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 \hline
-prev & 111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 \\ 
+prev & 111 & 110 & 101 & 100 & 011 & 010 & 001 & 000 \\
 \hline
-next   & 0   & 0   & 1   & 1   & 0   & 0   & 1   & 0 \\ 
+next   & 0   & 0   & 1   & 1   & 0   & 0   & 1   & 0 \\
 \hline
 \end{tabular}}
 
@@ -3494,7 +3494,7 @@ be computed directly from the indices; there is no need to follow a
 series of references.
 
 Here is a CA object that uses a NumPy array:
-\index{{\tt CA}}
+\index{CA@{\tt CA}}
 
 \begin{verbatim}
 import numpy
@@ -3525,7 +3525,7 @@ the given dimensions, {\tt n} by {\tt m}; {\tt dtype} stands
 for ``data type,'' and is specifies the type of the array elements.
 {\tt int8} is an 8-bit integer, so we are limited to 256 states,
 but that's no problem: we only need two.
-\index{{\tt zeros}}
+\index{zeros@{\tt zeros}}
 
 {\tt next} is the index of the next timestep.
 
@@ -3590,7 +3590,7 @@ that implement this interface.
 \index{interface}
 
 Here's the definition for {\tt CADrawer}:
-\index{{\tt CADrawer}}
+\index{CADrawer@{\tt CADrawer}}
 
 \begin{verbatim}
 class Drawer(object):
@@ -3609,7 +3609,7 @@ class Drawer(object):
         """Draws a representation of cellular automaton (CA).
         This function generally has no visible effect."""
         raise UnimplementedMethodException
-    
+
     def draw_array(self, a):
         """Iterate through array (a) and draws any non-zero cells."""
         for i in xrange(self.rows):
@@ -3621,7 +3621,7 @@ class Drawer(object):
         """Draws a single cell.
         Not required for all implementations."""
         raise UnimplementedMethodException
-    
+
     def show(self):
         """Displays the representation on the screen, if possible."""
         raise UnimplementedMethodException
@@ -3634,7 +3634,7 @@ class Drawer(object):
 Abstract classes should not be instantiated; if you try, you
 get an {\tt UnimplementedMethodException}, which is a simple
 extension of {\tt Exception}:
-\index{{\tt UnimplementedMethodException}}
+\index{UnimplementedMethodException@{\tt UnimplementedMethodException}}
 
 \begin{verbatim}
 class UnimplementedMethodException(Exception):
@@ -3682,7 +3682,7 @@ Hint: you might find it useful to add a column of ``ghost cells'' to
 the array.
 \index{ghost cells}
 
-You can download my solution from 
+You can download my solution from
 \url{thinkcomplex.com/CircularCA.py}
 
 \end{ex}
@@ -3706,7 +3706,7 @@ what it looks like after 64 steps:
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule18.eps}}
 \afterfig
 
-This pattern resembles the Sierpi\'{n}ski triangle, which 
+This pattern resembles the Sierpi\'{n}ski triangle, which
 you can read about at \url{wikipedia.org/wiki/Sierpinski_triangle}.
 \index{Sierpi\'{n}ski triangle}
 
@@ -3733,7 +3733,7 @@ side there are triangles in various sizes, but the center seems
 quite random.  In fact, if you take the center column and treat it as a
 sequence of bits, it is hard to distinguish from a truly random
 sequence.  It passes many of the statistical tests people use
-to test whether a sequence of bits is random.  
+to test whether a sequence of bits is random.
 
 Programs that produce random-seeming numbers are called
 {\bf pseudo-random number generators} (PRNGs).  They are not considered
@@ -3770,7 +3770,7 @@ The existence of these generators raises the question of whether there
 is any real difference between a good quality pseudo-random sequence
 and a sequence generated by a ``truly'' random process.  In {\em A New
   Kind of Science}, Wolfram argues that there is not (pages 315--326).
-\index{{\em A New Kind of Science}}
+\index{New Kind of Science@{\em A New Kind of Science}}
 
 \begin{ex}
 
@@ -3789,7 +3789,7 @@ test your PRNG.  How does it do?
 
 \item Read the documentation of Python's {\tt random} module.
 What PRNG does it use?  Test it using DieHarder.
-\index{{\tt random} module}
+\index{random module@{\tt random} module}
 
 \item Implement a Rule 30 CA on a ring with a few hundred cells,
 run it for as many time steps as you can in a reasonable amount
@@ -4028,7 +4028,7 @@ support to the Church-Turing Thesis.
 In {\em A New Kind of Science}, Wolfram states a variation of this
 thesis, which he calls the ``principle of computational equivalence:''
 \index{principle of computational equivalence}
-\index{{\em A New Kind of Science}}
+\index{New Kind of Science@{\em A New Kind of Science}}
 
 \begin{quote}
 Almost all processes that are not obviously simple can be viewed as
@@ -4109,7 +4109,7 @@ On the other hand, ``special creation,'' the claim that all species
 were created in their current form by a supernatural agent, is
 unfalsifiable because there is nothing that we could observe about the
 natural world that would contradict it.  Any outcome of any experiment
-could be attributed to the will of the creator.  
+could be attributed to the will of the creator.
 \index{special creation}
 
 Unfalsifiable hypotheses can be appealing because
@@ -4137,7 +4137,7 @@ the world or acting in it.
 \begin{ex}
 
 Falsifiability is an appealing and useful idea, but among
-philosophers of science it is not generally accepted 
+philosophers of science it is not generally accepted
 as a solution to the demarcation problem, as Popper claimed.
 
 Read \url{wikipedia.org/wiki/Falsifiability} and answer the following
@@ -4155,7 +4155,7 @@ demarcation problem?
 and one considered unscientific, that are successfully distinguished
 by the criterion of falsifiability.
 
-\item Can you summarize one or more of the objections that 
+\item Can you summarize one or more of the objections that
 philosophers and historians of science have raised to Popper's
 claim?
 
@@ -4171,7 +4171,7 @@ highly of Popper's work?
 \section{What is this a model of?}
 
 Some cellular automata are primarily mathematical artifacts.
-They are interesting because they are surprising, 
+They are interesting because they are surprising,
 or useful, or pretty, or because they provide tools for
 creating new mathematics (like the Church-Turing thesis).
 \index{mathematics}
@@ -4207,7 +4207,7 @@ amenable to analysis.  At some point, a model can be so complex
 that it is easier to experiment with a real system.
 
 At the other extreme, simple models can be compelling
-exactly because they are simple.  
+exactly because they are simple.
 
 Simple models offer a different kind of explanation than detailed
 models.  With a detailed model, the argument goes something
@@ -4222,7 +4222,7 @@ B is similar to O, and we can prove that M leads to B.''
 With simple models we can't claim that S is similar to M, because it
 isn't.  Instead, the argument goes like this: ``There is a set of
 models, ${M_0, M_1, ...}$ that share a common set of features, ${F_0,
-  F_1, ...}$.  
+  F_1, ...}$.
 
 Any model that has these features exhibits behavior B, and $M_0$ is
 the simplest.  If we make an observation, O, that resembles B, one way
@@ -4246,7 +4246,7 @@ See \url{http://en.wikipedia.org/wiki/Conway_Game_of_Life}.
 \index{Conway, John H.}
 \index{Gardner, Martin}
 
-The cells in GoL are arranged in a 2-D {\bf grid}, 
+The cells in GoL are arranged in a 2-D {\bf grid},
 either infinite in both
 directions or wrapped around.  A grid wrapped
 in both directions is called a {\bf torus} because it is topographically
@@ -4262,7 +4262,7 @@ is sometimes called a Moore neighborhood.
 \index{neighborhood}
 
 The rules of GoL are {\bf totalistic}, which means that the next
-state of a cell depends on the number of live neighbors only, 
+state of a cell depends on the number of live neighbors only,
 not on their arrangement.  The following table summarizes the
 rules:
 \index{totalistic}
@@ -4344,7 +4344,7 @@ represents a neighborhood with eight neighbors, all with weight 1.
 
 Convolution computes the weighted sum of the neighbors for each
 element of the array.  So this kernel computes the sum of the
-neighbors (not including the center element).  
+neighbors (not including the center element).
 
 For example, if {\tt array} represents a GoL grid with 1s for live
 cells and 0s for dead cells we can use convolution to compute the
@@ -4352,11 +4352,11 @@ number of neighbors for each cell.
 
 \begin{verbatim}
     import scipy.ndimage
-    neighbors = scipy.ndimage.filters.convolve(array, kernel) 
+    neighbors = scipy.ndimage.filters.convolve(array, kernel)
 \end{verbatim}
 
 Here's an implementation of GoL using {\tt convolve}:
-\index{{\tt Life}}
+\index{Life@{\tt Life}}
 
 \begin{verbatim}
 import numpy
@@ -4373,7 +4373,7 @@ class Life(object):
                                     [1,1,1]])
 
     def step(self):
-        con = scipy.ndimage.filters.convolve(self.array, 
+        con = scipy.ndimage.filters.convolve(self.array,
                                              self.weights,
                                              mode=self.mode)
 
@@ -4398,7 +4398,7 @@ Animation in {\tt pyplot} is a little awkward, but here's a class
 that manages it:
 \index{animation}
 \index{pyplot}
-\index{{\tt LifeViewer}}
+\index{LifeViewer@{\tt LifeViewer}}
 
 \begin{verbatim}
 import matplotlib
@@ -4460,11 +4460,11 @@ To run the animation, we need two methods:
 
 {\tt animate} gets the animation started.  It invokes {\tt pyplot.show},
 which sets up the GUI and waits for user events, but {\em first} it has
-to invoke {\tt window.after} to set up a callback, so that 
+to invoke {\tt window.after} to set up a callback, so that
 \verb"animate_callback" gets invoked after the window is set up.
 The first argument is the delay in milliseconds.  The second
 argument is a bound method (see Chapter 19 of {\em Think Python}).
-\index{{\em Think Python}}
+\index{Think Python@{\em Think Python}}
 
 \verb"animate_callback" invokes {\tt step} to update the {\tt Life}
 object and {\tt update} to update the display.
@@ -4642,7 +4642,7 @@ strong form:
 \end{description}
 
 SR4 is so strong that it is probably untenable; by such a strict
-criterion, almost all current theories are known to be false.  
+criterion, almost all current theories are known to be false.
 Most realists would accept something in the space
 between SR1 and SR3.
 
@@ -4732,7 +4732,7 @@ If you generalize the Turing machine to two dimensions, or
 add a read-write head to a 2-D CA, the result is a
 cellular automaton called a Turmite.  It is named after a
 termite because of the way the read-write head moves, but
-spelled wrong as an homage to Turing. 
+spelled wrong as an homage to Turing.
 \index{turmite}
 \index{Turing, Alan}
 
@@ -4767,7 +4767,7 @@ If you start with multiple Turmites, they interact with each
 other in seemingly complex ways.  If one Turmite is on the
 highway, another can follow it, overtake it, and cause it to
 reverse its pattern, moving back up the highway and leaving
-only white cells behind.  
+only white cells behind.
 
 \begin{ex}
 
@@ -4852,7 +4852,7 @@ And here's what it looks like after $t=8$ time steps:
 \centerline{\includegraphics[height=1.5in]{figs/fractal254.8.eps}}
 \afterfig
 
-As $t$ increases, we can imagine the triangle getting bigger, 
+As $t$ increases, we can imagine the triangle getting bigger,
 but for purposes of box-counting, it makes more sense to imagine
 the cells getting smaller.  In that case the size of the cells,
 $\veps$, is just $1/t$.
@@ -4998,7 +4998,7 @@ the top and bottom row of the grid.
 
 To model the porosity of the material, it is common to define
 a parameter, $p$, which the probability that any cell (or bond)
-is porous.  For a given value of $p$, you can estimate 
+is porous.  For a given value of $p$, you can estimate
 $R(p)$, which is the probability that there is a spanning cluster,
 by generating a large number of random grids and computing the
 fraction that contain a spanning cluster.  This way of estimating
@@ -5032,13 +5032,13 @@ Figure 2(a).
 \index{microcanonical ensemble}
 \index{canonical ensemble}
 
-\item What algorithm do they use to merge two clusters efficiently? 
+\item What algorithm do they use to merge two clusters efficiently?
 
 \item What is the primary reason their algorithm is faster than the
   simpler alternative?
 
 \end{enumerate}
- 
+
 \end{ex}
 
 
@@ -5082,7 +5082,7 @@ A variety of critical systems demonstrate a common behaviors:
   is proportional to $1/f$.  Visible light with this power spectrum
   looks pink, hence the name.
 \index{pink noise}
-\index{$1/f$ noise}
+\index{1/f noise@$1/f$ noise}
 
 \end{itemize}
 
@@ -5246,7 +5246,7 @@ $N-1$.
 Python provides support for complex numbers as a built-in type.
 The function {\tt complex} takes two arguments, a real part
 and an imaginary part, and returns a complex number:
-\index{{\tt complex}}
+\index{complex@{\tt complex}}
 
 \begin{verbatim}
 >>> complex(1, 1)
@@ -5285,7 +5285,7 @@ What effect does hoisting have on the order of growth?
 
 
 \section{Fast Fourier Transform}
- 
+
 The Fast Fourier Transform (FFT) is an efficient algorithm for
 computing the DFT.  It is often attributed to Cooley and Tukey,
 but it was independently discovered several times earlier.
@@ -5366,7 +5366,7 @@ be a fixed probability during each time step that a cell
 is incremented.  In this model (unlike the previous one) there
 may be more than one avalanche at a time.
 \index{pink noise}
-\index{$1/f$ noise}
+\index{1/f noise@$1/f$ noise}
 
 A plot of $F(t)$ shows that it is noisy, but not completely
 random, which is consistent with pink, or $1/f$ noise.
@@ -5445,7 +5445,7 @@ To understand this point, it is useful to think about two
 kinds of models, {\bf reductionist} and {\bf holistic}.  A
 reductionist model describes a system by describing its parts
 and their interactions.  When a reductionist model is used
-as an explanation, it depends on an analogy between the 
+as an explanation, it depends on an analogy between the
 components of the model and the components of the system.
 \index{reductionist}
 \index{holist}
@@ -5479,7 +5479,7 @@ identifies the essential elements of the category---discrete
 replicators, variability and differential reproduction---and proposes
 that any system that has these elements displays similar
 behavior, including complexity without design.
-\index{{\em The Selfish Gene}}
+\index{Selfish Gene@{\em The Selfish Gene}}
 \index{Dawkins, Richard}
 \index{evolution}
 
@@ -5563,7 +5563,7 @@ distributions in natural systems.  It may not be, as Bak suggests,
 that many systems can generate this behavior in isolation.  Instead
 there may be only a few, but there may be interactions between systems
 that cause the behavior to propagate.
-\index{{\em The Fractal Geometry of Nature}}
+\index{Fractal Geometry of Nature@{\em The Fractal Geometry of Nature}}
 \index{Mandelbrot, Benoit}
 \index{long-tailed distribution}
 
@@ -5604,7 +5604,7 @@ and the time series exhibits $1/f$ noise.
 If the stock market is a self-organized critical system, we
 should expect occasional large changes as part of the ordinary
 behavior of the market.
-\index{$1/f$ noise}
+\index{1/f noise@$1/f$ noise}
 
 The distribution of earthquake sizes is also long-tailed,
 and there are simple models of the dynamics of geological faults
@@ -5742,7 +5742,7 @@ neighbors are like themselves?
 In a recent book, {\em The Big Sort}, Bill Bishop argues that
 American society is increasingly segregated by political
 opinion, as people choose to live among like-minded neighbors.
-\index{{\em The Big Sort}}
+\index{Big Sort@{\em The Big Sort}}
 \index{Bishop, Bill}
 
 The mechanism Bishop hypothesizes is not that people, like the agents
@@ -5752,7 +5752,7 @@ likely to choose a neighborhood with people like themselves.
 
 Modify your implementation of Schelling's model to simulate
 this kind of behavior and see if it yields similar degrees of
-segregation. 
+segregation.
 
 \end{ex}
 
@@ -5789,7 +5789,7 @@ that are not in equilibrium (although they are also used to study
 equilibrium).  And they are particularly useful for understanding
 relationships between individual decisions and system behavior, or as
 in the title of Schelling's book, {\em Micromotives and Macrobehavior}.
-\index{{\em Micromotives and Macrobehavior}}
+\index{Micromotives and Macrobehavior@{\em Micromotives and Macrobehavior}}
 
 For more about agent-based modeling, see
 \url{wikipedia.org/wiki/Agent-based_model}.
@@ -5806,7 +5806,7 @@ apparent reason.
 Agent-based models can help explain spontaneous traffic jams.
 As an example, I implemented a simple highway simulation, based on
 a model in Resnick, {\em Turtles, Termites and Traffic Jams}.
-\index{{\em Turtles, Termites and Traffic Jams}}
+\index{Turtles, Termites and Traffic Jams@{\em Turtles, Termites and Traffic Jams}}
 \index{Resnick, Mitchell}
 
 You can download my program from \url{thinkcomplex.com/Highway.py}.
@@ -5926,7 +5926,7 @@ boids in the field of view:
                continue
 
             offset = other.pos - self.pos
-            
+
             # if not in range, skip it
             if offset.mag > radius:
                 continue
@@ -5937,7 +5937,7 @@ boids in the field of view:
 
             # otherwise add it to the list
             boids.append(other)
-            
+
         return boids
 \end{verbatim}
 
@@ -5973,9 +5973,9 @@ sets the overall goal:
 
 \begin{verbatim}
     def set_goal(self, boids, carrot):
-        self.goal = (w_avoid * self.avoid(boids, carrot) + 
+        self.goal = (w_avoid * self.avoid(boids, carrot) +
                      w_center * self.center(boids) +
-                     w_copy * self.copy(boids) + 
+                     w_copy * self.copy(boids) +
                      w_love * self.love(carrot))
 \end{verbatim}
 
@@ -6015,7 +6015,7 @@ different parameters.  What happens if you ``turn off'' one
 of the behaviors by setting the weight to 0?
 \index{parameter}
 
-To generate more bird-like behavior, 
+To generate more bird-like behavior,
 Flake suggests adding a fourth behavior to maintain a clear
 line of sight; in other words, if there is another bird nearly
 directly ahead, the boid should move away laterally.  What effect
@@ -6166,7 +6166,7 @@ is based on the axiom that if you know the rules that govern a system,
 you can predict its behavior.  What we call ``laws'' are often
 computational shortcuts that allow us to predict the outcome of a
 system without building or observing it.
-\index{{\em A New Kind of Science}}
+\index{New Kind of Science@{\em A New Kind of Science}}
 \index{Wolfram, Stephen}
 \index{natural law}
 
@@ -6202,7 +6202,7 @@ You can read more about emergence at
 
 \printindex
 
-%\clearemptydoublepage
+\clearemptydoublepage
 
 %\blankpage
 %\blankpage
