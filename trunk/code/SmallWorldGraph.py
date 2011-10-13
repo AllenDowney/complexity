@@ -173,6 +173,42 @@ class SmallWorldGraph(RandomGraph):
         return D
 
 
+    def recursive_floyd_warshall(self):
+        """Finds the shortest path between all pairs of nodes using
+        the Floyd-Warshall algorithm.
+        """
+        cache = {}
+        def shortest_path(i, j, k):
+            """Finds the shortest path from i to j using only the first
+            k vertices as intermediaries.
+            """
+            if (i,j,k) in cache:
+                return cache[i,j,k]
+
+            length = min(shortest_path(i, j, k-1),
+                         shortest_path(i, k, k-1) + shortest_path(k, j, k-1))
+
+            cache[i,j,k] = length
+            return length
+
+        n = len(self)
+        indices = range(n)
+        W = self.init_all_pairs()
+
+        # preload the cache
+        for key, val in W.iteritems():
+            i, j = key
+            cache[i,j,-1] = val
+
+        # compute all-pairs shortest paths
+        d = {}
+        for i in indices:
+            for j in indices:
+                d[i,j] = shortest_path(i, j, n-1)
+
+        return d
+
+
     def diameter(self):
         """Finds the diameter of the graph."""
 
@@ -231,6 +267,18 @@ class SmallWorldGraph(RandomGraph):
         """
         n = len(self)
         D = self.all_pairs_floyd_warshall()
+        t = [D[i,j] for i in range(n) for j in range(n) if i!=j]
+        return avg(t)
+
+    def char_length4(self):
+        """Computes the characteristic length of the graph according
+        to the definition in Watts and Strogatz.  Uses the Floyd-Warshall
+        algorithm to compute all pairs shortest paths.
+
+        Precondition: the graph is connected.
+        """
+        n = len(self)
+        D = self.recursive_floyd_warshall()
         t = [D[i,j] for i in range(n) for j in range(n) if i!=j]
         return avg(t)
 
@@ -320,6 +368,10 @@ def main(script, n='52', k='5', p='0.1', *args):
 
     start = clock()
     print 'char_length3 = ', g.char_length3()
+    print clock()-start
+
+    start = clock()
+    print 'char_length4 = ', g.char_length4()
     print clock()-start
 
     print 'cluster_coef = ', g.cluster_coef()
