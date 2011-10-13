@@ -45,7 +45,7 @@ def main(name, *args):
     pyplot.title('CDF')
     pyplot.xlabel('value, x')
     pyplot.ylabel('probability, cdf(x)')
-    pyplot.show()
+    #pyplot.show()
 
     pyplot.savefig('cdf_example.eps')
     pyplot.savefig('cdf_example.pdf')

@@ -68,31 +68,31 @@ class HashMap(object):
 
     def __init__(self):
         """Starts with 2 LinearMaps and 0 items."""
-        self.map = BetterMap(2)
+        self.maps = BetterMap(2)
         self.num = 0
 
     def get(self, k):
         """Looks up the key (k) and returns the corresponding value,
         or raises KeyError if the key is not found."""
-        return self.map.get(k)
+        return self.maps.get(k)
 
     def add(self, k, v):
         """Resize the map if necessary and adds the new item."""
-        if self.num == len(self.map.maps):
+        if self.num == len(self.maps.maps):
             self.resize()
 
-        self.map.add(k, v)
+        self.maps.add(k, v)
         self.num += 1
 
     def resize(self):
         """Makes a new map, twice as big, and rehashes the items."""
         new_map = BetterMap(self.num * 2)
 
-        for m in self.map:
-            for k, v in m:
+        for m in self.maps.maps:
+            for k, v in m.items:
                 new_map.add(k, v)
 
-        self.map = new_map
+        self.maps = new_map
 
 
 def main(script):
