@@ -179,8 +179,8 @@ class SmallWorldGraph(RandomGraph):
         """
         cache = {}
         def shortest_path(i, j, k):
-            """Finds the shortest path from i to j using only the first
-            k vertices as intermediaries.
+            """Finds the shortest path from i to j using only
+            vertices 0 through k as intermediaries.
             """
             if (i,j,k) in cache:
                 return cache[i,j,k]
