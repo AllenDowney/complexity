@@ -21,19 +21,21 @@ def recurse_levels(width, height):
         return bundle_combos(start=0, width=width, avoid=tuple())
 
     # otherwise make a recursive call
-    res = {}
     d = recurse_levels(width, height-1)
 
     # for each top-row configuration, enumerate the combos for the next row
+    res = {}
     for avoid, factor in d.iteritems():
         accumulate_combos(res, bundle_combos(0, width, avoid, factor))
 
     return res
 
+
 def accumulate_combos(acc, new_d):
     """Updates acc with entries from new_d."""
     for combo, count in new_d.iteritems():
         acc[combo] = acc.get(combo, 0) + count
+
 
 def bundle_combos(start, width, avoid, factor=1):
     """Makes a map from a top-row configuration to the
@@ -49,6 +51,7 @@ def bundle_combos(start, width, avoid, factor=1):
     for combo in combos:
         d[combo] = d.get(combo, 0) + factor
     return d
+
 
 cache = {}
 
@@ -100,8 +103,17 @@ def add_brick(end, combos):
     """
     return [combo + (end,) for combo in combos]
 
+
 def how_many_combinations(width, height):
+    """Returns the number of combinations with the given width and height.
+
+    Converts from inches to 1.5 inch fundamental units.
+
+    width: integer width in inches
+    height: integer height in brick heights
+    """
     d = recurse_levels(width*2 / 3, 10)
     return sum(d.itervalues())
+
 
 print how_many_combinations(48, 10)
