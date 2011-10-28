@@ -52,7 +52,7 @@
 
 
 \newcommand{\thetitle}{Complexity and Computation}
-\newcommand{\theversion}{1.0}
+\newcommand{\theversion}{1.0.2}
 
 % these styles get translated in CSS for the HTML version
 \newstyle{a:link}{color:purple;}
@@ -337,6 +337,10 @@ pointed out typos.
 
 \item Muhammad Najmi bin Ahmad Zabidi caught some typos.
 
+\item Phillip Loh, Corey Dolphin, Noam Rubin and Julian Ceipek
+found typos and made helpful suggestions.
+
+\item Jose Oscar Mur-Miranda found several typos.
 
 % ENDCONTRIB
 
@@ -392,7 +396,7 @@ business associates, etc.
 \index{edge weight}
 \index{weight}
 
-Edges may be {\bf undirected}, if they representation a relationship
+Edges may be {\bf undirected}, if they represent a relationship
 that is symmetric, or {\bf directed}.  In a social network,
 friendship is usually symmetric: if $A$ is friends with $B$ then
 $B$ is friends with $A$.  So you would probably represent friendship
@@ -796,7 +800,7 @@ with a given degree, so you should figure out and document the
 preconditions for this method.
 
 To test your code, you might want to create a file named
-{\tt TestGraph.py} that imports {\tt Graph.py} and
+{\tt GraphTest.py} that imports {\tt Graph.py} and
 {\tt GraphWorld.py}, then generates and displays the graphs
 you want to test.
 
@@ -810,7 +814,7 @@ you want to test.
 
 A random graph is just what it sounds like: a graph with edges
 generated at random.  Of course, there are many random processes that
-can generate graphs, so there are many kinds of random graph.  One
+can generate graphs, so there are many kinds of random graphs.  One
 interesting kind is the \Erdos-\Renyi~model, denoted $G(n,p)$, which
 generates graphs with $n$ nodes, where the probability is $p$ that
 there is an edge between any two nodes.  See
@@ -889,7 +893,7 @@ Write a Graph method named \verb"is_connected" that returns
 \section{Paul \Erdos: peripatetic mathematician, speed freak}
 \index{Erdos, Paul@\Erdos, Paul}
 
-Paul \Erdos~ was a Hungarian mathematician who spent most
+Paul \Erdos~was a Hungarian mathematician who spent most
 of his career (from 1934 until his death in 1992) living out
 of a suitcase, visiting colleagues at universities all over the
 world, and authoring papers with more than 500 collaborators.
@@ -900,7 +904,7 @@ some of his productivity to the use of these drugs; after giving them
 up for a month to win a bet, he complained that the only result
 was that mathematics had
 been set back by a month\footnote{Much of this biography follows
-\url{wikipedia.org/wiki/Paul_Erd\H{o}s}}.
+\url{wikipedia.org/wiki/Paul_Erdos}}.
 \index{caffeine}
 \index{amphetamine}
 
@@ -913,7 +917,7 @@ One of their most surprising results is the existence of
 abrupt changes in the characteristics of random graphs as
 random edges are added.  They showed that for a number of
 graph properties there is a threshold value of the probability
-$p$ below which the property is rare and above which is
+$p$ below which is the property is rare and above which it
 is almost certain.  This transition is sometimes called
 a ``phase change'' by analogy with physical systems that
 change state at some critical value of temperature.
@@ -1305,7 +1309,7 @@ answer the following questions:
 \begin{enumerate}
 
 \item What is the order of growth of $n^3 + n^2$?
-What about $1000000 n^3 + n^2$.
+What about $1000000 n^3 + n^2$?
 What about $n^3 + 1000000 n^2$?
 
 \item What is the order of growth of $(n^2 + n) \cdot (n + 1)$?  Before
@@ -1348,7 +1352,7 @@ and a bad algorithm is unbounded!
 \section{Analysis of basic operations}
 
 Most arithmetic operations are constant time; multiplication
-usually takes longer that addition and subtraction, and division
+usually takes longer than addition and subtraction, and division
 takes even longer, but these run times don't
 depend on the magnitude of the operands.  Very large integers
 are an exception; in that case the run time increases linearly
@@ -1469,7 +1473,7 @@ the following questions:
 \index{comparison sort}
 
 \item What is the order of growth of bubble sort, and why does Barack
-  Obama think it is ``the wrong way to go.''
+  Obama think it is ``the wrong way to go?''
 
 \item What is the order of growth of radix sort?  What preconditions
   do we need to use it?
@@ -1688,26 +1692,25 @@ Here is an implementation of a hashtable:
 class HashMap(object):
 
     def __init__(self):
-        self.map = BetterMap(2)
+        self.maps = BetterMap(2)
         self.num = 0
 
     def get(self, k):
-        or raises KeyError if the key is not found."""
-        return self.map.get(k)
+        return self.maps.get(k)
 
     def add(self, k, v):
-        if self.num == len(self.map.maps):
+        if self.num == len(self.maps.maps):
             self.resize()
 
-        self.map.add(k, v)
+        self.maps.add(k, v)
         self.num += 1
 
     def resize(self):
-        new_map = BetterMap(self.num * 2)
+        new_maps = BetterMap(self.num * 2)
 
-        for m in self.map:
-            for k, v in m:
-                new_map.add(k, v)
+        for m in self.maps.maps:
+            for k, v in m.items:
+                new_maps.add(k, v)
 \end{verbatim}
 
 Each {\tt HashMap} contains a {\tt BetterMap}; \verb"__init__" starts
@@ -1817,7 +1820,7 @@ in {\tt resize}.
 
 \begin{ex}
 
-Write an implementation of the dictionary interface called
+Write an implementation of the map interface called
 {\tt TreeMap} that uses a red-black tree to perform {\tt add}
 and {\tt get} in log time.
 \index{red-black tree}
@@ -1935,19 +1938,19 @@ slope 1.
 I wrote three functions that concatenate lists: \verb"sum_plus" uses
 {\tt +=}; \verb"sum_extend" uses {\tt list.extend}; and \verb"sum_sum"
 uses {\tt sum}.  I timed them for a range of {\tt n} and plotted the
-results on a log-log scale.  Figures~\ref{listsum1} and \ref{listsum2} show the
-results.
+results on a log-log scale.  Figures~\ref{listsum1} and \ref{listsum2}
+show the results.
 
 \begin{figure}
-\label{listsum1}
+
 \centerline{\includegraphics[height=2.5in]{figs/listsum1.eps}}
-\caption{Runtime versus {\tt n}.  The gray lines have slope 1.}
+\caption{Runtime versus {\tt n}.  The gray lines have slope 1.\label{listsum1}}
 \end{figure}
 
 \begin{figure}
-\label{listsum2}
+
 \centerline{\includegraphics[height=2.5in]{figs/listsum2.eps}}
-\caption{Runtime versus {\tt n}.  The gray line has slope 2.}
+\caption{Runtime versus {\tt n}.  The gray line has slope 2.\label{listsum2}}
 \end{figure}
 
 In Figure~\ref{listsum1} I fit a line with slope 1 to the curves.
@@ -2080,7 +2083,8 @@ of Edges between each pair of vertices in {\tt vs}:
     edges = [Edge(v, w) for v in vs for w in vs if v is not w]
 \end{verbatim}
 
-Now that's pretty concise!
+That's pretty concise, but complicated comprehensions can be
+hard to read, so use them sparingly.
 
 \begin{ex}
 
@@ -2352,11 +2356,15 @@ small-world graphs:
 
 \begin{enumerate}
 
-\item Start with a regular graph with $n$ nodes and degree $k$.
+\item Start with a regular graph with $n$ nodes and degree $k$.  
+  Watts and Strogatz start with a ring lattice, which is
+  a kind of regular graph.  You could replicate their experiment or
+  try instead a graph that is regular but not a ring lattice.
 
-\item Choose a subset of the edges in the graph and ``rewire''
-them by replacing them with random edges.
-\index{rewire}
+\item Choose a subset of the edges in the graph and ``rewire'' them by
+  replacing them with random edges.  Again, you could replicate the
+  procedure described in the paper or experiment with alternatives.
+  \index{rewire}
 
 \end{enumerate}
 
@@ -2816,9 +2824,7 @@ import matplotlib.pyplot as pyplot
 The following figure shows the cumulative distribution
 function (CDF), for the values $(1,2,2,4,5)$.
 
-\beforefig
-\centerline{\includegraphics[width=2.5in]{figs/cdf_example.eps}}
-\afterfig
+\centerline{\includegraphics[width=2.75in]{figs/cdf_example.eps}}
 
 I drew vertical lines at each of the values, which is not
 mathematically correct.  To be more rigorous, I should draw
@@ -3254,7 +3260,7 @@ structure of an explanatory model is:
   exhibits a behavior, B, that is analogous to O.
 \index{behavior}
 
-\item We conclude that S exhibits B {\em because} S is similar to M, M
+\item We conclude that S exhibits O {\em because} S is similar to M, M
   exhibits B, and B is similar to O.
 
 \end{enumerate}
@@ -3806,7 +3812,7 @@ Test it using DieHarder.
 
 The existence of Class 3 CAs is surprising.  To understand how
 surprising, it is useful to consider the philosophical stance called
-{\tt determinism} (see \url{wikipedia.org/wiki/Determinism}).
+{\bf determinism} (see \url{wikipedia.org/wiki/Determinism}).
 Most philosophical stances are hard to define precisely because
 they come in a variety of flavors.  I often find it useful
 to define them with a list of statements ordered from weak
@@ -4524,7 +4530,7 @@ You might have to adjust the size of the grid and the boundary behavior.
 The existence of long-lived patterns bring us back to Conway's
 original question: are there initial patterns that never stabilize?
 Conway thought not, but he described two kinds of pattern that would
-prove him wrong, a ``gun'' and a ``puffer train.''  A gun is an stable
+prove him wrong, a ``gun'' and a ``puffer train.''  A gun is a stable
 pattern that periodically produces a spaceship---as the stream of
 spaceships moves out from the source, the number of live cells grows
 indefinitely.  A puffer train is a translating pattern that leaves
@@ -4887,7 +4893,7 @@ triangle.  See \url{wikipedia.org/wiki/Sierpinski_triangle}.
 \begin{ex}
 
 Write a function that takes a CA object, plots $N(\veps)$ versus
-$1/\veps$, where $\veps = 1/t$, and estimates $D_{box} = 2$.
+$1/\veps$, where $\veps = 1/t$, and estimates $D_{box}$.
 
 Can you find other CAs with non-integer fractal dimensions?  Be
 careful, you might have to run the CA for a while before
@@ -5057,7 +5063,7 @@ its freezing point is a critical system.
 \index{self-organized criticality}
 \index{criticality}
 
-A variety of critical systems demonstrate a common behaviors:
+A variety of critical systems demonstrate common behaviors:
 
 \begin{itemize}
 
