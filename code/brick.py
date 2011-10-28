@@ -112,8 +112,10 @@ def how_many_combinations(width, height):
     width: integer width in inches
     height: integer height in brick heights
     """
-    d = recurse_levels(width*2 / 3, 10)
+    d = recurse_levels(width*2 / 3, height)
     return sum(d.itervalues())
 
 
+print how_many_combinations(12, 3)
+print how_many_combinations(27, 5)
 print how_many_combinations(48, 10)
