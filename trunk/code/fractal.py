@@ -59,6 +59,7 @@ def count(ca):
 def save_ca(ca, filename):
     """Draws the CA and saves it in an EPS file."""
     drawer = CADrawer.EPSDrawer()
+    pyplot.clf()
     drawer.draw(ca)
     drawer.save(filename)
 
@@ -71,12 +72,14 @@ def fractal_dimension(rule=18, n=512, save=False):
     ca.loop(n-1)
 
     if save:
-        filename = 'fractal%d.%d.eps' % (rule, n)
-        save_ca(ca, rule, n)
+        filename = 'fractal-%d-%d.eps' % (rule, n)
+        print 'Writing', filename
+        save_ca(ca, filename)
 
     ts, ys = count(ca)
     if save:
-        filename = 'fractal_dim%d.%d.eps' % (rule, n)
+        filename = 'fractal_dim-%d-%d.pdf' % (rule, n)
+        print 'Writing', filename
         plot_loglog(ts, ys, filename)
 
     slope, inter = fit_loglog(ts, ys, n/2)
