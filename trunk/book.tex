@@ -51,9 +51,11 @@
 \usepackage{verbatim}
 \usepackage{upquote}
 
+\newcommand{\thetitle}{Think Complexity}
+\newcommand{\theversion}{1.0.5}
 
-\newcommand{\thetitle}{Complexity and Computation}
-\newcommand{\theversion}{1.0.4}
+\title{\thetitle}
+\author{Allen B. Downey}
 
 % these styles get translated in CSS for the HTML version
 \newstyle{a:link}{color:purple;}
@@ -68,15 +70,36 @@
 
 \makeindex
 
+\newif\ifplastex
+\plastexfalse
+
 \begin{document}
 
 \frontmatter
 
 % LATEXONLY
 
-\input{latexonly}
+\ifplastex
+    \usepackage{localdef}
+    \maketitle
+
+\newcount\anchorcnt
+\newcommand*{\Anchor}[1]{%
+  \@bsphack%
+    \Hy@GlobalStepCount\anchorcnt%
+    \edef\@currentHref{anchor.\the\anchorcnt}% 
+    \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}% 
+    \M@gettitle{}\label{#1}% 
+    \@esphack%
+}
+
+
+\else
+% skip the following for plastex
 
 \newtheorem{ex}{Exercise}[chapter]
+
+\input{latexonly}
 
 \begin{latexonly}
 
@@ -224,6 +247,9 @@ Version \theversion
 \setcounter{chapter}{-1}
 
 \end{htmlonly}
+
+\fi
+% END OF THE PART WE SKIP FOR PLASTEX
 
 \chapter{Preface}
 
@@ -557,7 +583,7 @@ Here is an implementation of a graph as a dictionary of dictionaries:
 \index{dictionary}
 \index{nested dictionary}
 \index{Graph@{\tt Graph}}
-
+%
 \begin{verbatim}
 class Graph(dict):
     def __init__(self, vs=[], es=[]):
@@ -583,7 +609,7 @@ class Graph(dict):
         self[v][w] = e
         self[w][v] = e
 \end{verbatim}
-
+%
 The first line declares that {\tt Graph} inherits from the built-in
 type {\tt dict}, so a Graph object has all the methods and operators
 of a dictionary.
@@ -612,7 +638,7 @@ graph.
 
 Here is the definition for {\tt Vertex}:
 \index{Vertex@{\tt Vertex}}
-
+%
 \begin{verbatim}
 class Vertex(object):
     def __init__(self, label=''):
@@ -623,7 +649,7 @@ class Vertex(object):
 
     __str__ = __repr__
 \end{verbatim}
-
+%
 A Vertex is just an object that has a label attribute.  We can
 add attributes later, as needed.
 \index{label}
@@ -647,7 +673,7 @@ the same function, so we get the same string either way.
 
 Here is the definition for {\tt Edge}:
 \index{Edge@{\tt Edge}}
-
+%
 \begin{verbatim}
 class Edge(tuple):
     def __new__(cls, *vs):
@@ -658,7 +684,7 @@ class Edge(tuple):
 
     __str__ = __repr__
 \end{verbatim}
-
+%
 {\tt Edge} inherits from the built-in type {\tt tuple}
 and overrides the \verb"__new__" method.  When you invoke
 an object constructor, Python invokes \verb"__new__" to create
@@ -685,36 +711,36 @@ check.
 \index{precondition}
 
 Here is an example that creates two vertices and an edge:
-
+%
 \begin{verbatim}
     v = Vertex('v')
     w = Vertex('w')
     e = Edge(v, w)
     print e
 \end{verbatim}
-
+%
 Inside \verb"Edge.__str__" the term {\tt self[0]} refers
 to {\tt v} and {\tt self[1]} refers to {\tt w}.  So the output
 when you print {\tt e} is:
-
+%
 \begin{verbatim}
 Edge(Vertex('v'), Vertex('w'))
 \end{verbatim}
-
+%
 Now we can assemble the edge and vertices into a graph:
-
+%
 \begin{verbatim}
     g = Graph([v, w], [e])
     print g
 \end{verbatim}
-
+%
 The output looks like this (with a little formatting):
-
+%
 \begin{verbatim}
 {Vertex('w'): {Vertex('v'): Edge(Vertex('v'), Vertex('w'))},
  Vertex('v'): {Vertex('w'): Edge(Vertex('v'), Vertex('w'))}}
 \end{verbatim}
-
+%
 We didn't have to write \verb"Graph.__str__"; it is inherited
 from {\tt dict}.
 \index{inheritance}
@@ -788,13 +814,13 @@ connected to.
 
 To create a regular graph with degree 2 you would do something
 like this:
-
+%
 \begin{verbatim}
 vertices = [ ... list of Vertices ... ]
 g = Graph(vertices, [])
 g.add_regular_edges(2)
 \end{verbatim}
-
+%
 It is not always possible to create a regular graph
 with a given degree, so you should figure out and document the
 preconditions for this method.
@@ -959,7 +985,7 @@ An {\bf iterator} is an object that provides a method named
 {\tt next} that returns the next element in a sequence.  Here
 is an example that creates a dictionary and uses {\tt iterkeys}
 to traverse the keys.
-
+%
 \begin{verbatim}
 >>> d = dict(a=1, b=2)
 >>> iter = d.iterkeys()
@@ -972,7 +998,7 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
 \end{verbatim}
-
+%
 The first time {\tt next} is invoked, it returns the first key from
 the dictionary (the order of the keys is arbitrary).  The second
 time it is invoked, it returns the second element.  The third time,
@@ -984,12 +1010,12 @@ An iterator can be used in a {\tt for} loop; for example, the
 following is a common idiom for traversing the key-value
 pairs in a dictionary:
 \index{for@{\tt for} loop}
-
+%
 \begin{verbatim}
     for k, v in d.iteritems():
         print k, v
 \end{verbatim}
-
+%
 In this context, {\tt iteritems} is likely to be faster than
 {\tt items} because it doesn't have to build the entire list
 of tuples; it reads them from the dictionary as it goes along.
@@ -998,7 +1024,7 @@ of tuples; it reads them from the dictionary as it goes along.
 But it is only safe to use the iterator methods if you do not add or
 remove dictionary keys inside the loop.  Otherwise you get an
 exception:
-
+%
 \begin{verbatim}
 >>> d = dict(a=1)
 >>> for k in d.iterkeys():
@@ -1006,16 +1032,16 @@ exception:
 ...
 RuntimeError: dictionary changed size during iteration
 \end{verbatim}
-
+%
 Another limitation of iterators is that they do not support index
 operations.
-
+%
 \begin{verbatim}
 >>> iter = d.iterkeys()
 >>> print iter[1]
 TypeError: 'dictionary-keyiterator' object is unsubscriptable
 \end{verbatim}
-
+%
 If you need indexed access, you should use {\tt keys}.
 Alternatively, the Python module {\tt itertools} provides
 many useful iterator functions.
@@ -1025,7 +1051,7 @@ A user-defined object can be used as an iterator if it
 provides methods named {\tt next} and \verb"__iter__".
 The following example is an iterator that always returns {\tt True}:
 \index{iter@{\tt \_\_iter\_\_}}
-
+%
 \begin{verbatim}
 class AllTrue(object):
     def next(self):
@@ -1034,7 +1060,7 @@ class AllTrue(object):
     def __iter__(self):
         return self
 \end{verbatim}
-
+%
 The \verb"__iter__" method for iterators returns the iterator
 itself.  This protocol makes it possible to use iterators
 and sequences interchangeably in many contexts.
@@ -1042,7 +1068,7 @@ and sequences interchangeably in many contexts.
 Iterators like {\tt AllTrue} can represent an infinite sequence.
 They are useful as an argument to {\tt zip}:
 \index{infinite sequence}
-
+%
 \begin{verbatim}
 >>> print zip('abc', AllTrue())
 [('a', True), ('b', True), ('c', True)]
@@ -2824,7 +2850,7 @@ import matplotlib.pyplot as pyplot
 The following figure shows the cumulative distribution
 function (CDF), for the values $(1,2,2,4,5)$.
 
-\centerline{\includegraphics[width=2.75in]{figs/cdf_example.pdf}}
+\centerline{\includegraphics[width=3.0in]{figs/cdf_example.pdf}}
 
 I drew vertical lines at each of the values, which is not
 mathematically correct.  To be more rigorous, I should draw
@@ -3924,9 +3950,9 @@ Figure~\ref{rule110} shows a bigger picture, starting with a random initial
 condition and 600 timesteps:
 
 \begin{figure}
-\label{rule110}
 \centerline{\includegraphics[width=5.5in,height=5.5in]{figs/rule-110-600-random.pdf}}
-\caption{Rule 110 with random initial conditions and 600 timesteps.}
+\caption{Rule 110 with random initial conditions and 600 timesteps.\label{rule110}
+}
 \end{figure}
 
 After about 100 steps the background settles into a simple repeating
