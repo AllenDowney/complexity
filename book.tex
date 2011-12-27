@@ -48,6 +48,7 @@
 \usepackage{makeidx}
 \usepackage{setspace}
 \usepackage{hevea}
+\usepackage{verbatim}
 \usepackage{upquote}
 
 
@@ -309,7 +310,6 @@ the Franklin W. Olin College of Engineering.
 
 
 
-
 \section*{Contributor List}
 
 \index{contributors}
@@ -533,7 +533,7 @@ a social network with three people.
 %a {\bf clique} (pronounced ``cleek'').
 
 \beforefig
-\centerline{\includegraphics[width=5.5in]{figs/graph_examples.eps}}
+\centerline{\includegraphics[width=5.5in]{figs/graph_examples.pdf}}
 \afterfig
 
 In the graph on the right, the weights of the edges are the
@@ -1774,7 +1774,7 @@ work for each add in order from left to right: the first two
 {\tt adds} cost 1 units, the third costs 3 units, etc.
 
 \beforefig
-\centerline{\includegraphics[width=5.5in]{figs/towers.eps}}
+\centerline{\includegraphics[width=5.5in]{figs/towers.pdf}}
 \afterfig
 
 The extra work of rehashing appears as a sequence of increasingly
@@ -1943,13 +1943,13 @@ show the results.
 
 \begin{figure}
 
-\centerline{\includegraphics[height=2.5in]{figs/listsum1.eps}}
+\centerline{\includegraphics[height=2.5in]{figs/listsum1.pdf}}
 \caption{Runtime versus {\tt n}.  The gray lines have slope 1.\label{listsum1}}
 \end{figure}
 
 \begin{figure}
 
-\centerline{\includegraphics[height=2.5in]{figs/listsum2.eps}}
+\centerline{\includegraphics[height=2.5in]{figs/listsum2.pdf}}
 \caption{Runtime versus {\tt n}.  The gray line has slope 2.\label{listsum2}}
 \end{figure}
 
@@ -2824,7 +2824,7 @@ import matplotlib.pyplot as pyplot
 The following figure shows the cumulative distribution
 function (CDF), for the values $(1,2,2,4,5)$.
 
-\centerline{\includegraphics[width=2.75in]{figs/cdf_example.eps}}
+\centerline{\includegraphics[width=2.75in]{figs/cdf_example.pdf}}
 
 I drew vertical lines at each of the values, which is not
 mathematically correct.  To be more rigorous, I should draw
@@ -3450,7 +3450,7 @@ The following figure shows the effect of Rule 50 over 10
 time steps:
 
 \beforefig
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule50.eps}}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-50-10.pdf}}
 \afterfig
 
 The first row shows the state of the system during the first
@@ -3484,7 +3484,7 @@ following figure shows why:
 \index{nested list}
 
 \beforefig
-\centerline{\includegraphics[height=1.5in]{figs/array.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/array.pdf}}
 \afterfig
 
 The diagram on the left shows a list of lists of integers; each
@@ -3709,7 +3709,7 @@ of itself.  Rule 18 makes the nested structure even clearer; here is
 what it looks like after 64 steps:
 
 \beforefig
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule18.eps}}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-18-64.pdf}}
 \afterfig
 
 This pattern resembles the Sierpi\'{n}ski triangle, which
@@ -3731,7 +3731,7 @@ after 100 timesteps:
 \index{Rule 30}
 
 \beforefig
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule30.eps}}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-30-100.pdf}}
 \afterfig
 
 Along the left side there is an apparent pattern, and on the right
@@ -3913,7 +3913,7 @@ a single cell and 100 timesteps:
 \index{Rule 110}
 
 \beforefig
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule110.eps}}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-110-100.pdf}}
 \afterfig
 
 At this time scale it is not apparent that anything special is
@@ -3925,7 +3925,7 @@ condition and 600 timesteps:
 
 \begin{figure}
 \label{rule110}
-\centerline{\includegraphics[width=5.5in,height=5.5in]{figs/rule110random.eps}}
+\centerline{\includegraphics[width=5.5in,height=5.5in]{figs/rule-110-600-random.pdf}}
 \caption{Rule 110 with random initial conditions and 600 timesteps.}
 \end{figure}
 
@@ -4849,13 +4849,13 @@ $t=4$ time steps.
 \index{Rule 254}
 
 \beforefig
-\centerline{\includegraphics[height=1.5in]{figs/fractal254.4.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/fractal-254-4.pdf}}
 \afterfig
 
 And here's what it looks like after $t=8$ time steps:
 
 \beforefig
-\centerline{\includegraphics[height=1.5in]{figs/fractal254.8.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/fractal-254-8.pdf}}
 \afterfig
 
 As $t$ increases, we can imagine the triangle getting bigger,
@@ -4873,13 +4873,13 @@ Rule 18 is more interesting.  Here's what it looks like after 64 steps:
 \index{Rule 18}
 
 \beforefig
-\centerline{\includegraphics[height=1.5in]{figs/rule18.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/rule-18-64.pdf}}
 \afterfig
 
 And here's $N(\veps)$ versus $1/\veps$ on a log-log scale:
 
 \beforefig
-\centerline{\includegraphics[width=3.5in]{figs/fractal_dim18.64.eps}}
+\centerline{\includegraphics[width=3.5in]{figs/fractal_dim-18-64.pdf}}
 \afterfig
 
 To estimate $D_{box}$ I fit a line to this curve; its slope is 1.56.
@@ -6205,8 +6205,16 @@ You can read more about emergence at
 %little about its behavior.  For example, we know how neurons work, but
 %not how neurons create consciousness.
 
+\appendix
 
-\appendix{Ant Trails and Agent-Based Models}
+\chapter{Sugarscape}
+
+{\em Dan Kearney, Natalie Mattison and Theo Thompson}
+
+\input{case_studies/sugarscape/final.tex}
+
+
+\chapter{Ant Trails and Agent-Based Models}
 
 {\em Chloe Vilain and Andrew Pikler}
 
