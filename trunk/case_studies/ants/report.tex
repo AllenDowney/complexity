@@ -21,7 +21,7 @@ The ants live in a two-dimensional world of discrete points arranged in a grid. 
   \fbox{
   \begin{minipage}{3in}
   \begin{center}
-    \includegraphics[width=1\textwidth]{antchoice.jpg}
+    \includegraphics[width=1\textwidth]{figs/antchoice.jpg}
   \end{center}
   \vspace{-20pt}
   \caption{In the model, ants live in a grid and face away from the nest. At each time step, they can move forward left or forward right.}
@@ -38,7 +38,7 @@ In its starting configuration, each point in the world has a chance of containin
 \begin{figure}[h]
   % \vspace{-20pt}
   \begin{center}
-    \includegraphics[width=0.48\textwidth]{plot.png}
+    \includegraphics[width=0.48\textwidth]{figs/plot.png}
   \end{center}
   \caption{Plot of our simulation after 1000 time steps.}
   \label{fig:plot}
@@ -93,27 +93,27 @@ We use the \texttt{wx} Python package to plot a picture of the ants after the si
 
 Our code defines a class called \texttt{AntPlot} which is responsible for taking the World and popping up a \texttt{wx} window that plots the ants as seen in Figure~\ref{fig:plot}:
 
-\begin{verbatimtab}
+\begin{verbatim}
 class AntPlot:
-	def __init__(self, world):
-		self.world = world
-		self.app = wx.PySimpleApp()
-		self.w = 500
-		self.h = 500
-		self.frame = wx.Frame(None, -1, 'Ant Plot', size=(self.w, self.h))
-		self.canvas = FloatCanvas(self.frame, -1)
-		
-	
-	def draw(self):
-		positions = self.world.get_ant_dict()
-		for pos in positions:
-			x, y = pos
-			x -= self.w / 2
-			y -= self.h / 2
-			self.canvas.AddPoint((x, y))
-		self.frame.Show()
-		self.app.MainLoop()
-\end{verbatimtab}
+    def __init__(self, world):
+        self.world = world
+        self.app = wx.PySimpleApp()
+        self.w = 500
+        self.h = 500
+        self.frame = wx.Frame(None, -1, 'Ant Plot', size=(self.w, self.h))
+        self.canvas = FloatCanvas(self.frame, -1)
+        
+    
+    def draw(self):
+        positions = self.world.get_ant_dict()
+        for pos in positions:
+            x, y = pos
+            x -= self.w / 2
+            y -= self.h / 2
+            self.canvas.AddPoint((x, y))
+        self.frame.Show()
+        self.app.MainLoop()
+\end{verbatim}
 
 The specific widget we use to accomplish the plotting is a \texttt{FloatCanvas}. Most canvases in GUI libraries define the point (0, 0) as the upper left corner of the canvas and have x increase to the left and y increase down, but the coordinates in the \texttt{FloatCanvas} work like in math---(0, 0) is defined as the middle, and y increases up. This allows us to write simpler code because we don't have to transform our coordinates to the canvas's system like we would have to for a traditional canvas.
 
@@ -144,7 +144,6 @@ The use of agent-based models allowed battle sequences to be re-simulated and ti
 
 You may be wondering how \emph{Lord of the Rings} relates to ant trails.  Clearly, the models used in the films are far more complicated than those we used to simulate ant trails; however, their results are further proof of the same concept.  Like the agents in \emph{Lord of the Rings}, our ants were given relatively simple commands from which complex behavior evolved.  Moreover, this behavior was believable and true to the natural world. 
 
-\end{document}
 
 
 
