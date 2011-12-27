@@ -43,15 +43,18 @@ distrib:
 	chmod -R o+r $(DEST)/*
 
 plastex:
+	rm -rf /home/downey/complexity/trunk/book
 	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=book.xml book.tex
 
 xxe:
 	~/Downloads/xxe-perso-4_8_0/bin/xxe book/book.xml
 
+DEST = /home/downey/oreilly/complexity
+
 oreilly:
-	rsync -a book/ ~/oreilly
-	rsync -a figs/* ~/oreilly/figs
-	cp thinkstats.pdf ~/oreilly/pdf
+	rsync -a book/ $(DEST)
+	rsync -a figs/* $(DEST)/figs
+	rsync -a thinkstats.pdf $(DEST)/pdf
 
 clean:
 	rm -f *~ *.aux *.log *.dvi *.idx *.ilg *.ind *.toc
