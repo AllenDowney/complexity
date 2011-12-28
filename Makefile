@@ -45,6 +45,7 @@ distrib:
 plastex:
 	rm -rf /home/downey/complexity/trunk/book
 	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=book.xml book.tex
+	rm -rf /home/downey/complexity/trunk/book/.svn
 
 xxe:
 	~/Downloads/xxe-perso-4_8_0/bin/xxe book/book.xml
@@ -54,7 +55,7 @@ DEST = /home/downey/oreilly/complexity
 oreilly:
 	rsync -a book/ $(DEST)
 	rsync -a figs/* $(DEST)/figs
-	rsync -a thinkstats.pdf $(DEST)/pdf
+	rsync -a thinkcomplexity.pdf $(DEST)/pdf
 
 clean:
 	rm -f *~ *.aux *.log *.dvi *.idx *.ilg *.ind *.toc
