@@ -77,8 +77,7 @@
 
 \frontmatter
 
-% LATEXONLY
-
+% PLASTEX ONLY
 \ifplastex
     \usepackage{localdef}
     \maketitle
@@ -98,6 +97,9 @@
 % skip the following for plastex
 
 \newtheorem{ex}{Exercise}[chapter]
+
+
+% LATEXONLY
 
 \input{latexonly}
 
@@ -558,9 +560,10 @@ a social network with three people.
 %where each node is connected to all of the others, is called
 %a {\bf clique} (pronounced ``cleek'').
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=5.5in]{figs/graph_examples.pdf}}
-\afterfig
+\caption{Examples of graphs.}
+\end{figure}
 
 In the graph on the right, the weights of the edges are the
 approximate travel times, in hours, between cities in the northeast
@@ -1799,9 +1802,10 @@ block represents a unit of work.  The columns show the total
 work for each add in order from left to right: the first two
 {\tt adds} cost 1 units, the third costs 3 units, etc.
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=5.5in]{figs/towers.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 The extra work of rehashing appears as a sequence of increasingly
 tall towers with increasing space between them.  Now if you knock
@@ -1968,13 +1972,11 @@ results on a log-log scale.  Figures~\ref{listsum1} and \ref{listsum2}
 show the results.
 
 \begin{figure}
-
 \centerline{\includegraphics[height=2.5in]{figs/listsum1.pdf}}
 \caption{Runtime versus {\tt n}.  The gray lines have slope 1.\label{listsum1}}
 \end{figure}
 
 \begin{figure}
-
 \centerline{\includegraphics[height=2.5in]{figs/listsum2.pdf}}
 \caption{Runtime versus {\tt n}.  The gray line has slope 2.\label{listsum2}}
 \end{figure}
@@ -2762,9 +2764,7 @@ easy to understand, but it is tricky to get the bin size right.  If the bins
 are too small, the number of values in each bin is also small,
 so the histogram doesn't give much insight.  If the bins are
 too large, they lump together a wide range of values, which
-obscures details that might be important.
-\index{histogram}
-\index{bin size}
+obscures details that might be important. \index{histogram} \index{bin size}
 
 A better alternative is a {\bf cumulative distribution function}
 (CDF), which maps from a value, $x$, to the fraction of values less
@@ -2850,18 +2850,19 @@ import matplotlib.pyplot as pyplot
 The following figure shows the cumulative distribution
 function (CDF), for the values $(1,2,2,4,5)$.
 
+\begin{figure}
 \centerline{\includegraphics[width=3.0in]{figs/cdf_example.pdf}}
+\caption{Caption.}
+\end{figure}
 
 I drew vertical lines at each of the values, which is not
 mathematically correct.  To be more rigorous, I should draw
 a discontinuous function.
 
 \begin{ex}
-
 Read the code in {\tt Cdf.py}.  What is the order of growth for
 {\tt MakeCdfFromList} and the methods {\tt Prob} and {\tt Value}?
 \index{order of growth}
-
 \end{ex}
 
 
@@ -3454,7 +3455,6 @@ The following table shows an example:
 \index{rule table}
 \index{state}
 
-\beforefig
 \centerline{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -3475,9 +3475,10 @@ decimal, Wolfram calls this CA ``Rule 50.''
 The following figure shows the effect of Rule 50 over 10
 time steps:
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-50-10.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 The first row shows the state of the system during the first
 timestep; it starts with one cell ``on'' and the rest ``off''.
@@ -3509,9 +3510,10 @@ following figure shows why:
 \index{array}
 \index{nested list}
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[height=1.5in]{figs/array.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 The diagram on the left shows a list of lists of integers; each
 dot represents a reference, which takes up 4--8 bytes.  To access
@@ -3734,9 +3736,10 @@ nested structure; that is, the pattern contains many smaller versions
 of itself.  Rule 18 makes the nested structure even clearer; here is
 what it looks like after 64 steps:
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-18-64.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 This pattern resembles the Sierpi\'{n}ski triangle, which
 you can read about at \url{wikipedia.org/wiki/Sierpinski_triangle}.
@@ -3756,9 +3759,10 @@ after 100 timesteps:
 \index{Class 3 behavior}
 \index{Rule 30}
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-30-100.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 Along the left side there is an apparent pattern, and on the right
 side there are triangles in various sizes, but the center seems
@@ -3938,9 +3942,10 @@ Here is a what Rule 110 looks like with an initial condition of
 a single cell and 100 timesteps:
 \index{Rule 110}
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-110-100.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 At this time scale it is not apparent that anything special is
 going on.  There are some regular patterns but also some features
@@ -3951,8 +3956,7 @@ condition and 600 timesteps:
 
 \begin{figure}
 \centerline{\includegraphics[width=5.5in,height=5.5in]{figs/rule-110-600-random.pdf}}
-\caption{Rule 110 with random initial conditions and 600 timesteps.\label{rule110}
-}
+\caption{Rule 110 with random initial conditions and 600 timesteps.\label{rule110}}
 \end{figure}
 
 After about 100 steps the background settles into a simple repeating
@@ -4874,15 +4878,17 @@ As an example, consider Rule 254.  Here's what it looks like after
 $t=4$ time steps.
 \index{Rule 254}
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[height=1.5in]{figs/fractal-254-4.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 And here's what it looks like after $t=8$ time steps:
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[height=1.5in]{figs/fractal-254-8.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 As $t$ increases, we can imagine the triangle getting bigger,
 but for purposes of box-counting, it makes more sense to imagine
@@ -4898,15 +4904,17 @@ that a triangle is 2-dimensional.
 Rule 18 is more interesting.  Here's what it looks like after 64 steps:
 \index{Rule 18}
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[height=1.5in]{figs/rule-18-64.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 And here's $N(\veps)$ versus $1/\veps$ on a log-log scale:
 
-\beforefig
+\begin{figure}
 \centerline{\includegraphics[width=3.5in]{figs/fractal_dim-18-64.pdf}}
-\afterfig
+\caption{Caption.}
+\end{figure}
 
 To estimate $D_{box}$ I fit a line to this curve; its slope is 1.56.
 $D_{box}$ is a non-integer, which means that this set of
@@ -6237,15 +6245,438 @@ You can read more about emergence at
 
 {\em Dan Kearney, Natalie Mattison and Theo Thompson}
 
-\input{case_studies/sugarscape/final.tex}
+\section{The Sugarscape in its Original Implementation}
+
+A famous agent-based model is Epstein and Axtell’s “Sugarscape,” explained in detail in their book \underline{Growing Artificial Societies}. Sugarscape is a virtual 2D grid where each cell has a certain amount of “sugar” or “spice” that increases at a certain rate. Agents roam the grid, consuming sugar as they visit cells.
+
+In the simplest Sugarscape, each agent has a sugar reserve, a metabolism at which rate it consumes its sugar, and a range of nearby cells that it can observe. At each time step, the agent observes its nearby cells and moves to the cell with the most sugar. These rules can be expanded to include topics as varied as reproduction, death, disease, loans, and warfare. For example, a disease can be introduced to the system where any sick agent can infect nearby healthy agents without immunity.
+
+Despite its simplicity, the model shows emergent behavior that resembles the real world. When modeling wealth with Sugarscape, a long tailed distribution appears where some agents are exponentially richer than others. This complex behavior is seen in the United States, where wealth is a Pareto distribution with the top 20\% owning about 85\% of the total wealth. In general, a long tailed distribution is viewed as a negative because it means there are many people barely surviving while others are fabulously rich. 
+
+\section{\#Occupy}
+
+Wealth inequality has partly fueled a modern social movement known as “Occupy”. The first significant Occupy protest was on Wall Street, where thousands of protesters gathered to express their dismay against the wealth distribution, among other things. The movement's motto is “We are the 99\%”, reminding politicians to serve the majority, not the 1\% who control more than a third of the nation's wealth. A major goal of the movement is to achieve a more equal distribution of income, which protesters hope to accomplish by implementing a more progressive tax policy. 
+
+There is little debate about the fact that taxes redistribute wealth from the rich to the poor. What opponents of the Occupy movement (and fiscal conservatives in general) claim is that high tax rates for the rich actually hurt the population as a whole. The logic is that wealthy people employ the poor, redistributing the wealth without the need for tax levies. 
+
+\section{A New Take on Sugarscape}
+
+Our implementation of Sugarscape aims to study the effect of taxation on the wealth of a society. We want to show how extreme under or over taxation can affect the society and its individual agents, and what happens in between these two extremes. The model tests a “flat tax” system where every agent gets taxed a constant rate (say 10\% of its total wealth) and the tax pool is redistributed evenly among all the agents. We recreate the original Sugarscape and expand on it with the end goal of determining if it is possible to shrink the wealth gap without crippling the society.
+
+\subsection{Pygame}
+
+In the process of implementing Sugarscape, we made a GUI to better understand what was happening on the grid. The visualization of the Sugarscape is done with Pygame, a set of Python modules that allows easy graphic drawing. Pygame can ‘blit’ images onto the screen and it has built-in methods for handling user input like mouse clicks and button presses, making it ideal for designing game or other programs that receive a lot of input.
+
+Below is an abbreviated version of our event loop that draws the cells in the GUI at each timestep. Sugarscape.nextstep() moves every agent forward by one timestep and the rest of the code redraws the update. Redrawing the entire grid is slightly less efficient than changing existing rectangle objects but is a common convention for pygame. A square is drawn for each location, and the color of the square changes based on the amount of sugar contained there. Agents are represented by circles drawn on top of their current location.
+
+\begin{verbatim}
+
+  def event_loop(self,sugarscape):
+   while True:
+    sugarscape.nextstep()
+    for i in range(sugarscape.length):
+     for j in range(sugarscape.width):
+      loc=sugarscape.get_location(i,j)
+      health_color=(0, 0,loc.get_sugar_amt()/loc.get_max_sugar())
+      pygame.draw.rect(self.window,healthColor,(12*i,12*j,10,10))
+    pygame.display.update()
+\end{verbatim}
+
+Users can control certain attributes of the Sugarscape by moving sliders underneath the grid. A histogram, implemented using the matplotlib library, shows the current distribution of wealth, and text fields show certain characteristics of the distribution. 
+
+\section{Taxation and the Leave Behind}
+
+Taxation in our implementation of Sugarscape is handled with a “Government” object. Every ten timesteps, the Government object collects a constant percentage of each agent's sugar reserve. The Government then immediately redistributes the collected sugar to each agent equally.
+
+Taxation is a novel concept in Sugarscape, but the implementation described above does not fully capture a society's response to taxation. In a real society, the wealthiest contribute to society more than the poor because they can open factories, do research and development, and generally make investments into the economy. In order to simulate the benefits that a few wealthy people bring into an economy, we need to implement some mechanism for the rich to contribute more to a society than the poor. As such, we implement a simple “leave behind” feature, where agents leave some sugar behind as they leave a location. The amount that they leave behind is calculated:
+
+$sugar = \frac{wealth\times N}{total\_wealth}^{1.1} \times \frac{1}{5}$
+
+where N is the total number of agents, wealth is the amount of sugar the agent currently has, and total wealth is the total amount of sugar owned by all the agents. Agents who own a large proportion of the total wealth leave behind larger amounts of sugar, making an “investment” into the Sugarscape, and creating wealth around it. 
+
+\subsection{What is a Gini coefficient?}
+
+In order to compare tax rates objectively based on their wealth distribution, we need a metric that can measure how distributed or flat a certain wealth distribution is. We use the Gini coefficient, which is often used in economics to measure the wealth gap (named after Corrado Gini who developed it in 1912). This coefficient allows us measure how well the wealth is distributed. The value is always between 0 and 1, with 0 the measurement of a perfectly uniform distribution, and 1 the measurement of a distribution with complete inequality.
+
+A good way to visualize Gini coefficients is a Lorenz curve.  A society's wealth inequality is visualized by the curvature of the graph, where a perfectly distributed society is a straight line.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/lorenz.pdf}
+\caption{Lorenz curves for different tax rates.}
+\end{figure}
+
+\subsection{Results Without Taxation}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/pmf_notax.pdf}
+\caption{PMF with no tax.}
+\end{figure}
+
+Figure 3 shows a histogram describing the wealth distribution when there is no tax system in place. For most initial conditions without taxation, the Sugarscape quickly develops a long-tailed distribution of wealth, skewed to the right. In these cases, some agents die quickly, particularly in an environment with many agents or one with low sugar regrowth rate. The separation between the rich and the poor is significant, and there aren't many agents occupying the middle ground. This is seen in real life in societies where there is no tax structure and there isn't much of a middle class.
+
+\subsection{Results With Taxation}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/pmf_20percent.pdf}
+\caption{PMF with tax.}
+\end{figure}
+
+Figure 2 shows our results with a relatively high tax rate. The agents have a similar amount of sugar, and the economy has a very low Gini coefficient (.02). Figure 3 confirms this, showing that higher taxes in general result in lower Gini coefficients. This makes sense, since the point of our tax system is to redistribute the wealth.
+
+One drawback to such a small deviation of wealth is the effect it has on the mean wealth. The mean in figure 2 (with 20\% tax) is 157, compared to the 0\% tax rate case where the mean is 358. Figure 5 shows the plot of the tax rate versus the mean wealth, which shows that the mean wealth gets smaller as taxes get higher.
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/gini_coeff.pdf}
+\caption{The Gini coefficient versus the tax rate.}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/mean_wealth.pdf}
+\caption{The tax rate plotted against the mean wealth of the Sugarscape agents. The mean wealth decreases as the tax rate increases, showing the tax rate's effect on the wealth of the agents.}
+\end{figure}
+
+
+\section{Conclusion}
+
+It's up to a society to determine its ideal wealth distribution. If a society values total wealth above all else, the best way to achieve that is with zero taxation. Figure 4 shows that taxation causes the total wealth in a society to decline. All the way to the left, at zero taxation, is analogous to a purely capitalist system. The other end of the spectrum is a Marxist system with total taxation and even wealth redistribution. The capitalist system produces more total wealth, while a Marxist system does not allow for much variability.
+
+These two systems are at odds with each other, and neither fully represent how a real-world society values wealth. A real society would want as much wealth as possible while still preventing poverty. An effective way to track how the lower class is doing is showing how the bottom quartile’s wealth changes with taxation. In figure 5, we see the average wealth of the bottom quartile reaches a peak around a tax rate of 4\%. 
+
+As the tax rate gets higher, the bottom quartile's wealth initially climbs, which is expected as taxation is designed to aid the poorest in a society. But at a critical point around 3\%, the bottom quartile's wealth drops too--this is the point where the society's decline overcomes the taxation's aid. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/bottom_quartile.pdf}
+\caption{Bottom quartile value versus tax rate. There is a critical point around a tax rate of 4\% where the average wealth of the bottom quartile is maximized.}
+\end{figure}
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3.0in]{figs/pmf_2percent.pdf}
+\caption{The wealth distribution for a smaller tax rate (2\%). There is still some deviation, but the mean wealth is high.}
+\end{figure}
+
+This means, given our Sugarscape, we will minimize our poorest's plight by implementing a 4\% tax. This means that some taxation should be in place to avoid severe poverty, but over-taxation does more harm than good.
+
+Imagining a society's total wealth as a pie helps explain this behavior. In a purely capitalist system, the pie is very large, but some members of society have very small slices. In a purely Marxist system, the pie is small, but everyone shares it equally. The goal of a balanced society is to make the smallest piece of the pie large enough to sustain an acceptable quality of life. 
+
+Our Sugarscape’s taxing implementation showed this trade off in the decreasing trends of the Gini coefficient and mean wealth as the tax rate increases. With higher taxes, there is more wealth, but also more inequality. We have justified a tax rate of 4\% because it results in the highest wealth for the bottom quartile, in effect minimizing poverty in a society.
+
 
 
 \chapter{Ant Trails and Agent-Based Models}
 
 {\em Chloe Vilain and Andrew Pikler}
 
-\input{case_studies/ants/report.tex}
+\section{Introduction}
 
+In nature, ants scavenge for food as a swarm. They choose their paths from the nest based on pheromone density, favoring paths with higher concentrations of pheromone.  Individuals lay pheromone trails upon finding food, allowing other members of their colony to passively follow them to the food source.  Because paths leading to food have higher pheromone density, increasing numbers of ants choose these successful paths.  As a result, ant trails transition over time from random paths to streamlined routes.  This organization and appearance of patterns over time is an example of \textbf{emergence},  the process by which complex systems and patterns arise from a multiplicity of simple systems.
+
+Ant feeding patterns lend themselves to simulation with \textbf{agent-based models}, which simulate  the actions and interactions of autonomous agents  to assess their effects on the system as a whole.  When we model ant feeding patterns, each ant is an agent in the model, a self-governing individual that makes decisions based on its surroundings.  When simulating large numbers of ants,  behavior emerges that is reflective of ant behavior in the natural world.  Beyond being intrinsically fascinating, such models have applications in the ``real world'' in areas ranging from city planning to film production.  We will discuss the application of agent-based models to the entertainment industry later in the paper.
+
+\section{Model Overview}
+
+We can see one example of an agent-based model in Deneuborg et al.'s 1989 paper \emph{The Blind Leading the Blind: Modeling Chemically Mediated Army Ant Raid Patterns}, freely available at  \url{http://www.ulb.ac.be/sciences/use/publications/JLD/80.pdf}.
+
+The premise of the model is that as ants move around they lay pheromone, which increases the likelihood that other ants will follow the same path. Ants that have found food lay more pheromone than ants that haven't, making it likely that other ants will follow their paths to find more food. 
+
+The ants live in a two-dimensional world of discrete points arranged in a grid. At each step of the model, each ant has a certain probability of moving to one of two neighboring coordinates in the direction the ant is facing, away from the nest---forward left or forward right. All of the ants start out in a corner of the world, which we call the \emph{nest}, and at each time step of the simulation, we add more ants to the nest. This leads to a constant stream of outgoing ants.
+
+\begin{figure}
+\centerline{\includegraphics[width=3.0in]{figs/antchoice.jpg}}
+\caption{In the model, ants live in a grid and face away from the nest. At each time step, they can move forward left or forward right.\label{fig.antchoice}}
+\end{figure}
+
+Once an ant has found food, it turns back towards the nest. It obeys the same rules for motion---that is, in each time step, its choice to move either forward left or forward right is influenced by the amounts of pheromone it sees, except now, these choices take it back towards the nest. Also, after moving, the ant lays more pheromone than it did while foraging for food. This significantly increases the probability that other foraging ants will follow its path to find, potentially, more food.
+
+In its starting configuration, each point in the world has a chance of containing food. Once this starting condition has been set, we let the simulation run for about 1000 time steps, and plot the result. You can see the plot of one such simulation in Figure~\ref{fig.plot}, which is similar to what Deneuborg et al. claim actual army ant foraging patterns look like in their paper because observable ant trails have emerged.
+
+\begin{figure}[ht]
+\centerline{\includegraphics[width=3.0in]{figs/plot.png}}
+\caption{Plot of our simulation after 1000 time steps.\label{fig.plot}}
+\end{figure}
+
+\begin{ex}
+Download the code for \texttt{ants.py}, our simulation, available at \url{thinkcomplex.com/ants.py}.  Run it for 1000 time steps and see if your results look similar to Figure~\ref{fig.plot}. The simulation can be computationally intensive, and 1000 time steps took about 1.5 minutes to run on our machine---be patient!
+\end{ex}
+
+
+\section{API design}
+
+A major challenge of writing a simulation such as this is coming up with classes that are easy for human readers of the code to understand, as well as implementing data structures that allow the code to execute efficiently.
+
+One way to break up a model into classes is to list the main nouns you use when describing the model, and then represent the most prominent of those nouns as classes. In the case of our model, we have the World, which contains Ants along with Locations that may or may not contain food.
+
+The next step is to decide what information about the current state of the model an instance of each class will be responsible for knowing. In our case, the behavior of the World is defined by what the Ants and Locations can do, so it makes sense to design our classes bottom-up and consider the World only once we have at least a tentative idea for the methods and attributes of Ants and Locations.
+
+The most important piece of information that Ants know is where they are located in the World; as such, each ant has the attributes \texttt{x} and \texttt{y} to keep track of its current coordinates. Also, each Ant keeps track of whether or not it is currently carrying food, so we define \texttt{has\_food} for this purpose.
+
+Note that Ants know only local information about the World; keeping track of all the Ants will be the job of the World object itself.
+
+Knowing that the World will have to interact with individual Ants, we define two methods inside the Ant class that will get called by the World:
+
+\begin{itemize}
+ \item \texttt{move}: Figures out whether the Ant will move this turn, and if so, moves the Ant accordingly.
+ \item \texttt{getPos}: Returns the current coordinates of this Ant.
+\end{itemize}
+
+The Ant class contains numerous other methods, but these are intended for internal use by each Ant object only, and not by the World. For example, the methods \texttt{will\_move} and \texttt{will\_go\_right} determine whether or not the Ant will move this turn and if so, whether it will move forward right or forward left, but these methods are only ever called by the Ant's \texttt{move} method. Similarly, \texttt{move} is the only method that calls \texttt{lay\_pheromone}, which increases the pheromone count at the Ant's current Location in the World.
+
+Locations know even less than Ants; each Location only keeps track of the food and pheromone it contains, using attributes called \texttt{food} and \texttt{pheromone}, respectively. As far as methods go, a Location only has short accessor methods that Ants and the World use to modify the Location's food and pheromone amounts.
+
+Note that unlike Ants, Locations do not keep track of their coordinates on the map. While having them do so might make sense at first, we decided against it because a Location's coordinates never change; since the World must already keep track of each Location's coordinates so it can access the correct Location given its x and y positions, having the Location also keep track of its position would be redundant.
+
+The World is the ``meat'' of our simulation---it is where most of the work gets done. The World is only ever instantiated once, and this instance keeps track of all existing Ants and Locations. 
+
+The World has methods for controlling the overall state of the simulation. The World's \texttt{move\_ants} method advances the simulation by one time step by calling every existing Ant's \texttt{move} method, changing the \texttt{ants} attribute to reflect the Ants' new positions, and evaporating a certain proportion of pheromone from each Location. Other methods include \texttt{add\_ants}, which adds a specified number of ants to the nest, \texttt{place\_food}, which fills each Location on the map with food at a certain probability, and \texttt{get\_location}, which returns a reference to the Location at the given coordinates.
+
+\section{Sparse matrices}
+
+The group of Locations that make up our World is implemented as a \textbf{sparse matrix}. What this means is that Locations don't exist in our representation until they are needed; the World's \texttt{get\_location} method is responsible for fetching either the existing Location at the given coordinates, or creating a new Point if one doesn't already exist there. An alternate implementation would be a \textbf{dense matrix}, which would be a two-dimensional array---a list of lists---of all Locations in the world. In our case, a sparse matrix has two main advantages over a dense matrix:
+
+\begin{itemize}
+\item Since most of the World is empty most of the time, it's more memory-efficient to only keep track of those Locations that aren't empty.
+\item A sparse matrix, unlike a dense matrix, doesn't have set dimensions. This means that in our implementation, an Ant is free to wander off in any direction with no additional development cost to us as programmers, whereas in a dense matrix if an Ant were to walk outside the dimensions of the matrix, the dimensions would have to be expanded in a developmentally costly operation.
+\end{itemize}
+
+\section{wx}
+
+We use the \texttt{wx} Python package to plot a picture of the ants after the simulation finishes running. 
+
+Our code defines a class called \texttt{AntPlot} which is responsible for taking the World and popping up a \texttt{wx} window that plots the ants as seen in Figure~\ref{fig.plot}:
+
+\begin{verbatim}
+class AntPlot:
+    def __init__(self, world):
+        self.world = world
+        self.app = wx.PySimpleApp()
+        self.w = 500
+        self.h = 500
+        self.frame = wx.Frame(None, -1, 'Ant Plot', size=(self.w, self.h))
+        self.canvas = FloatCanvas(self.frame, -1)
+        
+    
+    def draw(self):
+        positions = self.world.get_ant_dict()
+        for pos in positions:
+            x, y = pos
+            x -= self.w / 2
+            y -= self.h / 2
+            self.canvas.AddPoint((x, y))
+        self.frame.Show()
+        self.app.MainLoop()
+\end{verbatim}
+
+The specific widget we use to accomplish the plotting is a \texttt{FloatCanvas}. Most canvases in GUI libraries define the point (0, 0) as the upper left corner of the canvas and have x increase to the left and y increase down, but the coordinates in the \texttt{FloatCanvas} work like in math---(0, 0) is defined as the middle, and y increases up. This allows us to write simpler code because we don't have to transform our coordinates to the canvas's system like we would have to for a traditional canvas.
+
+Our \texttt{AntPlot} class serves as somewhat of a ``hello world'' application for \texttt{wx}---all it does is pop up a single window and some plotting. If you are interested in exploring \texttt{wx} further, this class might be a good starting point.
+
+
+\begin{ex}
+Try altering the pheromone amounts in the model.  What happens when Ants only lay pheromone when leaving the nest? When returning? What happens when Ants lay significantly more or less pheromone than currently? Are there any boundary conditions?
+\end{ex}
+
+\begin{ex}
+Different species of ants have different patterns of food locations. In \texttt{ant.py}, each Location has a 50\% probability of containing one particle of food.  What happens when each Location has a 1\% probability of containing 50 pieces of food?
+\end{ex}
+
+\begin{ex}
+So far, we have only considered scenarios involving one nest of ants.  What happens when we consider multiple nests? Pick a value d and modify the code such that Ants spawn at (0, d) and (d, 0) in addition to (0,0).  Do the trails of ants converge, or do they all remain distinct? Try keeping track of the amount of food that has been collected in each nest. Does any one of the nests do better than the others?
+\end{ex}
+
+\begin{ex}
+Previously, we have assumed that all ants lay the same quantity of pheromone as other ants.  Revisiting our three-nest scenario, what happens when ants from one nest lay slightly higher amounts of pheromone than those from the other nests?
+\end{ex}
+
+
+
+\section{Applications}
+
+Agent-based models have numerous applications in the ``real world'', from modeling traffic patterns to creating realistic battle simulations.  The entertainment industry has begun using agent-based models to simulate crowds in films, games, and advertisements that would have previously been infeasible to create.  Modeling is far more scalable than filming; that is, it is much easier to model a crowd of a hundred thousand people than it is to recruit a hundred thousand extras.  The application of agent-based models to the entertainment industry has changed the nature of film as we know it by allowing for the creation of large-scale, visually stunning sequences.
+
+The \emph{Lord of the Rings} trilogy is the canonical example of films only possible with the use of agent-based models.  The current industry-standard software, called Massive, was originally developed to simulate life-like battle sequences in the trilogy.   Massive has since been used in a wide variety of films, for battle sequences in movies like \emph{Chronicles of Narnia} and \emph{300}, as well as for more benign crowd simulations in films such as \emph{Happy Feet} and \emph{Avatar}.
+
+In \emph{Lord of the Rings}, developers were tasked with creating battles with hundreds of thousands of soldiers from a variety of races with many different fighting techniques.  In order to create these battles, they implemented a simulation wherein each fighter was an agent.  Each agent had about 200 possible motions it could perform which were animated using motion-capture.  Within its ``brain'', the agent chose from the possible responses based on logic and probabilities.  Different races within the battles, such as elves, orcs and men, were based on the same ``master agent'' but had different weapons, abilities and programmed attack responses.  
+
+Simulating thousands of agents in tandem allowed for exceptionally complex and sometimes unpredictable battle sequences.  The results sometimes surprised even Massive's developers---in one shot of the prologue battle scene, a number of agents fled the battle.  The agents were not programmed to flee; that is, fleeing was not one of their ``options'' when evaluating the situation to decide which action to perform.  Rather, this decision came about based on their evaluation of location and determination to run from enemies and not fight---an emergent behavior. This unexpected action, which would be realistic in an actual battle scenario, speaks to the power of agent-based models.  
+
+The use of agent-based models allowed battle sequences to be re-simulated and tinkered with until results were satisfactory.  This freedom allowed directors to experiment far more than would have been possible with casted battles.
+
+You may be wondering how \emph{Lord of the Rings} relates to ant trails.  Clearly, the models used in the films are far more complicated than those we used to simulate ant trails; however, their results are further proof of the same concept.  Like the agents in \emph{Lord of the Rings}, our ants were given relatively simple commands from which complex behavior evolved.  Moreover, this behavior was believable and true to the natural world. 
+
+
+
+\chapter{Directed Graphs and Knots}
+
+{\em Rachel Bobbins and Noam Rubin}
+
+\section{Directed Graphs}
+Imagine that it's 2 AM during finals week, and you're scrambling to finish your research paper on \emph{topica obscura}. Your adrenaline jumps when you finally find a relevant Wikipedia article, with links to more Wikipedia articles! You start clicking away, jumping from page to page in search of facts. An hour later, you realize you're still clicking, but these are pages you've already visited. No matter which link you click, you can't seem to discover any new pages! 
+
+If this situation has ever happened to you, then you've unknowingly (and unfortunately) stumbled upon a knot in Wikipedia. Knots are a unique property of directed graphs. To understand them, it’s necessary to have a basic understanding of directed graphs.
+
+\section{Directed Graphs in Code}
+	 	 	
+The graphs we've encountered in previous chapters are all undirected graphs. In an undirected graph, a single edge between two vertices represents a symmetric relationship between the vertices. This abstraction works well to describe some real-world systems (such as acquaintance networks and transportation networks), but it is not detailed enough to describe the Internet, including Wikipedia. Relationships between websites do not have to be symmetric -- think of all the pages that Google links to. The majority of these pages do not link back to Google. 
+
+This non-symmetry holds true for Wikipedia as well. Page A might link to page B, but page B doesn't have to include any links to page A. To fully describe the relationship between pages A and B, we need two bits of information: whether A links to B, and whether B links to A . This is the essence of a directed graph. In a directed graph, an arc $e = (A,B)$ is an \emph{edge} from A \emph{to} B. Arcs are usually referred to as directed edges.
+
+\begin{figure}
+ \centering
+\includegraphics[width=3.0in]{figs/DirectedGraphExample.png}
+\end{figure}
+
+As previously mentioned, knots are a unique (and sometimes cruel) property of directed graphs. A knot in a directed graph is a collection of vertices and edges with the property that every vertex in the knot has outgoing edges, and all outgoing edges from vertices in the knot terminate at other vertices in the knot. Thus it is impossible to leave the knot while following any path along its directed edges.
+
+We mentioned the idea of knots in Wikipedia. We wondered whether such a thing was even possible. Given that there are 3,811,000+ articles on Wikipedia and they all link to different pages, it seemed unlikely that there would be a knot, but we decided to investigate.
+
+Before writing an algorithm to determine the existence of knots in a directed graph, we extended \verb"Graph.py" to support directed graphs. The result is \verb"DirectedGraph.py", which you can download at \url{https://raw.github.com/nrubin/RachelAndNoamsDirectedGraphs/master/DirectedGraph.py}. We recommend reading through this file and making yourself familiar with the terminology. Note that Edges in DirectedGraph are represented by Arcs.
+
+When we were designing \verb"DirectedGraph", we wanted to preserve the order of growth of \verb Vertex  and \verb Arc  lookups as they were in \verb Graph.  However, we needed to keep track of edges into a vertex and edges from a vertex. It made sense to keep track of these in separate dictionaries. Thus, out-arcs were stored in the\verb DirectedGraph  internal dictionary, and in-arcs were stored in an additional dictionary called \verb reverse_graph.  Having two dictionaries takes twice as much memory, but this seemed like a reasonable price to pay for maintaining the speed of lookups.
+
+\section{Knotting Algorithm}
+
+Now, back to knots. Our research found only distributed algorithms for detecting knots.\footnote{See \url{http://www.cs.utexas.edu/users/misra/scannedPdf.dir/KnotDetection.pdf}}. Distributed algorithms are designed to run concurrently on multiple processors. Identical but distinct chunks of the algorithm run on each processor, and report to each other the results of their computation. These kinds of algorithms are ideal for large research projects, but we needed an algorithm that would run on a single computer. To this end, we devised our own algorithm.
+
+The algorithm relies heavily on a modified version of breadth-first-search, \verb"_bfsknots". It searches for all the vertices that can be reached from a given starting vertex, and returns these vertices as a set.  The function runs once for every vertex in the graph, building up a dictionary which maps a single vertex to the set of all vertices that are reachable from it.
+
+\begin{verbatim}
+  def _bfsknots(self, s):
+        # initialize the queue with the start vertex
+        queue = [s]
+        visited = set()
+        on_first_vertex = True
+        while queue:
+
+            # get the next vertex
+            v = queue.pop(0)
+
+            # skip it if it's already marked
+            if v in visited: continue
+
+            # if we're on the first vertex, we're not actually visting
+            if v != s or not on_first_vertex: visited.add(v)
+            on_first_vertex = False
+            
+            for x in self.out_vertices(v):
+                #if its out vertices have been cached, update visited
+                if x in self._knot_cache.keys():
+                    visited.update(self._knot_cache[x])
+                    visited.add(x)
+                    
+                #otherwise add it to the queue
+                elif x not in self._knot_cache.keys():
+                    queue.append(x)
+
+        return visited
+\end{verbatim}
+
+Let's say that $S_v$ is the set of vertices that are reachable from some vertex $v$, including itself. if $S_v$ is the same for all the vertices reachable from $v$, the graph has a knot.
+
+The function \verb"has_knot" iterates through each vertex in a graph, and returns True if the previous condition holds for some vertex. If it checks the whole graph and does not find a knot, it returns False.
+\begin{verbatim}
+    def has_knot(self):
+        """
+        Returns true if directed graph has a knot.
+        """
+        self._knot_cache = {}
+        #build the cache of which vertices are accessible from which
+        for v in self:
+            self._knot_cache[v] = self._bfsknots(v)
+
+        #searches for knot
+        for v in self:
+            if self._knot_at_v(v):
+                return True
+        return False
+
+\end{verbatim}
+
+\begin{ex}
+ Determine the order of growth of \verb has\_knots  experimentally. You might want to review Chapter 3, Section 1. Below are several hints to help you out.
+\begin{enumerate}
+ \item Use \verb"DirectedGraph.add_random_edges" to generate a few thousand graphs of different sizes.
+
+\item For each graph, time how long it takes to check if it has a knot.
+
+\item Plot the time it took to check if the graph has a knot versus the number of vertices the graph has. Also plot against the number of edges the graph has.
+
+\item What has more of an effect on the runtime \verb has_knots, vertices or edges?
+
+\item From your figures, determine the order of growth of \verb has_knots .
+\end{enumerate}
+
+\end{ex}
+
+\begin{ex}
+ Find all the knots in a directed graph.
+\begin{enumerate}
+ \item Write a function, named \verb all_knots , that returns a list of all knots in a graph.
+\item Building on your answer from the previous question, write a function named \verb entry_points that returns a list of all the vertices that serve as entry points into knots.
+\end{enumerate}
+
+\end{ex}
+
+\section{Parsing Wikipedia}
+
+To find knots in Wikipedia, we selected 558 disjoint subsets of Wikipedia articles, organized by index. For example, the index of articles about neurobiology was used to define one subset, and the index of articles about Zimbabwe was used to define another subset. Combined, these subsets contained about 321,000 articles, or 10\% of Wikipedia. We only looked at subsets because we lacked the processing power to parse and analyze all of Wikipedia.\footnote{If you’re interested in the whole graph of Wikipedia, we recommend checking out research done by Stephen Dolan at Trinity College Dublin. His research is online here: \url{http://mu.netsoc.ie/wiki/}}. 
+
+\section{The Structure of Wikipedia}
+Of the 558 subgraphs we examined, 38\% contained at least one knot. This indicates that if you are reading articles listed on the same index page, there is a chance you will get stuck in a knot and start to see the same articles again. In actuality, the odds of this happening are much lower than 38\%, because articles can link to articles which don't share the same parent index. Our analysis ignored these links. For example, our analysis would have ignored a link from a neurobiology article to a Zimbabwe article, unless the Zimbabwe article was also listed in the neurobiology index. Furthermore, the 38\% does not imply that the graph of all of Wikipedia has a knot.
+
+\begin{figure}
+ \centering
+\includegraphics[width=3.0in]{figs/BAResults.png}
+\caption{The graphs from Barabasi and Albert's 1999 paper show the scale-free structure of a few undirected graphs. $k$ is the average connectivity, or degree, of the vertices in the graph, and $P(k)$ is the proportion of vertices in the graph that have this degree. Plotted on a log-log scale, scale-free networks tend to show long-tailed distributions. This is because a few vertices have the highest degree in the graph.}
+\label{fig:BAGraph}
+\end{figure}
+
+
+Back to the original question of \emph{topica obscura}. When you started this hypothetical homework assignment, you could have chosen to use journal articles instead of Wikipedia articles. If you'd done this, you probably would have used citations to find other papers to read. You'd never have ended up in this knot. Why? Think of journal articles as vertices in a directed graph, where a directed edge represents one article citing another. Because science articles are published sequentially, and a paper cannot cite a paper that will be created in the future, this directed graph cannot have a knot. Thus, because journal articles cannot have symmetrical citations, while Wikipedia articles can, they are fundamentally different systems of organizing information.
+
+
+In Barabasi and Albert's paper about scale-free networks\footnote{Barabasi, Albert-Laszlo and Albert, Reka, Emergence of Scaling in Random Networks; Science Magazine, Vol. 286, 15 October  1999.}, they analyze the underlying undirected graph of citations in scientific articles. Given that this graph must have a different structure than the graph of Wikipedia, we wondered whether the Barabasi-Albert model is applicable to Wikipedia.
+
+\begin{figure}
+ \centering
+\includegraphics[width=3.0in]{figs/WikipediaPowerLawGraph.png}
+\caption{The distribution function of connectivities for various large subgraphs of Wikipedia. \textbf{(A)} Index of India-related articles with $N = 5,342$ vertices and average connectivity $ k = 53.56$.  \textbf{(B)} Index of Mathematics articles starting with C, with $N = 3813$ and average connectivity $k = 4.95$. \textbf{(C)} Index of Mathematics articles starting with S, with $N = 3950$ and average connectivity $k = 4.85$. Compared to Figure \ref{fig:BAGraph}, these three graphs also display scale-free distributions. The structure of these distinct subgraphs hints at the nature of Wikipedia as a whole, indicating that Wikipedia is possibly scale-free.}
+\label{fig:PunchlineGraph}
+\end{figure}
+
+To determine the structure of the subgraphs of Wikipedia, we looked at the largest graphs and tried to recreate the results from Barabasi and Albert's 1999 paper (seen in Figure \ref{fig:BAGraph}. 
+
+Comparing Figure \ref{fig:BAGraph} to Figure \ref{fig:PunchlineGraph}, we can see that the general structure of both is very similar. This means that the distinct subgraphs we examined are characteristically scale-free. In addition, it means that Wikipedia graphs are well-modeled by the Barabasi-Albert small world graph model.
+
+But what does this really mean? The Barabasi-Albert model of small-world graphs is especially good at modeling preferential attachment, the phenomenon where a few of the vertices have the highest degree. The fact that both undirected graphs  and the directed graphs can have a scale-free distribution of degrees means that preferential attachment is independent of the directedness of the graph.
+
+
+\begin{figure}
+ \centering
+\includegraphics[width=3.0in]{figs/AllThreeScaleFree.png}
+\caption{The distribution function of connectivities for the in-degrees \textbf{(A)}, out-degrees \textbf{(B)}, and total degrees \textbf{(C)} of the vertices in the Index of India-related articles subgraph. Both the in- and out-degree distributions are scale-free, further indicating that preferential attachment is independent of directedness.}
+\label{fig:AllThree}
+\end{figure}
+
+This independence is further demonstrated by Figure \ref{fig:AllThree}, which shows the degree distribution of the in, out, and total degrees of the ``Index of India-related articles''  subgraph. All three distributions are scale-free, which means that few vertices have a high in-degree and few vertices have a high out-degree. This corresponds with our findings that preferential attachment is independent of the directedness of a graph.
+
+\section{Conclusion}
+
+Since Wikipedia subgraphs display a tendency towards preferential attachment, we propose another explanation for why you keep landing on the same articles. Perhaps there is not a knot in the articles you are reading, and in fact, that set of articles is very well connected to the rest of the graph. Since subgraphs of Wikipedia are small-world, a small set of vertices will have the highest degrees in the graph. That means that if you take a random walk through the graph, the odds you'll encounter these vertices are very high. 
+
+Barabasi and Albert's example of undirected graph of citations in science articles indicates that, even if you are traversing an undirected graph, you may encounter the same vertices over and over, without there being a knot. This small set of articles may be cited the most, so in your research for a certain topic, you're very likely to see these articles multiple times.
+
+What does this mean for your research project? Whether you're browsing Wikipedia or JSTOR, you'll end up seeing the same highly-referenced nodes multiple times. In many ways, this can be frustrating when looking for a specific or isolated article, but it is a result of the small world nature of the graphs that represent the information you're seeking. 
+
+
+% END OF CASE STUDIES
 
 \printindex
 
