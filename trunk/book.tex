@@ -96,8 +96,7 @@
 \else
 % skip the following for plastex
 
-\newtheorem{ex}{Exercise}[chapter]
-
+\newtheorem{exercise}{Exercise}[chapter]
 
 % LATEXONLY
 
@@ -514,7 +513,7 @@ solution to the original problem.
 
 We will see other examples of this process soon.
 
-\begin{ex}
+\begin{exercise}
 
 Read the Wikipedia page about graphs at
 \url{http://en.wikipedia.org/wiki/Graph_(mathematics)}
@@ -545,7 +544,7 @@ every other node.
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -749,7 +748,7 @@ from {\tt dict}.
 \index{inheritance}
 
 
-\begin{ex}
+\begin{exercise}
 
 In this exercise you write methods that will be
 useful for many of the Graph algorithms that are coming up.
@@ -803,10 +802,10 @@ Read through {\tt GraphWorld.py} to get a sense of how it works.  Then
 run it.  It should import your {\tt Graph.py} and then display a
 complete graph with 10 vertices.
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 Write a method named \verb"add_regular_edges" that starts with an
 edgeless graph and adds edges so that every vertex has the same
@@ -833,7 +832,7 @@ To test your code, you might want to create a file named
 {\tt GraphWorld.py}, then generates and displays the graphs
 you want to test.
 
-\end{ex}
+\end{exercise}
 
 
 \newcommand{\Erdos}{Erd\H{o}s}
@@ -851,7 +850,7 @@ there is an edge between any two nodes.  See
 \index{Erdos-Renyi model@\Erdos-\Renyi~model}
 \index{random graph}
 
-\begin{ex}
+\begin{exercise}
 \label{ex.randomgraph}
 
 Create a file named {\tt RandomGraph.py} and define a class named
@@ -862,7 +861,7 @@ so that the probability is $p$ that there is an edge between any two
 nodes.
 \index{RandomGraph@{\tt RandomGraph}}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Connected graphs}
@@ -911,12 +910,12 @@ connected to any unmarked vertices, add them to the queue.
 
 \end{enumerate}
 
-\begin{ex}
+\begin{exercise}
 
 Write a Graph method named \verb"is_connected" that returns
 {\tt True} if the Graph is connected and {\tt False} otherwise.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Paul \Erdos: peripatetic mathematician, speed freak}
@@ -955,7 +954,7 @@ See \url{wikipedia.org/wiki/Phase_transition}.
 \index{threshold value}
 
 
-\begin{ex}
+\begin{exercise}
 
 One of the properties that displays this kind of transition is
 connectedness.  For a given size $n$, there is a critical value,
@@ -972,7 +971,7 @@ How does the abruptness of the transition depend on $n$?
 You can download my solution from
 \url{thinkcomplex.com/RandomGraph.py}.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Iterators}
@@ -1133,13 +1132,13 @@ def alphabet_cycle():
 \end{verbatim}
 
 
-\begin{ex}
+\begin{exercise}
 
 Write a generator that yields an infinite sequence of alpha-numeric
 identifiers, starting with {\tt a1} through {\tt z1}, then {\tt a2}
 through {\tt z2}, and so on.
 
-\end{ex}
+\end{exercise}
 
 
 \chapter{Analysis of algorithms}
@@ -1329,7 +1328,7 @@ only useful for small problems.
 \index{exponential growth}
 
 
-\begin{ex}
+\begin{exercise}
 
 Read the Wikipedia page on Big-Oh notation at
 \url{wikipedia.org/wiki/Big_O_notation} and
@@ -1358,7 +1357,7 @@ what can we say about  $f_1 * f_2$?
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 Programmers who care about performance often find this kind of
@@ -1487,7 +1486,7 @@ computer science.  We will see how they work in
 Section~\ref{hashtable}.
 
 
-\begin{ex}
+\begin{exercise}
 
 Read the Wikipedia page on sorting algorithms at
 \url{wikipedia.org/wiki/Sorting_algorithm} and answer
@@ -1521,7 +1520,7 @@ the following questions:
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Analysis of search algorithms}
@@ -1556,7 +1555,7 @@ If the sequence has 1,000,000 items, it will take about 20 steps to
 find the word or conclude that it's not there.  So that's about 50,000
 times faster than a linear search.
 
-\begin{ex}
+\begin{exercise}
 
 Write a function called {\tt bisection} that takes a sorted list
 and a target value and returns the index of the value
@@ -1569,7 +1568,7 @@ in the list, if it's there, or {\tt None} if it's not.
 Or you could read the documentation of the {\tt bisect} module
 and use that!
 
-\end{ex}
+\end{exercise}
 
 Bisection search can be much faster than linear search, but
 it requires the sequence to be in order, which might require
@@ -1824,7 +1823,7 @@ You can download my implementation of HashMap from
 \url{thinkcomplex.com/Map.py}, but remember that there
 is no reason to use it; if you want a map, just use a Python dictionary.
 
-\begin{ex}
+\begin{exercise}
 
 My implementation of {\tt HashMap} accesses the attributes of
 {\tt BetterMap} directly, which shows poor object-oriented design.
@@ -1845,10 +1844,10 @@ in {\tt resize}.
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 Write an implementation of the map interface called
 {\tt TreeMap} that uses a red-black tree to perform {\tt add}
@@ -1856,7 +1855,7 @@ and {\tt get} in log time.
 \index{red-black tree}
 \index{TreeMap@{\tt TreeMap}}
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -2032,7 +2031,7 @@ use {\tt savefig} to save the plot in a file.
 Documentation of {\tt pyplot} is at \url{http://matplotlib.sourceforge.net/}.
 
 
-\begin{ex}
+\begin{exercise}
 
 Test the performance of
 {\tt LinearMap}, {\tt BetterMap} and {\tt HashMap}; see if you
@@ -2046,7 +2045,7 @@ You will have to find a range
 of {\tt n} that is big enough to show asymptotic behavior, but small
 enough to run quickly.
 
-\end{ex}
+\end{exercise}
 
 
 \section{List comprehensions}
@@ -2114,13 +2113,13 @@ of Edges between each pair of vertices in {\tt vs}:
 That's pretty concise, but complicated comprehensions can be
 hard to read, so use them sparingly.
 
-\begin{ex}
+\begin{exercise}
 
 Review the methods your wrote in {\tt Graph.py} and see if any
 can be rewritten using list comprehensions.
 \index{graph methods}
 
-\end{ex}
+\end{exercise}
 
 
 \chapter{Small world graphs}
@@ -2202,12 +2201,12 @@ Another is a circular buffer, which you can read about at
 \index{doubly-linked list}
 \index{circular buffer}
 
-\begin{ex}
+\begin{exercise}
 
 Write an implementation of a FIFO using either a doubly-linked
 list or a circular buffer.
 
-\end{ex}
+\end{exercise}
 
 Yet another possibility is to use a Python dictionary and
 two indices: {\tt nextin} keeps track of the back of the queue; {\tt
@@ -2256,7 +2255,7 @@ and get the details of the Python implementation at
 \url{docs.python.org/lib/deque-objects.html}.
 
 
-\begin{ex}
+\begin{exercise}
 
 The following implementation of a BFS\footnote{This was the
   implementation at \url{wikipedia.org/wiki/Breadth-first_search}
@@ -2284,7 +2283,7 @@ Test this code with a range of graph sizes and check your analysis.
 Then use a FIFO implementation to fix the errors and confirm
 that your algorithm is linear.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Stanley Milgram}
@@ -2405,7 +2404,7 @@ Watts and Strogatz found that small values of $p$ yield graphs
 with high clustering, like a regular graph, and low path
 lengths, like a random graph.
 
-\begin{ex}
+\begin{exercise}
 
 Read the Watts and Strogatz paper and answer the following
 questions:
@@ -2426,10 +2425,10 @@ same structure as the graphs generated by their model?
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 Create a file named {\tt SmallWorldGraph.py} and define a class named
 {\tt SmallWorldGraph} that inherits from {\tt RandomGraph}.
@@ -2458,7 +2457,7 @@ small values of $p$.
 Before we can replicate the other line, we have to learn about shortest
 path algorithms.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Dijkstra}
@@ -2536,7 +2535,7 @@ In the more general case, where the edges have different lengths,
 it is possible to discover a shorter path after you have
 discovered a longer path, so a little more work is needed.
 
-\begin{ex}
+\begin{exercise}
 
 Write an implementation of Dijkstra's algorithm and use it
 to compute the average path length of a SmallWorldGraph.
@@ -2547,10 +2546,10 @@ average path length drops off quickly for
 small values of $p$.  What is the range of values for $p$
 that yield graphs with high clustering and low path lengths?
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 A natural question about the Watts and Strogatz paper is
 whether the small world phenomenon is specific to their
@@ -2577,10 +2576,10 @@ If a range of similar models yield similar behavior, we
 say that the results of the paper are {\bf robust}.
 \index{robust}
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 To compute the average path length in a SmallWorldGraph, you
 probably ran Dijkstra's single-source shortest path algorithm
@@ -2603,7 +2602,7 @@ analysis suggests?
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 \section{What kind of explanation is {\em that}?}
@@ -2719,7 +2718,7 @@ So if you plot $\log f$ versus $\log r$, you should get
 a straight line with slope $-s$ and intercept $\log c$.
 \index{log-log plot}
 
-\begin{ex}
+\begin{exercise}
 
 Write a program that reads a text from a file, counts word
 frequencies, and prints one line for each word, in descending order of
@@ -2739,7 +2738,7 @@ Can you estimate the value of $s$?
 You can download my solution from
 \url{thinkcomplex.com/Zipf.py}
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -2859,11 +2858,12 @@ I drew vertical lines at each of the values, which is not
 mathematically correct.  To be more rigorous, I should draw
 a discontinuous function.
 
-\begin{ex}
+\begin{exercise}
+
 Read the code in {\tt Cdf.py}.  What is the order of growth for
 {\tt MakeCdfFromList} and the methods {\tt Prob} and {\tt Value}?
 \index{order of growth}
-\end{ex}
+\end{exercise}
 
 
 \section{Continuous distributions}
@@ -2918,7 +2918,7 @@ If you take the log of both sides of this equation, you get:
 So on a log-$y$ scale the CCDF should look like a straight line
 with slope $-\lambda$.
 
-\begin{ex}
+\begin{exercise}
 
 Write a function called \verb"plot_ccdf" that takes
 a list of values and the corresponding list of probabilities
@@ -2929,7 +2929,7 @@ module to generate 100 values from an exponential distribution.  Plot
 the CCDF on a log-$y$ scale and see if it falls on a straight line.
 \index{random module@{\tt random} module}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Pareto distributions}
@@ -3011,7 +3011,7 @@ So if you plot $\log y$ versus $\log x$, it should look like a
 straight line with slope $-\alpha$ and intercept $-\alpha \log x_m$.
 \index{log-log plot}
 
-\begin{ex}
+\begin{exercise}
 
 Write a version of \verb"plot_ccdf" that plots the complementary
 CCDF on a log-log scale.
@@ -3022,10 +3022,10 @@ the CCDF on a log-$y$ scale and see if it falls on a straight line.
 What happens to the curve as you increase the number of values?
 \index{random module@{\tt random} module}
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 The distribution of populations for cities and towns has been proposed
 as an example of a real-world phenomenon that can be described
@@ -3050,7 +3050,7 @@ to see if it has the characteristic shape of a Pareto distribution.
 What conclusion do you draw about the distribution of sizes
 for cities and towns?
 
-\end{ex}
+\end{exercise}
 
 \newcommand{\Barabasi}{Barab\'{a}si}
 
@@ -3114,7 +3114,7 @@ the details, but it is not important for what we are doing here.
 \index{scaling distribution}
 
 
-\begin{ex}
+\begin{exercise}
 
 This exercise asks you to make connections between the Watts-Strogatz (WS)
 and \Barabasi-Albert (BA) models:
@@ -3138,7 +3138,7 @@ have the characteristics of a small-world graph?
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Zipf, Pareto and power laws}
@@ -3243,7 +3243,7 @@ For these reasons---robustness and generality---I recommend
 using CCDFs.
 
 
-\begin{ex}
+\begin{exercise}
 
 The Stanford Large Network Dataset Collection is a repository of
 datasets from a variety of networks, including social networks,
@@ -3255,7 +3255,7 @@ Download one of these datasets and explore.  Is there evidence
 of small-world behavior?  Is the network scale-free?  What else
 can you discover?
 
-\end{ex}
+\end{exercise}
 
 
 \section{Explanatory models}
@@ -3336,7 +3336,7 @@ explanations:
 As is often the case in young areas of science, the problem is
 not that we have no explanations, but too many.
 
-\begin{ex}
+\begin{exercise}
 
 Are these explanations compatible; that is, can they both be right?
 
@@ -3359,7 +3359,7 @@ What criteria does Kuhn propose for choosing among competing models?
 Do these criteria influence your opinion about the WS and BA models?
 Are there other criteria you think should be considered?
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -3702,7 +3702,7 @@ CA on the screen:
     drawer.show()
 \end{verbatim}
 
-\begin{ex}
+\begin{exercise}
 
 Download \url{thinkcomplex.com/CA.py} and \url{thinkcomplex.com/CADrawer.py}
 and confirm that they run on your system; you might have to install
@@ -3719,7 +3719,7 @@ the array.
 You can download my solution from
 \url{thinkcomplex.com/CircularCA.py}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Classifying CAs}
@@ -3808,7 +3808,7 @@ and a sequence generated by a ``truly'' random process.  In {\em A New
   Kind of Science}, Wolfram argues that there is not (pages 315--326).
 \index{New Kind of Science@{\em A New Kind of Science}}
 
-\begin{ex}
+\begin{exercise}
 
 This exercise asks you to implement and test several PRNGs.
 
@@ -3835,7 +3835,7 @@ Test it using DieHarder.
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Determinism}
@@ -3979,7 +3979,7 @@ you think of spaceships as signals that propagate on wires, and
 collisions as gates that compute logical operations like AND and OR,
 you can see what it means for a CA to perform a computation.
 
-\begin{ex}
+\begin{exercise}
 
 This exercise asks you to experiment with Rule 110 and see how
 many spaceships you can find.
@@ -3999,7 +3999,7 @@ many spaceships you can find.
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Universality}
@@ -4087,7 +4087,7 @@ the natural world, and that almost all of the systems that manifest it
 are computationally equivalent.
 \index{Class 4 behavior}
 
-\begin{ex}
+\begin{exercise}
 
 The goal of this exercise is to implement a Turing machine.
 See \url{http://en.wikipedia.org/wiki/Turing_machine}.
@@ -4110,7 +4110,7 @@ see \url{http://mathworld.wolfram.com/TuringMachine.html}.
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Falsifiability}
@@ -4170,7 +4170,7 @@ the world or acting in it.
 \index{Haldane, J. B. S.}
 \index{beetles}
 
-\begin{ex}
+\begin{exercise}
 
 Falsifiability is an appealing and useful idea, but among
 philosophers of science it is not generally accepted
@@ -4200,7 +4200,7 @@ highly of Popper's work?
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -4505,14 +4505,14 @@ argument is a bound method (see Chapter 19 of {\em Think Python}).
 \verb"animate_callback" invokes {\tt step} to update the {\tt Life}
 object and {\tt update} to update the display.
 
-\begin{ex}
+\begin{exercise}
 
 Download my implementation of GoL from \url{thinkcomplex.com/Life.py}.
 
 Start the CA in a random state and run it until it stabilizes.
 What stable patterns can you identify?
 
-\end{ex}
+\end{exercise}
 
 
 \section{Life patterns}
@@ -4546,13 +4546,13 @@ One of the longest-lived small patterns is rabbits, which starts
 with 9 live cells and takes 17 331 steps to stabilize.
 \index{r-pentomino}
 
-\begin{ex}
+\begin{exercise}
 
 Start with an r-pentomino as an initial condition and confirm
 that the results are consistent with the description above.
 You might have to adjust the size of the grid and the boundary behavior.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Conway's conjecture}
@@ -4593,13 +4593,13 @@ a Turing machine or another machine known to be Turing complete.
 \index{Turing complete}
 \index{universality}
 
-\begin{ex}
+\begin{exercise}
 
 Many named patterns are available in portable file formats.
 Modify {\tt Life.py} to parse one of these formats and initialize
 the grid.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Realism}
@@ -4752,14 +4752,14 @@ others, ask yourself why.  What are the differences in these
 scenarios that influence your reaction?  Can you make
 a principled distinction between them?
 
-\begin{ex}
+\begin{exercise}
 
 Read \url{http://en.wikipedia.org/wiki/Instrumentalism}
 and construct a sequence
 of statements that characterize instrumentalism in a range of
 strengths.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Turmites}
@@ -4805,7 +4805,7 @@ highway, another can follow it, overtake it, and cause it to
 reverse its pattern, moving back up the highway and leaving
 only white cells behind.
 
-\begin{ex}
+\begin{exercise}
 
 Write an implementation of Langton's Ant.
 
@@ -4813,7 +4813,7 @@ You can find a solution in {\tt TurmiteWorld.py}, which is
 part of Swampy.  See \url{http://thinkpython.com/swampy/}.
 \index{Swampy}
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -4924,7 +4924,7 @@ triangle.  See \url{wikipedia.org/wiki/Sierpinski_triangle}.
 \index{fractal}
 \index{Sierpi\'{n}ski's triangle}
 
-\begin{ex}
+\begin{exercise}
 
 Write a function that takes a CA object, plots $N(\veps)$ versus
 $1/\veps$, where $\veps = 1/t$, and estimates $D_{box}$.
@@ -4939,10 +4939,10 @@ Here are some functions from {\tt numpy} you might find useful:
 
 You can download my solution from \url{fractal.py}.
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 In 1990 Bak, Chen and Tang proposed a cellular automaton that is
 an abstract model of a forest fire.  Each cell is in one of three
@@ -4979,7 +4979,7 @@ decreases consistently.  You might have to tune $p$ and $f$.
 In steady state, is the geometry of the forest fractal?
 What is its fractal dimension?
 
-\end{ex}
+\end{exercise}
 
 
 \section{Percolation}
@@ -5053,7 +5053,7 @@ change occurs; that is, where the probability of a spanning cluster
 increases quickly from near 0 to near 1.
 \index{critical value}
 
-\begin{ex}
+\begin{exercise}
 
 The paper ``Efficient Monte Carlo Algorithm and High-Precision Results
 for Percolation,'' by Newman and Ziff, presents an efficient algorithm
@@ -5079,7 +5079,7 @@ Figure 2(a).
 
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 
 
@@ -5173,7 +5173,7 @@ of the grid.  The distribution of $D$ turns out to be long-tailed,
 which supports the claim that the system is in a critical state.
 \index{avalanche}
 
-\begin{ex}
+\begin{exercise}
 
 Read the paper and write a program that implements their CA.
 You might want to start with a copy of
@@ -5186,7 +5186,7 @@ After the system has been running for a while, compute its
 fractal dimension.
 \index{fractal dimension}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Spectral density}
@@ -5277,7 +5277,7 @@ To avoid negative indices, it is conventional to compute
 $H_n$ with $n$ in the range $0$ to $N-1$ and use the relation
 $H_{-n} = H_{N-n}$ to convert.
 
-\begin{ex}
+\begin{exercise}
 
 Write a function named {\tt dft} that takes $h$, a sequence of $N$
 values, and returns the sequence $H_n$ with $n$ in the range $0$ to
@@ -5321,7 +5321,7 @@ W = e^{2 \pi i / N}
 What effect does hoisting have on the order of growth?
 \index{order of growth}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Fast Fourier Transform}
@@ -5371,7 +5371,7 @@ can do that because $H^e_{n+N} = H^e_{n}$.
 
 This recursive algorithm is the Fast Fourier Transform.
 
-\begin{ex}
+\begin{exercise}
 
 Write a function called {\tt fft} that implements
 the Fast Fourier Transform.  To check your function, you
@@ -5392,7 +5392,7 @@ one-sided power spectral density, $P$.
 
 You can download my solution from \url{thinkcomplex.com/Fourier.py}.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Pink noise}
@@ -5424,7 +5424,7 @@ So on a log-log scale, the PSD of $1/f$ noise is a straight
 line with slope -1.
 \index{log-log plot}
 
-\begin{ex}
+\begin{exercise}
 
 Modify your implementation of the sand pile model to increment
 a random cell at random intervals and record the number of cells
@@ -5435,10 +5435,10 @@ chunks of 128 to 256 values, compute the PSD of each chunk, and
 average together the PSDs.  Plot the result on a log-log scale
 and estimate the slope.
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 In a 1989 paper, ``Self-organized criticality in the 'Game of Life',''
 Bak, Chen and Creutz present evidence that the Game of Life
@@ -5458,7 +5458,7 @@ Some later work has called the conclusions of this paper into
 question.  You might want to read Blok, ``Life without bounds,''
 at \url{zoology.ubc.ca/~rikblok/lib/blok95b.html}.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Reductionism and Holism}
@@ -5568,15 +5568,15 @@ For reductionist models, realism is the primary virtue, and
 simplicity is secondary.  For holistic models, it is the other
 way around.
 
-\begin{ex}
+\begin{exercise}
 
 Read \url{wikipedia.org/wiki/Reductionism}
 and \url{wikipedia.org/wiki/Holism}.
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 In a 1996 paper in Nature, Frette et al report the results of
 experiments with rice piles.  They find that some kinds of rice
@@ -5592,10 +5592,10 @@ they present evidence that the system is not critical after all.
 How do these results bear on Bak's claim that SOC explains
 the prevalence of critical phenomena in nature?
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 In {\em The Fractal Geometry of Nature}, Benoit Mandelbrot proposes an
 alternative explanation for the prevalence of long-tailed
@@ -5626,7 +5626,7 @@ To support this argument, Mandelbrot points out:
 Would you characterize Mandelbrot's argument as reductionist
 or holist?
 
-\end{ex}
+\end{exercise}
 
 
 \section{SOC, causation and prediction}
@@ -5695,14 +5695,14 @@ social systems are critical, that suggests that major historical
 events may be fundamentally unpredictable and unexplainable.
 \index{long-tailed distributions}
 
-\begin{ex}
+\begin{exercise}
 
 Read about the ``Great Man'' theory of history at
 \url{wikipedia.org/wiki/Great_man_theory}.  What implication
 does self-organized criticality have for this theory?
 \index{Great Man theory}
 
-\end{ex}
+\end{exercise}
 
 
 \chapter{Agent-based models}
@@ -5760,7 +5760,7 @@ But we have to keep in mind the limitations of this argument:
 Schelling's model demonstrates a possible cause of segregation, but
 says nothing about actual causes.
 
-\begin{ex}
+\begin{exercise}
 
 Implement Schelling's model in a grid.  From random initial conditions,
 how does the system evolve?
@@ -5774,10 +5774,10 @@ mixed neighborhoods; that is, if they are unhappy if too many of their
 neighbors are like themselves?
 \index{parameter}
 
-\end{ex}
+\end{exercise}
 
 
-\begin{ex}
+\begin{exercise}
 
 In a recent book, {\em The Big Sort}, Bill Bishop argues that
 American society is increasingly segregated by political
@@ -5794,7 +5794,7 @@ Modify your implementation of Schelling's model to simulate
 this kind of behavior and see if it yields similar degrees of
 segregation.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Agent-based models}
@@ -5882,7 +5882,7 @@ and the natural question is, ``Why?''  There is nothing about the
 {\tt Highway} or {\tt Driver} behavior that obviously causes
 traffic jams.
 
-\begin{ex}
+\begin{exercise}
 
 Experiment with the parameters of the system to identify the factors
 that are necessary and sufficient to cause traffic jams.  Some of
@@ -5905,7 +5905,7 @@ example, if they have different speed limits or following distances?
 
 \end{description}
 
-\end{ex}
+\end{exercise}
 
 
 \section{Boids}
@@ -6046,7 +6046,7 @@ maintain a flock and the patterns of motion and organization in the
 flock.  For some settings, the boids resemble a flock of birds; other
 settings resemble a school of fish or a cloud flying insects.
 
-\begin{ex}
+\begin{exercise}
 
 % sudo apt-get install python-visual libgtkglextmm-x11-1.2-dev
 
@@ -6062,7 +6062,7 @@ directly ahead, the boid should move away laterally.  What effect
 do you expect this rule to have on the behavior of the flock?
 Implement it and see.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Prisoner's Dilemma}
@@ -6134,7 +6134,7 @@ I won't tell you the outcome, and if you don't know you should resist
 the temptation to look it up.  Instead, I encourage you to run your
 own tournament.  I'll provide the referee; you provide the players.
 
-\begin{ex}
+\begin{exercise}
 
 Download \url{thinkcomplex.com/Referee.py}, which runs the tournament,
 and \url{thinkcomplex.com/PlayerFlipper.py}, which implements a simple
@@ -6168,7 +6168,7 @@ replace {\tt Flipper} with a name that summarizes your strategy.
 
 Run {\tt Referee.py} and see how your strategy does.
 
-\end{ex}
+\end{exercise}
 
 
 \section{Emergence}
@@ -6301,16 +6301,14 @@ In order to compare tax rates objectively based on their wealth distribution, we
 A good way to visualize Gini coefficients is a Lorenz curve.  A society's wealth inequality is visualized by the curvature of the graph, where a perfectly distributed society is a straight line.
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/lorenz.pdf}
+\centerline{\includegraphics[width=3.0in]{figs/lorenz.pdf}}
 \caption{Lorenz curves for different tax rates.}
 \end{figure}
 
 \subsection{Results Without Taxation}
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/pmf_notax.pdf}
+\centerline{\includegraphics[width=3.0in]{figs/pmf_notax.pdf}}
 \caption{PMF with no tax.}
 \end{figure}
 
@@ -6319,8 +6317,7 @@ Figure 3 shows a histogram describing the wealth distribution when there is no t
 \subsection{Results With Taxation}
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/pmf_20percent.pdf}
+\centerline{\includegraphics[width=3.0in]{figs/pmf_20percent.pdf}}
 \caption{PMF with tax.}
 \end{figure}
 
@@ -6330,14 +6327,12 @@ One drawback to such a small deviation of wealth is the effect it has on the mea
 
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/gini_coeff.pdf}
+\centerline{\includegraphics[width=3.0in]{figs/gini_coeff.pdf}}
 \caption{The Gini coefficient versus the tax rate.}
 \end{figure}
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/mean_wealth.pdf}
+\centerline{\includegraphics[width=3.0in]{figs/mean_wealth.pdf}}
 \caption{The tax rate plotted against the mean wealth of the Sugarscape agents. The mean wealth decreases as the tax rate increases, showing the tax rate's effect on the wealth of the agents.}
 \end{figure}
 
@@ -6351,15 +6346,13 @@ These two systems are at odds with each other, and neither fully represent how a
 As the tax rate gets higher, the bottom quartile's wealth initially climbs, which is expected as taxation is designed to aid the poorest in a society. But at a critical point around 3\%, the bottom quartile's wealth drops too--this is the point where the society's decline overcomes the taxation's aid. 
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/bottom_quartile.pdf}
+\centering{\includegraphics[width=3.0in]{figs/bottom_quartile.pdf}}
 \caption{Bottom quartile value versus tax rate. There is a critical point around a tax rate of 4\% where the average wealth of the bottom quartile is maximized.}
 \end{figure}
 
 
 \begin{figure}[ht]
-\centering
-\includegraphics[width=3.0in]{figs/pmf_2percent.pdf}
+\centerline{\includegraphics[width=3.0in]{figs/pmf_2percent.pdf}}
 \caption{The wealth distribution for a smaller tax rate (2\%). There is still some deviation, but the mean wealth is high.}
 \end{figure}
 
@@ -6403,9 +6396,10 @@ In its starting configuration, each point in the world has a chance of containin
 \caption{Plot of our simulation after 1000 time steps.\label{fig.plot}}
 \end{figure}
 
-\begin{ex}
+\begin{exercise}
+
 Download the code for \texttt{ants.py}, our simulation, available at \url{thinkcomplex.com/ants.py}.  Run it for 1000 time steps and see if your results look similar to Figure~\ref{fig.plot}. The simulation can be computationally intensive, and 1000 time steps took about 1.5 minutes to run on our machine---be patient!
-\end{ex}
+\end{exercise}
 
 
 \section{API design}
@@ -6479,21 +6473,25 @@ The specific widget we use to accomplish the plotting is a \texttt{FloatCanvas}.
 Our \texttt{AntPlot} class serves as somewhat of a ``hello world'' application for \texttt{wx}---all it does is pop up a single window and some plotting. If you are interested in exploring \texttt{wx} further, this class might be a good starting point.
 
 
-\begin{ex}
+\begin{exercise}
+
 Try altering the pheromone amounts in the model.  What happens when Ants only lay pheromone when leaving the nest? When returning? What happens when Ants lay significantly more or less pheromone than currently? Are there any boundary conditions?
-\end{ex}
+\end{exercise}
 
-\begin{ex}
+\begin{exercise}
+
 Different species of ants have different patterns of food locations. In \texttt{ant.py}, each Location has a 50\% probability of containing one particle of food.  What happens when each Location has a 1\% probability of containing 50 pieces of food?
-\end{ex}
+\end{exercise}
 
-\begin{ex}
+\begin{exercise}
+
 So far, we have only considered scenarios involving one nest of ants.  What happens when we consider multiple nests? Pick a value d and modify the code such that Ants spawn at (0, d) and (d, 0) in addition to (0,0).  Do the trails of ants converge, or do they all remain distinct? Try keeping track of the amount of food that has been collected in each nest. Does any one of the nests do better than the others?
-\end{ex}
+\end{exercise}
 
-\begin{ex}
+\begin{exercise}
+
 Previously, we have assumed that all ants lay the same quantity of pheromone as other ants.  Revisiting our three-nest scenario, what happens when ants from one nest lay slightly higher amounts of pheromone than those from the other nests?
-\end{ex}
+\end{exercise}
 
 
 
@@ -6529,8 +6527,8 @@ The graphs we've encountered in previous chapters are all undirected graphs. In 
 This non-symmetry holds true for Wikipedia as well. Page A might link to page B, but page B doesn't have to include any links to page A. To fully describe the relationship between pages A and B, we need two bits of information: whether A links to B, and whether B links to A . This is the essence of a directed graph. In a directed graph, an arc $e = (A,B)$ is an \emph{edge} from A \emph{to} B. Arcs are usually referred to as directed edges.
 
 \begin{figure}
- \centering
-\includegraphics[width=3.0in]{figs/DirectedGraphExample.png}
+\centerline{\includegraphics[width=3.0in]{figs/DirectedGraphExample.png}}
+\caption{Caption.}
 \end{figure}
 
 As previously mentioned, knots are a unique (and sometimes cruel) property of directed graphs. A knot in a directed graph is a collection of vertices and edges with the property that every vertex in the knot has outgoing edges, and all outgoing edges from vertices in the knot terminate at other vertices in the knot. Thus it is impossible to leave the knot while following any path along its directed edges.
@@ -6539,7 +6537,7 @@ We mentioned the idea of knots in Wikipedia. We wondered whether such a thing wa
 
 Before writing an algorithm to determine the existence of knots in a directed graph, we extended \verb"Graph.py" to support directed graphs. The result is \verb"DirectedGraph.py", which you can download at \url{https://raw.github.com/nrubin/RachelAndNoamsDirectedGraphs/master/DirectedGraph.py}. We recommend reading through this file and making yourself familiar with the terminology. Note that Edges in DirectedGraph are represented by Arcs.
 
-When we were designing \verb"DirectedGraph", we wanted to preserve the order of growth of \verb Vertex  and \verb Arc  lookups as they were in \verb Graph.  However, we needed to keep track of edges into a vertex and edges from a vertex. It made sense to keep track of these in separate dictionaries. Thus, out-arcs were stored in the\verb DirectedGraph  internal dictionary, and in-arcs were stored in an additional dictionary called \verb reverse_graph.  Having two dictionaries takes twice as much memory, but this seemed like a reasonable price to pay for maintaining the speed of lookups.
+When we were designing \verb"DirectedGraph", we wanted to preserve the order of growth of \verb"Vertex"  and \verb"Arc"  lookups as they were in \verb"Graph".  However, we needed to keep track of edges into a vertex and edges from a vertex. It made sense to keep track of these in separate dictionaries. Thus, out-arcs were stored in the\verb"DirectedGraph"  internal dictionary, and in-arcs were stored in an additional dictionary called \verb"reverse_graph".  Having two dictionaries takes twice as much memory, but this seemed like a reasonable price to pay for maintaining the speed of lookups.
 
 \section{Knotting Algorithm}
 
@@ -6596,33 +6594,34 @@ The function \verb"has_knot" iterates through each vertex in a graph, and return
             if self._knot_at_v(v):
                 return True
         return False
-
 \end{verbatim}
 
-\begin{ex}
- Determine the order of growth of \verb has\_knots  experimentally. You might want to review Chapter 3, Section 1. Below are several hints to help you out.
+\begin{exercise}
+ Determine the order of growth of \verb"has_knots" experimentally. You might want to review Chapter 3, Section 1. Below are several hints to help you out.
+
 \begin{enumerate}
+
  \item Use \verb"DirectedGraph.add_random_edges" to generate a few thousand graphs of different sizes.
 
 \item For each graph, time how long it takes to check if it has a knot.
 
 \item Plot the time it took to check if the graph has a knot versus the number of vertices the graph has. Also plot against the number of edges the graph has.
 
-\item What has more of an effect on the runtime \verb has_knots, vertices or edges?
+\item What has more of an effect on the runtime \verb"has_knots", vertices or edges?
 
-\item From your figures, determine the order of growth of \verb has_knots .
+\item From your figures, determine the order of growth of \verb"has_knots".
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
-\begin{ex}
+\begin{exercise}
  Find all the knots in a directed graph.
 \begin{enumerate}
- \item Write a function, named \verb all_knots , that returns a list of all knots in a graph.
-\item Building on your answer from the previous question, write a function named \verb entry_points that returns a list of all the vertices that serve as entry points into knots.
+ \item Write a function, named \verb"all_knots", that returns a list of all knots in a graph.
+\item Building on your answer from the previous question, write a function named \verb"entry_points" that returns a list of all the vertices that serve as entry points into knots.
 \end{enumerate}
 
-\end{ex}
+\end{exercise}
 
 \section{Parsing Wikipedia}
 
@@ -6632,10 +6631,9 @@ To find knots in Wikipedia, we selected 558 disjoint subsets of Wikipedia articl
 Of the 558 subgraphs we examined, 38\% contained at least one knot. This indicates that if you are reading articles listed on the same index page, there is a chance you will get stuck in a knot and start to see the same articles again. In actuality, the odds of this happening are much lower than 38\%, because articles can link to articles which don't share the same parent index. Our analysis ignored these links. For example, our analysis would have ignored a link from a neurobiology article to a Zimbabwe article, unless the Zimbabwe article was also listed in the neurobiology index. Furthermore, the 38\% does not imply that the graph of all of Wikipedia has a knot.
 
 \begin{figure}
- \centering
-\includegraphics[width=3.0in]{figs/BAResults.png}
+\centerline{\includegraphics[width=3.0in]{figs/BAResults.png}}
 \caption{The graphs from Barabasi and Albert's 1999 paper show the scale-free structure of a few undirected graphs. $k$ is the average connectivity, or degree, of the vertices in the graph, and $P(k)$ is the proportion of vertices in the graph that have this degree. Plotted on a log-log scale, scale-free networks tend to show long-tailed distributions. This is because a few vertices have the highest degree in the graph.}
-\label{fig:BAGraph}
+\label{fig.BAGraph}
 \end{figure}
 
 
@@ -6645,27 +6643,26 @@ Back to the original question of \emph{topica obscura}. When you started this hy
 In Barabasi and Albert's paper about scale-free networks\footnote{Barabasi, Albert-Laszlo and Albert, Reka, Emergence of Scaling in Random Networks; Science Magazine, Vol. 286, 15 October  1999.}, they analyze the underlying undirected graph of citations in scientific articles. Given that this graph must have a different structure than the graph of Wikipedia, we wondered whether the Barabasi-Albert model is applicable to Wikipedia.
 
 \begin{figure}
- \centering
-\includegraphics[width=3.0in]{figs/WikipediaPowerLawGraph.png}
-\caption{The distribution function of connectivities for various large subgraphs of Wikipedia. \textbf{(A)} Index of India-related articles with $N = 5,342$ vertices and average connectivity $ k = 53.56$.  \textbf{(B)} Index of Mathematics articles starting with C, with $N = 3813$ and average connectivity $k = 4.95$. \textbf{(C)} Index of Mathematics articles starting with S, with $N = 3950$ and average connectivity $k = 4.85$. Compared to Figure \ref{fig:BAGraph}, these three graphs also display scale-free distributions. The structure of these distinct subgraphs hints at the nature of Wikipedia as a whole, indicating that Wikipedia is possibly scale-free.}
-\label{fig:PunchlineGraph}
+\centerline{\includegraphics[width=3.0in]{figs/WikipediaPowerLawGraph.png}}
+\caption{The distribution function of connectivities for various large subgraphs of Wikipedia. \textbf{(A)} Index of India-related articles with $N = 5,342$ vertices and average connectivity $ k = 53.56$.  \textbf{(B)} Index of Mathematics articles starting with C, with $N = 3813$ and average connectivity $k = 4.95$. \textbf{(C)} Index of Mathematics articles starting with S, with $N = 3950$ and average connectivity $k = 4.85$. }
+\label{fig.PunchlineGraph}
 \end{figure}
 
-To determine the structure of the subgraphs of Wikipedia, we looked at the largest graphs and tried to recreate the results from Barabasi and Albert's 1999 paper (seen in Figure \ref{fig:BAGraph}. 
+To determine the structure of the subgraphs of Wikipedia, we looked at the largest graphs and tried to recreate the results from Barabasi and Albert's 1999 paper (seen in Figure \ref{fig.BAGraph}). 
 
-Comparing Figure \ref{fig:BAGraph} to Figure \ref{fig:PunchlineGraph}, we can see that the general structure of both is very similar. This means that the distinct subgraphs we examined are characteristically scale-free. In addition, it means that Wikipedia graphs are well-modeled by the Barabasi-Albert small world graph model.
+Comparing Figure \ref{fig.BAGraph} to Figure \ref{fig.PunchlineGraph}, we see that the general structure of both is similar. This suggests that the subgraphs we examined are characteristically scale-free.
+In addition, it means that Wikipedia graphs are well-modeled by the Barabasi-Albert small world graph model.
 
 But what does this really mean? The Barabasi-Albert model of small-world graphs is especially good at modeling preferential attachment, the phenomenon where a few of the vertices have the highest degree. The fact that both undirected graphs  and the directed graphs can have a scale-free distribution of degrees means that preferential attachment is independent of the directedness of the graph.
 
 
 \begin{figure}
- \centering
-\includegraphics[width=3.0in]{figs/AllThreeScaleFree.png}
+\centerline{\includegraphics[width=3.0in]{figs/AllThreeScaleFree.png}}
 \caption{The distribution function of connectivities for the in-degrees \textbf{(A)}, out-degrees \textbf{(B)}, and total degrees \textbf{(C)} of the vertices in the Index of India-related articles subgraph. Both the in- and out-degree distributions are scale-free, further indicating that preferential attachment is independent of directedness.}
-\label{fig:AllThree}
+\label{fig.AllThree}
 \end{figure}
 
-This independence is further demonstrated by Figure \ref{fig:AllThree}, which shows the degree distribution of the in, out, and total degrees of the ``Index of India-related articles''  subgraph. All three distributions are scale-free, which means that few vertices have a high in-degree and few vertices have a high out-degree. This corresponds with our findings that preferential attachment is independent of the directedness of a graph.
+This independence is further demonstrated by Figure \ref{fig.AllThree}, which shows the degree distribution of the in, out, and total degrees of the ``Index of India-related articles''  subgraph. All three distributions are scale-free, which means that few vertices have a high in-degree and few vertices have a high out-degree. This corresponds with our findings that preferential attachment is independent of the directedness of a graph.
 
 \section{Conclusion}
 
