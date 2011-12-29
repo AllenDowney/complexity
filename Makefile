@@ -16,7 +16,7 @@ PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress \
 	ps2pdf $(PDFFLAGS) $<
 
 all:	book.tex
-	makeindex book
+	makeindex book.idx
 	pdflatex book
 	mv book.pdf thinkcomplexity.pdf
 	evince thinkcomplexity.pdf
