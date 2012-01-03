@@ -2,7 +2,8 @@ FILES = GraphCode.py  GraphWorld.py  RandomGraph.py  Map.py  listsum.py \
 Pmf.py  SmallWorldGraph.py  Zipf.py CA.py CADrawer.py CircularCA.py \
 Forest.py Fourier.py Life.py Highway.py Boids.py \
 ipd/Referee.py ipd/PlayerFlipper.py \
-Graph.py GraphTest.py populations.py
+Graph.py GraphTest.py populations.py \
+DirectedGraph.py
 
 CS_FILES = case_studies/ants.py
 
