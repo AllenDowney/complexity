@@ -6068,6 +6068,7 @@ Implement it and see.
 
 
 \section{Prisoner's Dilemma}
+\label{prisoners}
 
 The Prisoner's Dilemma is a topic of study in game theory, so
 it's not the fun kind of game.  Instead, it is the kind of game
@@ -7011,100 +7012,103 @@ and their citations cannot have a knot.
 
 
 
-\chapter{The Volunteer's Dilemma and the Norms Game}
+\chapter{The Volunteer's Dilemma}
 
 {\em Molly Grossman, Mandy Korpusik, and Philip Loh}
 
 
-\section{Volunteer's Dilemma}
+\section{The prairie dog's dilemma}
 
-\begin{quote}
-Scenario \#1:
-
-You are a prairie dog assigned to guard duty with several other
+Suppose you are a prairie dog assigned to guard duty with other
 prairie dogs from your town.  When you see a predator coming, you have
 two choices: sound the alarm or remain silent.  If you sound the
 alarm, you help ensure the safety of the other prairie dogs, but you
-also encourage the predator to come after you.  If you remain silent
-and someone else sounds the alarm, your safety is better ensured.  If
-all the guards remain silent, the predator will come into the town and
-eat some of the unsuspecting prairie dogs within, possibly including
-you and the other guards.  What should you do when you see a predator?
-\end{quote}
+also encourage the predator to come after you.  For you, it is safer
+to remain silent, but if all guards remain silent, everyone is less
+safe, including you.  What should you do when you see a predator?
 
 This scenario is an example of the Volunteer's Dilemma, a game similar
-to the Prisoner's Dilemma discussed in Section 9.5.  In the Prisoner's
-Dilemma each player has two options---cooperate and defect.  In the
-Volunteer's Dilemma each player also has two options---volunteer
-(sound the alarm in our prairie dog example) or ignore (remain
-silent).  If both players ignore, both pay a high cost.  However, if
-one player volunteers then the other player is better off ignoring.
+to the Prisoner's Dilemma discussed in Section~\ref{prisoners}.  In
+the Prisoner's Dilemma each player has two options---cooperate and
+defect.  In the Volunteer's Dilemma each player also has two
+options---volunteer (sound the alarm in our prairie dog example) or
+ignore (remain silent).  If one player volunteers then the other
+player is better off ignoring.  But if both players ignore, both pay a
+high cost.
 
-In the Prisoner's Dilemma, both players, Alice and Bob, are better off
+In the Prisoner's Dilemma, both players are better off
 if they both cooperate; however, since neither knows what the other
 will do, each independently comes to the conclusion that he or she
-should defect.  In the Volunteer's Dilemma, it is not immediately
-clear what situation is best for both players.  Looking at it from
-Bob's point of view: if Alice volunteers, Bob is better off ignoring;
+should defect.
+
+In the Volunteer's Dilemma, it is not immediately
+clear what outcome is best for both players.  Suppose the players
+are named Alice and Bob.  If Alice volunteers, Bob is better off ignoring;
 if Alice ignores, Bob is better off volunteering.  This does not
-provide a clear best strategy for Bob.  Alice reaches symmetric
-conclusions from her point of view: if Bob volunteers, she is better
+provide a clear best strategy for Bob.  By the same
+analysis, Alice reaches the same
+conclusion: if Bob volunteers, she is better
 off ignoring; and if Bob ignores, she is better off volunteering.
-This means we have two equivalent stable scenarios---Bob volunteers
+
+Instead of one optimal outcome, as in the Prisoner's Dilemma, there
+are two equally good outcomes: Bob volunteers
 and Alice ignores, or Bob ignores and Alice volunteers.
 
 In the prairie dog town, there are more than two guards.  As in the
 scenario with just Alice and Bob, only one player needs to volunteer
-to benefit the entire town.  We therefore have as many stable
-scenarios as we have guards---in each scenario, one guard volunteers
-and all others ignore.  If one guard is always going to volunteer,
-though, then there is little point in having multiple guards.  To make
-the situation more fair, the guards can distribute the burden of
-volunteering among themselves, collaborating based on a \textbf{mixed
-  strategy}.  In a mixed strategy, a player chooses each option
-randomly.  Since we only have two options (ignore and volunteer), the
-player ignores with probability $\gamma$ and volunteers with
-probability $1 - \gamma$.  The optimal value for $\gamma$ is that
-where each player volunteers as little as necessary to produce the
-common good.
+to benefit the entire town.  So there are as many good outcomes as
+guards---in each case, one guard volunteers and the others ignore.
 
-Marco Archetti investigates this optimal value of $\gamma$ in his
+If one guard is always going to volunteer, though, then there is
+little point in having multiple guards.  To make the situation more
+fair, we can allow the guards to distribute the burden of volunteering among
+themselves by making decisions randomly.  That is, each guard 
+chooses to ignore with some 
+probability $\gamma$ or to volunteer with probability $1 - \gamma$.
+The optimal value for $\gamma$ is that where each player volunteers as
+little as necessary to produce the common good.
+
+\section{Analysis}
+
+Marco Archetti investigates the optimal value of $\gamma$ in his
 paper ``The Volunteer's Dilemma and the Optimal Size of a Social
-Group.'' Our analysis in this section replicates Archetti's
-analysis. When each player volunteers with the optimal probability,
+Group.''  This section replicates his analysis. 
+
+When each player volunteers with the optimal probability,
 the expected payoff of volunteering is the same as the expected payoff
 of ignoring.  Were the payoff of volunteering higher than the payoff
 of ignoring, the player would volunteer more often and ignore less;
 the opposite is true were the payoff of ignoring higher than the
-payoff of volunteering.  The expected payoff of volunteering or
-ignoring is the product of the likelihood the player will choose that
-option and the average benefit to the player of choosing that option,
-taking into account the other players' probable actions.  The optimal
-probability therefore depends on the costs and benefits of each
-option.  In fact, the optimal $\gamma$ for two individuals,
-$\gamma_2$, is related to the cost of volunteering, $c$, and the
-damage of nobody volunteering, $a$, such that $\gamma_2 = c / a$.  In
+payoff of volunteering.
+
+The optimal
+probability depends on the costs and benefits of each
+option.  In fact, the optimal $\gamma$ for two individuals is
+
+\[ \gamma_2 = c/a \]
+
+where $c$ is the cost of volunteering, and $a$ is the total cost
+if nobody volunteers.  In
 the prairie dog example, where the damage of nobody volunteering is
-high, this means that the optimal $\gamma$ is small, though larger
-than 0.
+high, $\gamma_2$ is small.
 
 If you transfer more prairie dogs to guard duty, there are more
-players to share the cost of volunteering, so intuitively the
-probability of each player ignoring should increase.  This certainly
-benefits each player---if the optimal probability of ignoring
-increases but the expected costs of volunteering and ignoring each
-stay the same, then each player has to pay the cost of volunteering
-less often and is better off.  Indeed, Archetti showed that $\gamma_N$
-is equal to $\gamma_2^{1/(N-1)}$. The probability of everyone except
-you \emph{not} volunteering is $\gamma_N^{N-1} = \gamma_2$, since we
-multiply the probabilities of each individual not volunteering.
+players to share the cost of volunteering, so we expect the
+probability of each player ignoring should increase.  Indeed, Archetti
+shows:
 
-If everyone volunteers at the optimal probability, the probability of
-everyone except you ignoring stays consistent as the number of other
-players changes.  The probability that you ignore \emph{increases} as
-the number of other players increases, since $\gamma_N$ increases with
-$N$.  This means that, overall, as the size of the group increases,
-the probability that nobody volunteers increases.
+\[ \gamma_N = \gamma_2^{1/(N-1)} \]
+
+$\gamma_N$ increases with
+$N$, so as the number of players increases, each player volunteers
+less.
+
+But, surprisingly, adding more guards does not make the town safer.
+If everyone volunteers at the optimal probability, the probability that
+everyone except you ignores is $\gamma_N^{N-1}$, which is $\gamma_2$, so
+it doesn't depend on $N$.  If you also ignore with probability $\gamma_N$,
+the probability that everyone ignores is $\gamma_2 \gamma_N$, which
+\emph{increases} with $N$.
 
 This result is disheartening.  We can ensure that the high-damage
 situation never occurs by placing the entire burden of the common good
@@ -7116,18 +7120,26 @@ number of players who share the burden increases.
 
 \begin{exercise}
 
-The students at a small college sign an Honor Code upon entering
-freshman year. When a student breaks the Honor Code, those who witness
-the infraction face a version of the volunteer's dilemma. As a
-witness, you have two options: report the offender to be punished or
-remain silent. If you report the person, you help ensure that the
-Honor Code is followed and preserve the college's culture of honesty
-and integrity, but you also incur stress and are now required to
-follow through with the hassle. If you remain silent and someone else
-reports the person, you benefit without the stress and
-hassle. However, if everyone remains silent, the Honor Code is
-threatened because others may become, after seeing someone break it
-without getting punished, more likely to break the Honor Code.
+Read about the Bystander Effect at
+\url{http://en.wikipedia.org/wiki/Bystander_effect}.  What
+explanation, if any, does the Volunteer's Dilemma provide for the
+Bystander Effect?
+
+\end{exercise}
+
+\begin{exercise}
+
+Some colleges have an Honor Code that requires students to report
+instances of cheating.  If a student cheats on an exam, other students
+who witness the infraction face a version of the volunteer's
+dilemma. As a witness, you have two options: report the offender or
+ignore. If you report, you help maintain the integrity of the Honor
+Code and the college's culture of honesty and integrity, but you incur
+costs, including strained relationships emotional discomfort.  If someone
+else reports, you benefit without the
+stress and hassle. But if others ignore, the integrity of the Honor Code
+is diminished, and if cheaters are not punished, other students might
+be more likely to cheat.
 
 Download and run \texttt{thinkcomplex.com/volunteersDilemma.py}, which
 contains a basic implementation of the Volunteer's Dilemma. The code
@@ -7135,25 +7147,44 @@ plots the likelihood that nobody will volunteer with given values of
 $c$ and $a$ across a range of values for $N$.  Edit this code to
 investigate the Honor Code volunteer's dilemma.  How does the
 probability of nobody volunteering change as you modify the cost of
-volunteering, damage of nobody volunteering, and size of the
+volunteering, the cost of nobody volunteering, and size of the
 population?
 \end{exercise}
+
 
 \section{Norms Game}
 
 \begin{quote}
 Scenario \#2:
 
-You are a high-school student about to take a very hard chemistry
-test.  You are tempted to write extra notes on your hand with answers
-to questions you suspect will be asked.  If you cheat, you benefit
-from a higher score, but other students suffer by your wrecking the
-curve.  Any student who sees you cheating has the choice to report you
-to the teacher, which disqualifies your curve-wrecking score but
-involves the embarrassing process of calling you out.  If you get away
-with cheating, others are more likely to cheat in the future.  How
-will your choice whether or not to cheat affect the future behavior of
-other students?
+Suppose you attend a college where cheating is commonplace and
+students seldom report incidents of cheating.  If you cheat,
+you might get a higher score, and your chance of being caught is
+low.  If you witness someone cheating, the cost of reporting the
+other student might be high.
+
+Then you transfer to another school where cheating is rare and
+likely to be reported.  
+
+
+
+
+You are a high-school student about to take a difficult chemistry
+exam.  You are tempted to write notes on your hand with answers to
+questions you expect on the exam.  If you cheat, you might get a
+higher score, but if another student sees you and reports you, the
+punishment might be severe.  Your decision might be guided, at least
+in part, by your expection about whether other students are likely
+to report you.
+
+
+
+A student who sees you
+cheating has the choice to report you to the teacher, which
+disqualifies your curve-wrecking score but involves the embarrassing
+process of calling you out.  If you get away with cheating, others are
+more likely to cheat in the future.  How will your choice whether or
+not to cheat affect the future behavior of other students?
 \end{quote}
 
 This scenario is an example of the norms game.  Norms are standard
