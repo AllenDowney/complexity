@@ -6588,7 +6588,7 @@ the World only once we have at least a tentative idea for the methods
 and attributes of Ants and Locations.
 
 For Ants, the most important information is where they are in the
-Worlds, so each ant has the attributes \texttt{x} and \texttt{y} to
+World, so each ant has the attributes \texttt{x} and \texttt{y} to
 store its coordinates. Also, each Ant keeps track of whether or not it
 is currently carrying food.  Each Ant has only local information about
 the World; keeping track of all the Ants is the job of the World
@@ -6692,7 +6692,7 @@ class AntPlot:
 
 We use a {\tt wx} \texttt{FloatCanvas} to plot the ants.  Most
 canvases in GUI libraries define the point (0, 0) as the upper left
-corner of the canvas and have x increase to the left and y increase
+corner of the canvas and have $x$ increase to the left and $y$ increase
 down, but the coordinates in the \texttt{FloatCanvas} work like in
 math---the origin is the middle, and the positive $y$ direction is up. This
 allows us to write simpler code because we don't have to transform our
@@ -6733,7 +6733,7 @@ Keep track of the amount of food
 collected in each nest. Does one of the nests do better than the
 others?
 
-what happens when ants from
+What happens when ants from
 one nest lay slightly higher amounts of pheromone than those from the
 other nests?
 \end{exercise}
