@@ -3057,17 +3057,16 @@ for cities and towns?
 \newcommand{\Barabasi}{Barab\'{a}si}
 
 \section{\Barabasi~and Albert}
+\label{scale.free}
 
 In 1999 \Barabasi~and Albert published a paper in {\em Science},
-``Emergence of Scaling in Random Networks,''
-that characterizes the structure (also called ``topology'') of
-several real-world networks, including graphs that represent
-the interconnectivity of movie actors, world-wide web (WWW) pages,
-and elements in the electrical power grid in the western
-United States.
-\index{topology}
-\index{movie actor}
-\index{world-wide web}
+``Emergence of Scaling in Random Networks,'' that characterizes the
+structure (also called ``topology'') of several real-world networks,
+including graphs that represent the interconnectivity of movie actors,
+world-wide web (WWW) pages, and elements in the electrical power grid
+in the western United States.  You can download the paper from
+\url{http://www.sciencemag.org/content/286/5439/509}.
+\index{topology} \index{movie actor} \index{world-wide web}
 \index{electrical power grid}
 
 They measure the degree (number of connections) of each node and
@@ -7382,109 +7381,99 @@ costs and benefits.  You can read more about Game Theory at
 
 {\em Margaret-Ann Seger, Boris Taratutin, Eun Abe Kim}
 
+When new students arrive on campus each fall, many colleges experience
+a so-called ``Freshman Plague,'' a flu-like disease that sweeps
+through the school.  Occasionally, for illnesses such as norovirus or
+the H1N1 outbreak of 2009, students have been quarantined or entire
+campuses shut down.
 
-Each fall, millions of college kids go back to school. And each fall,
-numerous colleges experience the fabled ``Freshman Plague'' where a
-large percentage of the incoming students contract an unknown disease
-(usually some variety of influenza) that sweeps through the class like
-a plague.
+Of course, quarantines and school closures are disruptive and
+expensive.  But what if the university could predict how the disease
+would spread and take preventative actions with those individuals most
+likely to perpetuate the spread of the disease? 
 
-University health offices often urge students to follow stringent
-health and safety guidelines to fight the spread of
-sickness. Occasionally, for illnesses such as norovirus or the H1N1
-`Swine Flu' outbreak of 2009, students have been quarantined or entire
-campuses shut down. Quarantines and school closures are traumatic and
-disruptive, as well as expensive.
-
-Imagine however, the university could predict how the disease would
-spread and take preventative actions with those individuals most
-likely to perpetuate the spread of the disease. These pre-emptive
-actions might take the form of immunization, quarantine, or extra
-health precautions.
-
-In this chapter, we develop a way to pinpoint the most crucial
-students to target for such preventative measures, whose removal or
-vaccination minimize the spread of disease.
+In this case study, we use the structure of social networks to
+evaluate the effect of preemptive strategies, including vaccination
+and quarantine, on the spread of disease.
 
 
+\section{A disease model}
 
+In ``The impacts of network topology on disease spread,'' Mark
+Shirley and Steve Rushton describe a model of disease spread
+in an arbitrary network.  You can download the paper from
+\url{http://www.sciencedirect.com/science/article/pii/S1476945X05000280}.
 
-\section{Disease Spread Models}
-
-In \textit{The impacts of network topology on disease spread}, Mark
-Shirley describes a particular implementation of a disease spread
-model in an arbitrary network\footnote{To read more about Shirley's
-  model, go to
-  http://www.sciencedirect.com/science/article/pii/S1476945X05000280}. In
-the real world, when two people come into contact with each other,
+In the real world, when two people come into contact with each other,
 there is the potential of infecting one another. To model this,
-Shirley represents individuals as nodes, and represents the links
-between them as potential points for disease transmission. In
-Shirley's model, nodes can be in one of four states: `healthy',
-`infected', `infectious', or `immune'. For the purposes of the model,
-`immune' includes both deceased individuals and individuals who have
-been infected but recovered from the disease and cannot contract it
-again.
+Shirley and Rushton represents individuals as nodes in a graph, and
+opportunities for infection as edges or ``links''.
 
-These states, coupled with the following state transitions, are the
-basis for our implementation of Shirley's model:
+In their model, nodes can be in one of four states:
+healthy, infected, infectious, or immune. 
 
 \begin{itemize}
 
-    \item `Healthy' nodes adjacent to an infected node have a chance of becoming infected by infectious nodes (with probability $p_infection$)
+    \item A healthy node adjacent to an infected node 
+      becomes infected with probability
+      \verb"p_infection".
 
-    \item Infected nodes will eventually become infectious (after $latent_period$)
+    \item An infected node becomes infectious after
+      \verb"latent_period".
 
-    \item Infectious nodes will eventually become immune (after $infectious_period$)
+    \item An infectious node becomes immune after
+      \verb"infectious_period".
 
-    \item Immune nodes can no longer infect other nodes or be infected themselves
+    \item Immune nodes can not infect other nodes or be infected.
 \end{itemize}
 
-Shirley tested his model on random, small-world, and scale-free
-networks.  We chose to use a scale-free network as this topology most
-closely mimics the structure of a human network.
+An immune node might represent someone who has recovered and
+cannot be infected again, or someone who died.  In the model there
+is no difference between these outcomes; of course, in the real world
+there is.
 
-In his 1999 paper, \textit{Emergence of Scaling in Random Networks},
-Barabasi and Albert introduce a method of preferential attachment for
-creating scale-free graphs and describes it as a network that is
-grown, where new nodes prefer to attach to nodes that already have a
-large number of connections. Barabasi argues that scale-free network
-topologies are useful for representing abstract systems like the World
-Wide Web and human social interactions, hence making scale-free graphs
-the logical choice as a base for our disease-spread model.
-
+Shirley and Rushton test their model on \Erdos-\Renyi~random graphs,
+Watts-Strogatz small-world graphs, and \Barabasi-Albert scale-free
+networks.  We focus on scale-free networks because, of these
+alternatives, they are the best model of the topology of social
+networks (see Section~\ref{scale.free}).
 
 
 \section{Simulation}
 
-Figure ~\ref{fig.disease_progression} shows Shirley's
-disease-transmission model on a Barabasi-Albert scale-free network.
-
 \begin{figure}
 \centerline{\includegraphics[width=0.8\textwidth]{figs/Disease_Progression.png}}
-\caption{A plot of the number of people in each state of Shirley's disease spread model ('normal', 'infected', 'infectious', and 'immune') over the course of an epidemic. The simulation parameters were as follows: $n=500$, $p_{infection}=0.5$, $latent_period=3$, $infectious_period=6$). Each line represents the number of people in that given state at any point in time.}
+\caption{The number of people in each state (healthy, infected, infectious, and
+  immune) over the course of an epidemic. }
 \label{fig.disease_progression}
 \end{figure}
 
-The lines represent the number of normal, infected, infectious, and
-immune people at any given point in time. Looking at Figure 1, we see
-that the epidemic seems to grow as a logistic function. This is
-consistent with what happens in the real world where 'hubs'---very
-well-connected nodes--- act to expedite the spread of disease.
+We implemented Shirley and Rushton's model and ran it on a
+scale-free network with 500 nodes, with parameters
+\verb"p_infection" $=0.5$,
+  \verb"latent_period" $=3$, \verb"infectious_period" $=6$.
+
+Figure ~\ref{fig.disease_progression} shows the results.
+The lines represent the number of healthy, infected, infectious, and
+immune people over time. 
+
+In this example, the result is a complete pandemic---everyone gets infected.
+The shape of the immune curve is a sigmoid: growth is approximately
+exponential at first, but slows as the number of immune people increases.
+
+
 
 \begin{exercise}
-Try using the Python file DiseaseSpreadModel.py to run the simulation
-with different parameters. How do different parameters affect the
-spread of disease? Note that each time the simulation is run, the
-generated graph has different shape and form from the one before. How
-does this randomness in the simulation affect the results? Run the
-simulation an appropriate number of times to see some convergence in
-results: how many times do you have to run it?
+
+Download our code from \url{thinkcomplex.com/DiseaseSpreadModel.py}
+and run the simulation
+with different parameters. How does each parameters affect the
+spread of disease?
 \end{exercise}
 
 
 
-\section{Identifying the `key' Nodes in an Epidemic}
+\section{Identifying the key Nodes in an Epidemic}
 
 Alex Ng and Janet Efstathiou, in \textit{The Structural Robustness of
   Complex Networks}, describe a technique whereby each node in a
