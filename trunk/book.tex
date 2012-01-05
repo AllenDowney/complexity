@@ -7141,7 +7141,7 @@ if everyone ignores, the integrity of the Honor Code is diminished, and
 if cheaters are not punished, other students might be more likely to
 cheat.
 
-Download and run \texttt{thinkcomplex.com/volunteersDilemma.py}, which
+Download and run \url{thinkcomplex.com/volunteersDilemma.py}, which
 contains a basic implementation of the Volunteer's Dilemma. The code
 plots the likelihood that nobody will volunteer with given values of
 $c$ and $a$ across a range of values for $N$.  Edit this code to
@@ -7155,12 +7155,12 @@ population?
 \section{The Norms Game}
 
 At some colleges, cheating is commonplace and students seldom report
-incidents of cheating.  At other colleges, cheating is rare and likely
+cheaters.  At other colleges, cheating is rare and likely
 to be reported and punished.  The explicit and implicit rules about
 cheating, and reporting cheaters, are {\bf social norms}.
 
 Social norms influence the behavior of individuals: for example, you
-might be more likely to cheat if you think it is common, and seldom
+might be more likely to cheat if you think it is common and seldom
 punished.  But individuals also influence social norms: if more
 people report cheaters, fewer people will cheat.
 We can extend the analysis from the previous section to model these
@@ -7191,7 +7191,6 @@ The players interact by playing two games, called
 player decides whether to cheat, depending on the value of
 \emph{boldness}.  In the second, each player decides whether to
 report a cheater, depending on \emph{vengefulness}.
-
 These subgames are played several times per generation so each
 player has several opportunities to cheat and punish cheaters.
 
@@ -7308,81 +7307,75 @@ high-boldness scenario is stable, which is why this cluster exists.
   \begin{center}
     \includegraphics[width=0.75\textwidth]{figs/varyCP_09.png}
   \end{center}
-  \caption{Contour plot of proportion of good outcomes by varying cost and punishment.}\label{fig.varyCP}
+  \caption{Contour plot of proportion of good outcomes, varying the cost of reporting cheaters and the punishment for cheating.}\label{fig.varyCP}
 \end{figure}
 
+Suppose you are founding a new college and thinking about the academic
+culture you want to create.  You probably prefer an
+environment where cheating is rare.  But our simulations suggest that
+there are two stable outcomes, with low and high rates of cheating.
+What can you do to improve the chances of reaching (and staying in)
+the low-cheating regime?
 
-The parameters of the simulation affect the probability of landing
-in the two clusters
+The parameters of the simulation affect the probability of the
+outcomes.  In the previous section, the parameters were $reward = 3$,
+$damage = 1$, $cost = 2$, $punishment = 9$.  The probability of
+reaching the low-cheating regime was about 50\%.  If you were
+founding a new college, you might not like those odds.
 
+The parameters that have the strongest effect on the outcome are
+$cost$, the cost of reporting a cheater, and $punishment$, the cost
+of getting caught.  Figure~\ref{fig.varyCP}
+shows how the proportion of good outcomes depends on these parameters.
 
-From a societal point of view, low {\tt boldness} is good
+%When we increase the cost of enforcing the norm,
+%players who do not volunteer benefit even more than when the cost was
+%lower from volunteerism of other players. This puts the volunteers at
+%a much greater disadvantage compared to the non-volunteers, and, over
+%time, more of the non-volunteers are reproduced than the
+%volunteers---which means that the cheaters are even less likely to be
+%punished and that there would be an advantage to being bold. The
+%population would then stabilize with a higher mean boldness, and an
+%outcome that is less favorable.
 
+%When we increase the punishment levied
+%on cheaters, the players with high boldness---who would be the most
+%likely to be punished---are at a greater disadvantage when
+%punished. Over time, the population stabilizes with a lower mean
+%boldness.
 
-It can be understood that a good outcome to a population is obtained
-when the proportion of players with low boldness is high and the
-proportion of players with high boldness is low.
+There are two ways to increase the chances of a good outcome,
+decreasing $cost$ or increasing $punishment$.  If we fix
+$punishment=9$ and decrease $cost$ to 1, the probability of a good
+outcome is 80\%.  If we fix $cost=2$, to achieve the same probability,
+we have to increase $punishment$ to $11$.
 
-For the following
-analysis, we define a good outcome as the situation where, after 300
-generations, the mean boldness is 0.4 or less.
-
-Figure~\ref{fig.varyCP}
-shows how the proportion of good outcomes changes with varying cost
-and punishment. 
-
-When we increase the cost of enforcing the norm,
-players who do not volunteer benefit even more than when the cost was
-lower from volunteerism of other players. This puts the volunteers at
-a much greater disadvantage compared to the non-volunteers, and, over
-time, more of the non-volunteers are reproduced than the
-volunteers---which means that the cheaters are even less likely to be
-punished and that there would be an advantage to being bold. The
-population would then stabilize with a higher mean boldness, and an
-outcome that is less favorable.
-
-When we increase the punishment levied
-on cheaters, the players with high boldness---who would be the most
-likely to be punished---are at a greater disadvantage when
-punished. Over time, the population stabilizes with a lower mean
-boldness.
-
-It's interesting to note that, if we begin at where cost is $2$ and
-punishment is between $7$ and $8$, we obtain good outcomes with a
-probability $0.20$. To increase that probability to $0.80$, we can
-either lower the cost to $1$ or increase the punishment to almost
-$11$. Which option is better depends on the relative difficulty of
-implementing these two potential improvements.
+Which option is more appealing depends on practical and cultural
+considerations.  Of course, we have to be careful not to take this
+model too seriously.  It is a highly abstracted model of complex human
+behavior.  Nevertheless, it provides insight into the emergence
+and stability of social norms.
 
 \begin{exercise}
 
-Analyze the cheat-or-not subgame---under what circumstances should an
-individual cheat?  Then download
-\texttt{thinkcomplex.com/normsGame.py} and determine what values of
-reward and damage, with our original values of cost and punishment,
-give a 50\% chance that the equilibrium will be with low boldness?
-What about 70\% and 90\%?
+In this section we fixed $reward$ and $damage$, and explored the
+effect of $cost$ and $punishment$.
+Download our code from \url{thinkcomplex.com/normsGame.py} and
+run it to replicate these results.
+
+Then modify it to explore the effect of $reward$ and $damage$.  With
+the other parameters fixed, what values of $reward$ and $damage$ give
+a 50\% chance of reaching a good outcome?  What about 70\% and 90\%?
 \end{exercise}
 
-\section{Conclusion}
+\begin{exercise}
 
-We have now explored two new types of games which give us insight into
-different realms of human behavior.  The Volunteer's Dilemma, like the
-Prisoner's Dilemma, helps us understand the optimal choice for an
-individual in a given situation.  The norms game helps us understand
-how the behavior of a group of individuals will change over a period
-of time to favor optimal behaviors.  Note that in neither of these
-situations is the calculated optimal behavior necessarily the behavior
-which actually benefits all parties the most but rather represents a
-mathematical analysis of immediate benefit to each individual.
-
-By putting simple games together we can get complex interactions which
-can help us study interesting properties of a population.  These games
-become more difficult to study through hand calculations, but by
-simulating the game circumstances we can determine how different sets
-of situations lead to unexpected behaviors.  For more information on
-game theory and different types of games, consult
+The games in this case study are based on work in
+Game Theory, which is a set of mathematical methods for analyzing the
+behavior of agents who follow simple rules in response to economic
+costs and benefits.  You can read more about Game Theory at
 \url{http://en.wikipedia.org/wiki/Game_theory}.
+\end{exercise}
 
 
 \chapter{Disease transmission in social networks}
