@@ -17,7 +17,9 @@ fitness = measurement of fitness
 
 """
 
-import sys, random, math
+import sys
+import random
+import math
 
 """Parameters of the simulation"""
 R = 3   # Reward from cheating
