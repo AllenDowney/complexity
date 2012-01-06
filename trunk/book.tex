@@ -254,6 +254,74 @@ Version \theversion
 
 \chapter{Preface}
 
+Why this book exists
+
+Hypothetical readers
+
+Note on the use of Wikipedia
+
+Allen B. Downey \\
+Needham MA\\
+
+Allen Downey is a Professor of Computer Science at
+the Franklin W. Olin College of Engineering.
+
+
+
+\section*{Contributor List}
+
+\index{contributors}
+
+If you have a suggestion or correction, please send email to
+{\tt downey@greenteapress.com}.  If I make a change based on your
+feedback, I will add you to the contributor list
+(unless you ask to be omitted).
+\index{contributors}
+
+If you include at least part of the sentence the
+error appears in, that makes it easy for me to search.  Page and
+section numbers are fine, too, but not quite as easy to work with.
+Thanks!
+
+\small
+
+\begin{itemize}
+
+\item Richard Hollands pointed out several typos.
+
+\item John Harley, Jeff Stanton, Colden Rouleau and
+Keerthik Omanakuttan are Computational Modeling students who
+pointed out typos.
+
+\item Muhammad Najmi bin Ahmad Zabidi caught some typos.
+
+\item Phillip Loh, Corey Dolphin, Noam Rubin and Julian Ceipek
+found typos and made helpful suggestions.
+
+\item Jose Oscar Mur-Miranda found several typos.
+
+% ENDCONTRIB
+
+\end{itemize}
+
+\normalsize
+
+\clearemptydoublepage
+
+% TABLE OF CONTENTS
+\begin{latexonly}
+
+\tableofcontents
+
+\clearemptydoublepage
+
+\end{latexonly}
+
+% START THE BOOK
+\mainmatter
+
+\chapter{Complexity Science}
+
 This book is about data structures and algorithms, intermediate
 programming in Python, computational modeling and
 the philosophy of science:
@@ -329,65 +397,356 @@ discrete models of physical systems.
 And that's what this book is about.
 
 
-Allen B. Downey \\
-Needham MA\\
+\section{A new kind of science?}
 
-Allen Downey is a Professor of Computer Science at
-the Franklin W. Olin College of Engineering.
+In 2002 Stephen Wolfram published {\em A New Kind of Science} where he
+presents his and others' work on cellular automata and describes a
+scientific approach to the study of computational systems.  We'll get
+back to Wolfram in Chapter~\ref{automata}, but I want to borrow his
+title for something a little broader.
+
+I think complexity science is a ``new kind of science'' not because
+it applies the tools of science to a new subject, but because it
+uses different tools, allows different kinds of work, and ultimately
+changes what we mean by ``science.''
+
+To demonstrate the difference, I'll start with an example of classical
+science: suppose someone asked you why planetary orbits are
+elliptical.  You might invoke Newton's law of universal
+gravitation and use it to write a differential equation that describes
+planetary motion.  Then you could solve the differential equation and
+show that the solution is an ellipse.  Voil\`{a}!
+
+Most people find this kind of explanation satisfying.  It includes
+a mathematical derivation, so it has some of the rigor of a proof,
+and it explains a specific observation, elliptical orbits, by
+appealing to a general principle, gravitation.
+
+Let me contrast that with a different kind of explanation.  Suppose
+you move to a city like Detroit that is racially segregated, and you
+want to know why it's like that.  If you do some research, you might
+find a paper by Thomas Schelling called ``Dynamic Models of
+Segregation,'' which proposes a simple model of racial segregation.
+
+Here is a summary of the paper (from Chapter~\ref{agent-based}):
+
+\begin{quote}
+The Schelling model of the city is an array of cells where each cell
+represents a house.  The houses are occupied by two kinds of
+``agents,'' labeled red and blue, in roughly equal numbers.  About
+10\% of the houses are empty.  \index{Schelling, Thomas}
+
+At any point in time, an agent might be happy or unhappy, depending
+on the other agents in the neighborhood.
+In one version of the model, agents are happy if they have at least
+two neighbors like themselves, and unhappy if they have one or zero.
+\index{agent-based model}
+
+The simulation proceeds by choosing an agent at random and checking
+to see whether it is happy.  If so, nothing happens; if not,
+the agent chooses one of the unoccupied cells at
+random and moves.
+\end{quote}
+
+If you start with a simulated city that is entirely unsegregated and
+run the model for a short time, clusters of similar agents appear.  As
+time passes, the clusters grow and coalesce until there are a small
+number of large clusters and most agents live in homogeneous
+neighborhoods.
+\index{segregation}
+
+The degree of segregation in the model is surprising, and it suggests
+an explanation of segregation in real cities.  Maybe Detroit
+is segregated because people prefer not to be greatly outnumbered
+and will move if the composition of their neighborhoods makes them
+unhappy.
+\index{racism} \index{xenophobia}
+
+Is this explanation satisfying in the same way as the explanation of
+planetary motion?  Most people would say not, but why?
+
+Most obviously, the Schelling model is highly abstract, which is to
+say not realistic.  It is tempting to say that people are more complex
+than planets, but that's not really the issue; after all, some planets
+have people, and even the ones that don't are pretty complex.
+
+Both models are based on simplifications; for example, in the model
+of planetary motion we include forces between the planet
+and its sun, and ignore interactions between planets.
+
+The important difference is that, for planetary motion, we can defend
+the model by showing that the forces we ignore are smaller than the
+ones we include.  Or we can extend the model to include other
+interactions and show that the effect is small.
+
+For Schelling's model it is harder to justify the simplifications.
+To make matters worse, Schelling's model doesn't appeal to any
+physical laws, and it uses only simple computation, not mathematical
+derivation.
+
+Models like Schelling's don't look like classical science, and many
+people find them less compelling, at least at first.  But as I will
+try to demonstrate, these models do useful work, including
+prediction, explanation, and design.  So one of the goals of this
+book is to explain how.
+
+
+\section{Paradigm shift?}
+
+When I describe this book to people, I am often asked if I think
+the new kind of science is a paradigm shift.  I don't think
+so, and here's why.
+
+Thomas Kuhn introduced the term ``paradigm shift'' in {\em The
+Structure of Scientific Revolutions} in 1962.  It refers to a process
+in the history of science where the basic assumptions of a field
+change, or where one theory is replaced by another.
+He presents as examples the Copernican revolution, the displacement
+of phlogiston by the oxygen model of combustion, and the emergence
+of relativity.
+
+The development of complexity science is not the replacement of
+an older model, but (in my opinion) a gradual shift in the criteria
+models are judged by, and in the kinds of models that are considered
+acceptable.
+
+For example, classical models tend to be law-based, expressed in the
+form of equations, and solved by mathematical derivation.  Models that
+fall under the umbrella of complexity science are often rule-based,
+expressed as computations, and evaluated by simulation rather than
+analysis.
+
+Not everyone finds these models satisfactory.  For example, in
+{\em Sync}, Steven Strogatz writes about his model of spontaneous
+synchronization in some species of fireflies.  He presents a
+simulation that demonstrates the phenomenon, but then he writes:
+
+\begin{quote}
+[...] I repeated the simulation dozens of times, for other random
+initial conditions and for other numbers of oscillators.  Sync
+every time. [...] The challenge now was to prove it.  Only an
+ironclad proof would demonstrate, in a way that no computer ever
+could, that sync was inevitable; and the best kind of proof would
+clarify {\em why} it was inevitable.
+\end{quote}
+
+Strogatz is a mathematician, so his enthusiasm for proofs is
+understandable, but his proof doesn't addresses what is,
+to me, the most interesting part of the problem.
+In order to prove that ``sync was inevitable,''
+Strogatz makes several simplifying assumptions, in particular
+that all fireflies can see all other fireflies.
+
+In my opinion, it is more interesting to explain how an
+entire valley of fireflies can synchronize {\em despite the fact that
+they cannot all see each other}.  How this kind of global behavior
+emerges from local interactions is the subject of
+Chapter~\ref{agent-based}.  Explanations of these phenomena
+often use agent-based models, which can explore
+(in ways that would be difficult or impossible with
+mathematical analysis) the conditions that allow or prevent
+synchronization.
+
+But I am a computer scientist, so my enthusiasm for computational
+models is probably no surprise.  I don't mean to say that Strogatz
+is wrong and I am right, but rather that reasonable people
+disagree about what questions to ask and what tools to use to answer
+them.  These decisions are based on value judgments, not data, so
+there is no reason to expect agreement.
+
+Nevertheless, there is a rough consensus among scientists
+about which models are considered good science, and which others
+might be fringe science, pseudoscience, or not science at all.
+
+But I claim, and this is a central thesis of this book, that the
+criteria this consensus is based on change over time, and that
+the emergence of complexity science reflects a gradual shift in
+these criteria.
+
+
+\section{The axes of scientific models}
+
+I have described classical models as based on physical laws
+expressed in the form of equations, and solved by mathematical
+analysis; conversely, models in complexity science are often
+based on simple rules and implemented as computations.
+
+We can think of this trend as a shift, over time, along
+these two axes:
+
+\begin{description}
+
+\item[Equation-based $\rightarrow$ simulation-based]
+
+\item[Analysis $\rightarrow$ computation]
+
+\end{description}
+
+The new kind of science differs from the classical in several other
+ways.  I present them here so you know what's coming, but some of them
+might not make sense until you have seen the examples later in the
+book.
+
+\begin{description}
+
+\item[Continuous $\rightarrow$ discrete] Classical models tend to be
+  based on continuous mathematics, like calculus; complexity science
+  is often based on discrete mathematics, including graphs and
+  cellular automata.
+
+\item[Linear $\rightarrow$ non-linear] Classical models are often
+  linear, or use linear approximations to non-linear systems;
+  complexity science more often uses non-linear models.  One example
+  is chaos theory.  Chaos is not covered in this book, but you can
+  read about it at \url{http://en.wikipedia.org/wiki/Chaos}.
+
+\item[Deterministic $\rightarrow$ stochastic] Classical models
+are usually deterministic, which may reflect underlying
+philosophical determinism, discussed in Chapter~\ref{automata};
+complexity science often feature randomness.
+
+\item[Simple $\rightarrow$ complex] In classical models, planets are
+  point masses, all the planes are frictionless, and all the cows are
+  spherical (see \url{http://en.wikipedia.org/wiki/Spherical_cow}).
+  Simplifications like these are often necessary for analysis,
+  computational models can be more realistic.
+
+\item[One, two $\rightarrow$ many] In celestial mechanics, the
+  two-body problem can be solved analytically; the three-body problem
+  cannot.  Where classical models are often limited to
+  small numbers of interacting elements; complexity science handles
+  larger complexes (which is where the name comes from).
+
+\item[Homogeneous $\rightarrow$ composite] In classical models,
+the elements tend to be interchangeable; complex models more often
+include heterogeneity. 
+
+\end{description}
+
+These are generalizations, of course, so we should not take them
+too seriously.
+
+By describing these trends, I don't mean to deprecate
+classical science.  A more complicated model is not necessarily better;
+in fact, it is usually worse.
+
+And I don't mean to say that these changes are abrupt or complete.
+Rather, there is a gradual migration in the frontier of what is
+considered acceptable, respectable work.  Some tools that used
+to be regarded with suspicion are now commonplace, and some 
+models that were universally accepted are now regarded with scrutiny.
+
+For example, when Appel and
+Hacken proved the four-color theorem in 1976, they used a computer to
+enumerate 1,936 special cases that were, in some sense, lemmas of
+their proof.  At the time, many mathematicians did not
+consider the theorem truly proved.  Now computer-assisted
+proofs are common and generally (but not universally) accepted.
+
+Conversely, a substantial body of economic analysis is based on
+a model of human behavior called ``Economic man,'' or, with tongue
+in cheek, {\em Homo economicus}.  Research based on this model
+was highly-regarded for several decades, especially if it involved
+mathematical virtuosity.  More recently, this simple model is
+regarded more skeptically, and models that include imperfect
+information and bounded rationality are hot topics.
+
+
+\section{A new kind of engineering}
+
+Complex models have strengths and weaknesses.  They are often used
+for different purposes, and interpreted differently:
+
+\begin{description}
+
+\item[Predictive $\rightarrow$ explanatory] Schelling's model
+of segregation might shed light on a complex social phenomenon, but
+it is not useful for prediction.  On the other hand, a simple model
+of celestial mechanics can predict solar eclipses, down to the second,
+years in the future.
+
+\item[Realism $\rightarrow$ instrumentalism] Classical models lend
+themselves to a realist interpretation; for example, most people
+would accept that electrons are real things that exists.  Instrumentalism
+is the view that models can be useful even if the entities they
+postulate don't exist.  We come back to this issue in Chapter~\ref{life}.
+
+\item[Reductionism $\rightarrow$ holism] Reductionism is the view
+that the behavior of a system can be explained by understanding
+its components.  For example, the periodic table of the elements is
+a triumph of reductionism, because it explains 
+the chemical behavior of elements with a simple model of
+the electrons in an elemental atom.  Holism is the view that
+some phenomena that appear at the system level do not exist at the
+level of the components, and cannot be explained in component-level
+terms.  It is not easy to define these terms, so if they don't
+make sense yet, wait for Chapter~\ref{soc}.
+
+\end{description}
+
+I have been talking about complex systems in science, but complexity
+also comes up in the context of engineering.  If complexity is a new
+kind of science, here are some of the elements of a new kind of
+engineering:
+
+\begin{description}
+
+\item[centralized $\rightarrow$ decentralized] 
+
+\item[top-down $\rightarrow$ bottom-up]
+
+\item[isolation $\rightarrow$ interaction] 
+
+\item[design $\rightarrow$ search] 
+
+\end{description}
+
+The idea of searching for computations (rather than designing them) is
+a central theme of Wolfram's {\em A New Kind of Science}.  Donella
+Meadows presents a system-level approach to engineering,
+broadly-defined, in {\tt Thinking in Systems}.
+
+
+\section{A new kind of thinking}
+
+We are getting farther afield now, but the shifts I am postulating
+in the criteria of scientific modeling are related to 20th Century
+developments in logic and epistemology.
+
+\begin{description}
+
+\item[Aristotelean logic $\rightarrow$ multivalent, fuzzy logic] 
+{\em Fuzzy Thinking}
+
+\item[frequentist probability $\rightarrow$ Bayesianism] 
+{\em ???}
+
+\item[objective $\rightarrow$ subjective] 
+failure of logical positivism
+
+
+\end{description}
 
 
 
-\section*{Contributor List}
 
-\index{contributors}
 
-If you have a suggestion or correction, please send email to
-{\tt downey@greenteapress.com}.  If I make a change based on your
-feedback, I will add you to the contributor list
-(unless you ask to be omitted).
-\index{contributors}
 
-If you include at least part of the sentence the
-error appears in, that makes it easy for me to search.  Page and
-section numbers are fine, too, but not quite as easy to work with.
-Thanks!
 
-\small
+In the context of logic and epistemology, these shifts include:
 
-\begin{itemize}
+Aristotelean logic $\rightarrow$ multivalent, fuzzy logic
 
-\item Richard Hollands pointed out several typos.
+frequentist probability $\rightarrow$ Bayesianism
 
-\item John Harley, Jeff Stanton, Colden Rouleau and
-Keerthik Omanakuttan are Computational Modeling students who
-pointed out typos.
+objective $\rightarrow$ subjective
 
-\item Muhammad Najmi bin Ahmad Zabidi caught some typos.
 
-\item Phillip Loh, Corey Dolphin, Noam Rubin and Julian Ceipek
-found typos and made helpful suggestions.
+No such thing as proving something impossible.
 
-\item Jose Oscar Mur-Miranda found several typos.
 
-% ENDCONTRIB
+Computation is changing the nature of science and the way we understand the world.
 
-\end{itemize}
-
-\normalsize
-
-\clearemptydoublepage
-
-% TABLE OF CONTENTS
-\begin{latexonly}
-
-\tableofcontents
-
-\clearemptydoublepage
-
-\end{latexonly}
-
-% START THE BOOK
-\mainmatter
 
 
 \chapter{Graphs}
@@ -3261,16 +3620,21 @@ can you discover?
 
 \section{Explanatory models}
 
+\begin{figure}
+\centerline{\includegraphics[width=5.5in]{figs/model.pdf}}
+\caption{The logical structure of an explanatory model.\label{fig.model}}
+\end{figure}
+
 We started the discussion of networks with Milgram's Small World
 Experiment, which shows that path lengths in social
 networks are surprisingly small; hence, ``six degrees of separation''.
 \index{six degrees}
 
-When we see something surprising, it is natural to ask ``Why?''
-but sometimes it's not clear what kind of answer we are looking
-for.  One kind of answer is an {\bf explanatory model}; the logical
-structure of an explanatory model is:
-\index{explanatory model}
+When we see something surprising, it is natural to ask ``Why?''  but
+sometimes it's not clear what kind of answer we are looking for.  One
+kind of answer is an {\bf explanatory model} (see
+Figure~\ref{fig.model}).  The logical structure of an explanatory
+model is: \index{explanatory model}
 
 \begin{enumerate}
 
@@ -3305,16 +3669,15 @@ sense of the word.
 \index{proof}
 \index{mathematical proof}
 
-First, remember that all models leave out, or ``abstract away''
-details that we think are unimportant.  But for any system there
+Remember that all models leave out, or ``abstract away''
+details that we think are unimportant.  For any system there
 are many possible models that include or ignore different features.
 And there might be models that exhibit different behaviors,
 B, B' and B'', that are similar to O in different ways.
+In that case, which model explains O?
 \index{abstract model}
 
-In that case, which model explains O?
-
-The small world phenomenon is a case in point: the
+The small world phenomenon is an example: the
 Watts-Strogatz (WS) model and the \Barabasi-Albert (BA) model
 both exhibit small world behavior, but they offer different
 explanations:
@@ -3340,7 +3703,6 @@ not that we have no explanations, but too many.
 \begin{exercise}
 
 Are these explanations compatible; that is, can they both be right?
-
 Which do you find more satisfying as an explanation, and why?
 
 Is there data you could collect, or experiments you could perform,
@@ -3365,6 +3727,7 @@ Are there other criteria you think should be considered?
 
 
 \chapter{Cellular Automata}
+\label{automata}
 
 A cellular automaton is a model of a world with very simple physics.
 ``Cellular'' means that the space is divided into discrete chunks,
@@ -4273,6 +4636,7 @@ and the incidental features that are particular to S.
 
 
 \chapter{Game of Life}
+\label{life}
 
 One of the first cellular automata to be studied, and probably the
 most popular of all time, is a 2-D CA called ``The Game of Life,'' or GoL
@@ -4820,6 +5184,7 @@ part of Swampy.  See \url{http://thinkpython.com/swampy/}.
 
 
 \chapter{Fractals}
+\label{fractals}
 
 To understand fractals, we have to start with dimensions.  The
 dimension of a space is the number of coordinates we need to specify a
@@ -5086,7 +5451,8 @@ Figure 2(a).
 
 
 \chapter{Self-organized criticality}
-
+\label{soc}
+ 
 \section{Sand piles}
 
 In 1987 Bak, Tang and Wiesenfeld published a paper in Physical Review
@@ -5500,6 +5866,11 @@ molecules in the model.  The analogy is between the parts of the
 system and the parts of the model.
 \index{analogy}
 
+\begin{figure}
+\centerline{\includegraphics[width=5.5in]{figs/model2.pdf}}
+\caption{The logical structure of a holistic model.\label{fig.model2}}
+\end{figure}
+
 Holistic models are more focused on similarities between systems and
 less interested in analogous parts.  A holistic approach to modeling
 often consists of two steps, not necessarily in this order:
@@ -5538,7 +5909,8 @@ because memes are not {\em supposed} to be analogous to genes.
 Rather, memetics and genetics are examples of the same
 category---evolutionary systems.  The differences between them
 emphasize the real point, which is that evolution is a general model
-that applies to many seemingly disparate systems.
+that applies to many seemingly disparate systems.  The logical
+structure of this argument is shown in Figure~\ref{fig.model2}
 \index{gene}
 \index{genetics}
 
@@ -5598,34 +5970,32 @@ the prevalence of critical phenomena in nature?
 
 \begin{exercise}
 
-In {\em The Fractal Geometry of Nature}, Benoit Mandelbrot proposes an
-alternative explanation for the prevalence of long-tailed
-distributions in natural systems.  It may not be, as Bak suggests,
-that many systems can generate this behavior in isolation.  Instead
-there may be only a few, but there may be interactions between systems
-that cause the behavior to propagate.
-\index{Fractal Geometry of Nature@{\em The Fractal Geometry of Nature}}
-\index{Mandelbrot, Benoit}
-\index{long-tailed distribution}
+In {\em The Fractal Geometry of Nature}, Benoit Mandelbrot proposes
+what he calls a ``heretical'' explanation for the prevalence of
+long-tailed distributions in natural systems (page 344).  It may not
+be, as Bak suggests, that many systems can generate this behavior in
+isolation.  Instead there may be only a few, but there may be
+interactions between systems that cause the behavior to propagate.
+\index{Fractal Geometry of Nature@{\em The Fractal Geometry of
+    Nature}} \index{Mandelbrot, Benoit} \index{long-tailed
+  distribution}
 
 To support this argument, Mandelbrot points out:
 
 \begin{itemize}
 
-\item Interactions between systems may be characterized by operations
-  that are (at least approximately) like convolution.  For example,
-  if you choose value $a$ from distribution $A$, and independently
-  choose value $b$ from distribution $B$, the distribution of the
-  sum is the convolution of $A$ and $B$.
+\item The distribution of observed data is often ``the joint
+  effect of a fixed underlying 'true distribution' and a highly
+  variable 'filter.'''
 
-\item Long-tailed distributions are stable under convolution; that is,
-  if you convolve a long-tailed distribution with another
-  distribution, the result is long-tailed.
+\item Long-tailed distributions are robust to filtering; that is,
+  ``a wide variety of filters leave their asymptotic behavior
+  unchanged.''
 
 \end{itemize}
 
-Would you characterize Mandelbrot's argument as reductionist
-or holist?
+What do you think of this argument?  Would you characterize
+it as reductionist or holist?
 
 \end{exercise}
 
@@ -5707,14 +6077,15 @@ does self-organized criticality have for this theory?
 
 
 \chapter{Agent-based models}
+\label{agent-based}
 
 \section{Thomas Schelling}
 
 In 1971 Thomas Schelling published ``Dynamic Models of Segregation,''
 which proposes a simple model of racial segregation.  The Schelling
 model of the world is a grid; each cell represents a
-house.  The houses are occupied by two kinds of ``agents,'' which I
-label red and blue, in roughly equal numbers.  About 10\% of the
+house.  The houses are occupied by two kinds of ``agents,''
+labeled red and blue, in roughly equal numbers.  About 10\% of the
 houses are empty.
 \index{Schelling, Thomas}
 
@@ -6998,8 +7369,7 @@ has a knot.
 %see research done by Stephen Dolan at Trinity College
 %Dublin: \url{http://mu.netsoc.ie/wiki/}.
 
-When you
-started your hypothetical research on \emph{topica obscura},
+When you started your hypothetical research on \emph{topica obscura},
 you might have used journal articles instead of Wikipedia articles.
 Instead of links, you would have used citations to find other papers.
 
