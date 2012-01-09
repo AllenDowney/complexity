@@ -455,13 +455,13 @@ implement graphs, and graph algorithms based on those data structures.
   will learn some useful features that are specific to Python.
 \index{Think Python@{\em Think Python}}
 
-\item[Computational modeling:] A model of a system is a simplified
+\item[Computational modeling:] A model is a simplified
   description of a system used for simulation or analysis.
   Computational models are designed to take advantage of cheap, fast
   computation.
 \index{modeling}
 
-\item[Philosophy of science:] The models and results in this book
+\item[Philosophy of science:] The experiments and results in this book
   raise questions relevant to the philosophy of science,
   including the nature of scientific laws, theory choice, realism and
   instrumentalism, holism and reductionism, and epistemology.
@@ -469,37 +469,19 @@ implement graphs, and graph algorithms based on those data structures.
 
 \end{description}
 
-There are two kinds of computational models:
+This book is also about {\bf Complexity Science}, which is an
+interdisciplinary field---at the intersection of mathematics, computer
+science and natural science---that focuses on discrete models of
+physical systems.  \index{complexity science}
+In particular, it focuses on {\bf complex systems}, which are
+systems that contain many interacting components.  
 
-\begin{description}
-
-\item[Continuous:] Many computational models compute approximate
-  solutions to equations that are continuous in space and time.  For
-  example, to compute the trajectory of a planet, you could describe
-  planetary motion using differential equations and then compute the
-  position of the planet at discrete points in time.
-\index{continuous model}
-
-The fields of numerical methods and scientific computing
-tend to focus on these kinds of models.
-\index{numerical methods}
-\index{scientific computing}
-
-\item[Discrete:] Discrete models include graphs, cellular automata,
-  and agent-based models.  They are often characterized by structure,
-  rules and transitions rather than by equations.  They tend to be
-  more abstract than continuous models; in some cases there is no
-  direct correspondence between the model and a physical system.
-\index{discrete model}
-
-\end{description}
-
-Complexity science is an interdisciplinary field---at the intersection
-of mathematics, computer science and natural science---that focuses on
-discrete models of physical systems.
-\index{complexity science}
-
-And that's what this book is about.
+Complex systems include networks and graphs, cellular automata,
+agent-based models and swarms, fractals and self-organizing
+systems, chaotic systems and cybernetic systems.  These terms
+might not mean much to you at this point.  We will get to them
+soon, but if you are impatient, you can get a preview at
+\url{http://en.wikipedia.org/wiki/Complex_systems}.
 
 
 \section{A new kind of science}
@@ -522,10 +504,10 @@ gravitation and use it to write a differential equation that describes
 planetary motion.  Then you could solve the differential equation and
 show that the solution is an ellipse.  Voil\`{a}!
 
-Most people find this kind of explanation satisfying.  It includes
-a mathematical derivation, so it has some of the rigor of a proof,
-and it explains a specific observation, elliptical orbits, by
-appealing to a general principle, gravitation.
+Most people find this kind of explanation satisfying.  It includes a
+mathematical derivation---so it has some of the rigor of a proof---and
+it explains a specific observation, elliptical orbits, by appealing to
+a general principle, gravitation.
 
 Let me contrast that with a different kind of explanation.  Suppose
 you move to a city like Detroit that is racially segregated, and you
@@ -557,50 +539,46 @@ If you start with a simulated city that is entirely unsegregated and
 run the model for a short time, clusters of similar agents appear.  As
 time passes, the clusters grow and coalesce until there are a small
 number of large clusters and most agents live in homogeneous
-neighborhoods.
-\index{segregation}
+neighborhoods. \index{segregation}
 
 The degree of segregation in the model is surprising, and it suggests
-an explanation of segregation in real cities.  Maybe Detroit
-is segregated because people prefer not to be greatly outnumbered
-and will move if the composition of their neighborhoods makes them
-unhappy.
-\index{racism} \index{xenophobia}
+an explanation of segregation in real cities.  Maybe Detroit is
+segregated because people prefer not to be greatly outnumbered and
+will move if the composition of their neighborhoods makes them
+unhappy.  \index{racism} \index{xenophobia}
 
 Is this explanation satisfying in the same way as the explanation of
 planetary motion?  Most people would say not, but why?
 
 Most obviously, the Schelling model is highly abstract, which is to
 say not realistic.  It is tempting to say that people are more complex
-than planets, but that's not really the issue; after all, some planets
-have people, and even the ones that don't are pretty complex.
+than planets, but when you think about it, planets are just as complex
+as people (especially the ones that {\em have} people).
 
-Both models are based on simplifications; for example, in the model
+Both systems are complex, and both models are based on simplifications;
+for example, in the model
 of planetary motion we include forces between the planet
 and its sun, and ignore interactions between planets.
 
 The important difference is that, for planetary motion, we can defend
 the model by showing that the forces we ignore are smaller than the
-ones we include.  Or we can extend the model to include other
+ones we include.  And we can extend the model to include other
 interactions and show that the effect is small.
-
 For Schelling's model it is harder to justify the simplifications.
+
 To make matters worse, Schelling's model doesn't appeal to any
 physical laws, and it uses only simple computation, not mathematical
-derivation.
-
-Models like Schelling's don't look like classical science, and many
-people find them less compelling, at least at first.  But as I will
-try to demonstrate, these models do useful work, including
-prediction, explanation, and design.  So one of the goals of this
-book is to explain how.
+derivation.  Models like Schelling's don't look like classical
+science, and many people find them less compelling, at least at first.
+But as I will try to demonstrate, these models do useful work,
+including prediction, explanation, and design.  So one of the goals of
+this book is to explain how.
 
 
 \section{Paradigm shift?}
 
-When I describe this book to people, I am often asked if I think
-the new kind of science is a paradigm shift.  I don't think
-so, and here's why.
+When I describe this book to people, I am often asked if the new kind
+of science is a paradigm shift.  I don't think so, and here's why.
 
 Thomas Kuhn introduced the term ``paradigm shift'' in {\em The
 Structure of Scientific Revolutions} in 1962.  It refers to a process
@@ -618,8 +596,7 @@ acceptable.
 For example, classical models tend to be law-based, expressed in the
 form of equations, and solved by mathematical derivation.  Models that
 fall under the umbrella of complexity science are often rule-based,
-expressed as computations, and evaluated by simulation rather than
-analysis.
+expressed as computations, and simulated rather than analyzed.
 
 Not everyone finds these models satisfactory.  For example, in
 {\em Sync}, Steven Strogatz writes about his model of spontaneous
@@ -636,23 +613,21 @@ clarify {\em why} it was inevitable.
 \end{quote}
 
 Strogatz is a mathematician, so his enthusiasm for proofs is
-understandable, but his proof doesn't addresses what is,
-to me, the most interesting part of the problem.
-In order to prove that ``sync was inevitable,''
-Strogatz makes several simplifying assumptions, in particular
-that all fireflies can see all other fireflies.
+understandable, but his proof doesn't address what is, to me, the
+most interesting part the phenomenon.  In order to prove that ``sync
+was inevitable,'' Strogatz makes several simplifying assumptions, in
+particular that all fireflies can see all other fireflies.
 
-In my opinion, it is more interesting to explain how an
-entire valley of fireflies can synchronize {\em despite the fact that
-they cannot all see each other}.  How this kind of global behavior
-emerges from local interactions is the subject of
-Chapter~\ref{agent-based}.  Explanations of these phenomena
-often use agent-based models, which can explore
-(in ways that would be difficult or impossible with
+In my opinion, it is more interesting to explain how an entire valley
+of fireflies can synchronize {\em despite the fact that they cannot
+  all see each other}.  How this kind of global behavior emerges from
+local interactions is the subject of Chapter~\ref{agent-based}.
+Explanations of these phenomena often use agent-based models, which
+can explore (in ways that would be difficult or impossible with
 mathematical analysis) the conditions that allow or prevent
 synchronization.
 
-But I am a computer scientist, so my enthusiasm for computational
+I am a computer scientist, so my enthusiasm for computational
 models is probably no surprise.  I don't mean to say that Strogatz
 is wrong and I am right, but rather that reasonable people
 disagree about what questions to ask and what tools to use to answer
@@ -671,13 +646,13 @@ these criteria.
 
 \section{The axes of scientific models}
 
-I have described classical models as based on physical laws
+I have described classical models as based on physical laws,
 expressed in the form of equations, and solved by mathematical
 analysis; conversely, models in complexity science are often
 based on simple rules and implemented as computations.
 
-We can think of this trend as a shift, over time, along
-these two axes:
+We can think of this trend as a shift over time along
+two axes:
 
 \begin{description}
 
@@ -702,62 +677,60 @@ book.
 \item[Linear $\rightarrow$ non-linear] Classical models are often
   linear, or use linear approximations to non-linear systems;
   complexity science more often uses non-linear models.  One example
-  is chaos theory.  Chaos is not covered in this book, but you can
-  read about it at \url{http://en.wikipedia.org/wiki/Chaos}.
+  is chaos theory\footnote{Chaos is not covered in this book, but you can
+  read about it at \url{http://en.wikipedia.org/wiki/Chaos}.}.
 
-\item[Deterministic $\rightarrow$ stochastic] Classical models
-are usually deterministic, which may reflect underlying
-philosophical determinism, discussed in Chapter~\ref{automata};
-complexity science often feature randomness.
+\item[Deterministic $\rightarrow$ stochastic] Classical models are
+  usually deterministic, which may reflect underlying philosophical
+  determinism, discussed in Chapter~\ref{automata}; complex models
+  often feature randomness.
 
 \item[Simple $\rightarrow$ complex] In classical models, planets are
-  point masses, all the planes are frictionless, and all the cows are
+  point masses, planes are frictionless, and cows are
   spherical (see \url{http://en.wikipedia.org/wiki/Spherical_cow}).
   Simplifications like these are often necessary for analysis,
-  computational models can be more realistic.
+  but computational models can be more realistic.
 
 \item[One, two $\rightarrow$ many] In celestial mechanics, the
   two-body problem can be solved analytically; the three-body problem
   cannot.  Where classical models are often limited to
-  small numbers of interacting elements; complexity science handles
+  small numbers of interacting elements, complexity science handles
   larger complexes (which is where the name comes from).
 
-\item[Homogeneous $\rightarrow$ composite] In classical models,
-the elements tend to be interchangeable; complex models more often
-include heterogeneity. 
+\item[Homogeneous $\rightarrow$ composite] In classical models, the
+  elements tend to be interchangeable; complex models more often
+  include heterogeneity.
 
 \end{description}
 
 These are generalizations, of course, so we should not take them
-too seriously.
-
-By describing these trends, I don't mean to deprecate
+too seriously.  By describing these trends, I don't mean to deprecate
 classical science.  A more complicated model is not necessarily better;
 in fact, it is usually worse.
 
 And I don't mean to say that these changes are abrupt or complete.
 Rather, there is a gradual migration in the frontier of what is
 considered acceptable, respectable work.  Some tools that used
-to be regarded with suspicion are now commonplace, and some 
+to be regarded with suspicion are now common, and some 
 models that were universally accepted are now regarded with scrutiny.
 
-For example, when Appel and
-Hacken proved the four-color theorem in 1976, they used a computer to
-enumerate 1,936 special cases that were, in some sense, lemmas of
-their proof.  At the time, many mathematicians did not
-consider the theorem truly proved.  Now computer-assisted
-proofs are common and generally (but not universally) accepted.
+For example, when Appel and Hacken proved the four-color theorem in
+1976, they used a computer to enumerate 1,936 special cases that were,
+in some sense, lemmas of their proof.  At the time, many
+mathematicians did not consider the theorem truly proved.  Now
+computer-assisted proofs are common and generally (but not
+universally) accepted.
 
-Conversely, a substantial body of economic analysis is based on
-a model of human behavior called ``Economic man,'' or, with tongue
-in cheek, {\em Homo economicus}.  Research based on this model
-was highly-regarded for several decades, especially if it involved
-mathematical virtuosity.  More recently, this simple model is
-regarded more skeptically, and models that include imperfect
-information and bounded rationality are hot topics.
+Conversely, a substantial body of economic analysis is based on a
+model of human behavior called ``Economic man,'' or, with tongue in
+cheek, {\em Homo economicus}.  Research based on this model was
+highly-regarded for several decades, especially if it involved
+mathematical virtuosity.  More recently, this model is regarded
+with more skepticism, and models that include imperfect information and
+bounded rationality are hot topics.
 
 
-\section{A new kind of engineering}
+\section{A new kind of model}
 
 Complex models have strengths and weaknesses.  They are often used
 for different purposes, and interpreted differently:
@@ -772,27 +745,33 @@ years in the future.
 
 \item[Realism $\rightarrow$ instrumentalism] Classical models lend
 themselves to a realist interpretation; for example, most people
-would accept that electrons are real things that exists.  Instrumentalism
+would accept that electrons are real things that exist.  Instrumentalism
 is the view that models can be useful even if the entities they
-postulate don't exist.  We come back to this issue in Chapter~\ref{life}.
+postulate don't exist.
 
 \item[Reductionism $\rightarrow$ holism] Reductionism is the view
 that the behavior of a system can be explained by understanding
 its components.  For example, the periodic table of the elements is
 a triumph of reductionism, because it explains 
 the chemical behavior of elements with a simple model of
-the electrons in an elemental atom.  Holism is the view that
+the electrons in an atom.  Holism is the view that
 some phenomena that appear at the system level do not exist at the
-level of the components, and cannot be explained in component-level
-terms.  It is not easy to define these terms, so if they don't
-make sense yet, wait for Chapter~\ref{soc}.
+level of components, and cannot be explained in component-level
+terms.
 
 \end{description}
 
-I have been talking about complex systems in science, but complexity
-also comes up in the context of engineering.  If complexity is a new
-kind of science, here are some of the elements of a new kind of
-engineering:
+I am worried about introducing some of these ideas now because it
+is hard to present them briefly without oversimplifying.  We
+will get back to instrumentalism in Chapter~\ref{life} and
+holism in Chapter~\ref{soc}.
+
+
+\section{A new kind of engineering}
+
+I have been talking about complex systems in the context of science,
+but complexity is also the cause, and effect, of gradual
+changes in the nature of engineering:
 
 \begin{description}
 
@@ -801,6 +780,8 @@ engineering:
 \item[top-down $\rightarrow$ bottom-up]
 
 \item[isolation $\rightarrow$ interaction] 
+
+\item[analysis $\rightarrow$ computation] 
 
 \item[design $\rightarrow$ search] 
 
@@ -6657,16 +6638,7 @@ from the interaction of its components, not from their properties.
 \index{emergence}
 \index{emergent property}
 
-For example, the agents in Schelling's model are not racist, but the
-outcome of their interactions is as if they were.  Traffic jams move
-backward even though the cars in them are moving forward or standing
-still.  The behavior of flocks and herds emerges from local
-interactions between their members.  And as Axelrod says about the
-iterated prisoner's dilemma: ``The emergence of cooperation can be
-explained as a consequence of individual[s] pursuing their own
-interests.''
-
-To clarify what emergence is, we can also consider what it isn't.  For
+To clarify what emergence is, it helps to consider what it isn't.  For
 example, a brick wall is hard because bricks and mortar are hard, so
 that's not an emergent property.  As another example, some rigid
 structures are built from flexible components, so that seems like
@@ -6676,7 +6648,7 @@ mechanics.
 \index{brick wall}
 
 Emergent properties are surprising: it is hard to predict the behavior
-of the system, even if we know all the rules.  That difficulty is not
+of the system even if we know all the rules.  That difficulty is not
 an accident; it may be the defining characteristic of emergence.
 
 As Wolfram discusses in {\em A New Kind of Science}, conventional science
@@ -6694,30 +6666,224 @@ outcome is to implement the system.
 \index{computationally irreducible}
 \index{shortcut}
 
-This result suggests that emergent properties are fundamentally
-unpredictable, and that studying complex systems requires different
-methods, what Wolfram calls a new kind of science.
+The same may be true of complex systems in general.  For physical
+systems with more than a few components, there is usually no model
+that yields an analytic solution.  Numerical methods provide a kind of
+computational shortcut, but there is a qualitative difference.
+Analytic solutions often provide a constant-time algorithm for
+prediction; that is, the run time of the computation does not depend
+on $t$, the time scale of prediction.  But numerical methods,
+simulation, analog computation, and similar methods take time
+proportional to $t$.  And for many systems, there is a bound on $t$
+beyond which we can't compute predictions at all.
+
+These observations suggest that emergent properties are fundamentally
+unpredictable, and that for complex systems we should not expect to
+find natural laws in the form of computational shortcuts.
+
+To some people, ``emergence'' is another name for ignorance; by this
+reckoning, a property is emergent if we don't have a reductionist
+explanation for it, but if we come to understand it better in the
+future, it would no longer be emergent.
+
+The status of emergent properties is under contention, so critical
+inquiry is appropriate. When we see an apparently emergent property,
+we should not assume that there can never be a reductionist explanation.
+But neither should we assume that there has to be one.  The examples
+we have seen in this book, and the principle of computational
+equivalence, give good reasons to believe that at least some
+emergent properties can never be ``explained'' by a
+classical reductionist model.
 
 You can read more about emergence at
 \url{http://en.wikipedia.org/wiki/Emergence}.
 
 
-%\section{Free will}
+\section{Free will}
 
-%Another characteristic of emergent systems is {\bf integrative
-%  levels}.  Often we can describe the same system on several levels.
-%For example, to understand sound we could model air molecules, or
-%pressure waves propagating in air, or human pitch perception.  In some
-%cases we can reduce one level to another; for example, we understand
-%the relationship between musical pitch and the frequency of sound
-%waves, and between the behavior of sound and the properties of air.
+Many complex systems have properties, as a whole, that their
+components do not have:
 
-%But many of the examples in this book resist reductionist
-%explanations.  In many cases the parts of the system tell us very
-%little about its behavior.  For example, we know how neurons work, but
-%not how neurons create consciousness.
+\begin{itemize}
+
+\item The Rule 30 cellular automaton is deterministic, and the rules
+  that govern its evolution are completely known.  Nevertheless, it
+  generates a sequence that is statistically indistiguishable from
+  random.
+
+\item The agents in Schelling's model are not racist, but the outcome
+  of their interactions is as if they were.
+
+\item Traffic jams move backward even though the cars in them are
+  moving forward.
+
+\item The behavior of flocks and herds emerges from local interactions
+  between their members.
+
+\item As Axelrod says about the iterated prisoner's dilemma: ``The
+  emergence of cooperation can be explained as a consequence of
+  individual[s] pursuing their own interests.''
+
+\end{itemize}
+
+These examples suggest a new approach to several old and challenging
+questions, including the problems of consciousness and free will.
+
+Free will is the ability to make choices, but if our bodies and brains
+are governed by deterministic physical laws, our actions would be
+determined.  I won't try to present the many arguments about free will
+systematically, but I will mention two:
+
+\begin{itemize}
+
+\item William James proposed a two-stage model in which
+  possible actions are generated by a random process and then selected
+  by a deterministic process.  In that case our actions are
+  fundamentally unpredictable because the process that generates them
+  includes a random element.
+
+\item David Hume suggested that our perception of making choices
+  is an illusion; in that case, our actions are deterministic because
+  the system that produces them is deterministic.
+
+\end{description}
+
+These arguments reconcile the same conflict in opposite ways, but they
+agree that there is a conflict: the system cannot have free will if
+the parts are deterministic.
+
+The complex systems we have seen in this book suggest the premise that
+free will, at the level of options and decisions, is compatible with
+determinism at the level of neurons (or some lower level).  In the
+same way that a traffic jam moves backward while the cars move
+forward, a person has free will even though neurons don't.
+
+
+\begin{exercise}
+
+Read more about free will at
+\url{http://en.wikipedia.org/wiki/Free_will}.  The view that free will
+is compatible with determinism is called {\bf compatibilism}.  One of
+the strongest challenges to compatibilism is the ``consequence
+argument.''  What is the consequence argument?  What response can you
+give to the consequence argument based on what you have read in this
+book?
+\end{exercise}
+
+
+\begin{exercise}
+
+In the philosophy of mind, {\em Strong AI} is the position that an
+appropriately-programmed computer could have a mind in the same sense
+that humans have minds.
+
+John Searle presented a thought experiment called ``The Chinese Room,''
+intended to show that {\em Strong AI} is false.  You can read about
+it at \url{http://en.wikipedia.org/wiki/Chinese_room}.
+
+What is the {\em system reply} to the Chinese Room argument?
+How does what you have learned about complexity science influence
+your reaction to the system response?
+
+\end{exercise}
+
 
 \appendix
+
+\chapter{Reading list}
+
+In my class we start the semester by reading popular books about
+Complexity Science.  They provide a pleasant way to get a big picture
+of the field and start to see connections between topics.
+
+One problem with these books is that
+they are written for a non-technical audience, so after a while
+the students get frustrated by the vagueness and hand-waving.
+That's what {\em this} book is for.
+
+The other problem is that students can't read 30 books in a week, or
+even a semester.  Instead, I provide
+one copy of each book and ask the students to pick one, read
+the first chapter, write a summary, and post it on the class web page.
+
+During the next class session, the students swap books.  Each student
+reads the summary written by the previous student, then reads the
+next chapter, and writes a summary.
+
+After a few iterations, we have a class discussion where students
+report what they have read so far and we look for connections.  For
+example, one student might present a topic, then another student
+suggests a related topic and explains the relationship.  I draw the
+topics and the relationships between them on the board (see
+\url{http://en.wikipedia.org/wiki/Concept_map}).
+
+We repeat this exercise until we have seen what there is to see, or we
+are impatient to get down to business.
+
+You can see the list of books, and read the summaries my students
+wrote, at \url{https://sites.google.com/site/compmodolin}.
+
+Here are the books:
+
+\begin{itemize}
+
+\item Axelrod, {\it  Complexity of Cooperation}.
+
+\item Axelrod, {\it  The Evolution of Cooperation}.
+
+\item Bak, {\it  How Nature Works}.
+
+\item Barabasi, {\it  Linked}.
+
+\item Buchanan, {\it  Nexus}.
+
+\item Epstein and Axtell, {\it  Growing Artificial Societies: Social Science from the Bottom Up}.
+
+\item Fisher, {\it  The Perfect Swarm}.
+
+\item Flake, {\it  The Computational Beauty of Nature}.
+
+\item Goodwin, {\it  How the Leopard Changed Its Spots}.
+
+\item Holland, {\it  Hidden Order}.
+
+\item Johnson, {\it  Emergence}.
+
+\item Kelly, {\it  Out of Control}.
+
+\item Kluger, {\it  Simplexity}.
+
+\item Levy, {\it  Artificial Life}.
+
+\item Lewin, {\it  Complexity: Life at the Edge of Chaos}.
+
+\item Mitchell, {\it  Complexity: A Guided Tour}.
+
+\item Mitchell Waldrop: Complexity, {\it  the emerging science at the edge of order and chaos}.
+
+\item Resnick, {\it  Turtles, Termites, and Traffic Jams}.
+
+\item Rucker, {\it  The Lifebox, The Seashell, and the Soul}.
+
+\item Sawyer, {\it  Social Emergence: Societies As Complex Systems}.
+
+\item Schelling, {\it  Micromotives and Macrobehaviors}.
+
+\item Schiff, {\it  Cellular Automata: A Discrete View of the World}.
+
+\item Strogatz, {\it  Sync}.
+
+\item Watts, {\it  Six Degrees}.
+
+\item Wolfram, {\it  A New Kind Of Science}.
+
+\end{itemize}
+
+\chapter{Call for submissions}
+
+Criteria
+
+How to submit a case study
 
 \chapter{Sugarscape}
 
