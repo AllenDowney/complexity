@@ -37,6 +37,9 @@
 %%-----------------------------------------------------------------
 
 \documentclass[10pt]{book}
+\pdfminorversion=5
+\pdfobjcompresslevel=2
+
 \usepackage[width=5.5in,height=8.0in,
   hmarginratio=3:2,vmarginratio=1:1]{geometry}
 
@@ -52,7 +55,7 @@
 \usepackage{upquote}
 
 \newcommand{\thetitle}{Think Complexity}
-\newcommand{\theversion}{1.0.5}
+\newcommand{\theversion}{1.0.6}
 
 \title{\thetitle}
 \author{Allen B. Downey}
@@ -256,13 +259,13 @@ Version \theversion
 
 This book is inspired by boredom and fascination: boredom with the
 standard presentation of data structures and algorithms, and
-fascination with Complexity Science.  The problem with data structures
+fascination with complexity systems.  The problem with data structures
 is that they are often taught without a motivating context; the
-problem with Complexity Science is that it is usually not taught at
+problem with complexity science is that it is usually not taught at
 all.
 
 In 2005 I developed a new class at Olin College where students
-read about topics in Complexity Science, implement experiments in
+read about topics in complexity, implement experiments in
 Python, and learn about algorithms and data structures.  I wrote
 the first draft of this book when I taught the class again in 2008.
 
@@ -272,7 +275,7 @@ studies, for inclusion in the book.  I recruited 9 professors at Olin
 to serve as a program committee and choose the reports that were ready
 for publication.  The case studies that met the standard are included
 in this book.  For the next edition, we invite additional submissions
-from readers (see the call for submission in Appendix~\ref{???}).
+from readers (see Appendix~\ref{submissions}).
 
 \section{Suggestions for teachers}
 
@@ -282,7 +285,7 @@ structure:
 
 \begin{description}
 
-\item[Reading] Complexity Science is a collection of diverse topics.
+\item[Reading] Complexity science is a collection of diverse topics.
   There are many connections among them, but it takes time to see
   them.  There are many popular presentations of work in this field,
   so I use them to help students see the big picture.  My reading
@@ -291,7 +294,7 @@ structure:
 
 \item[Exercises] This book presents a series of exercises; many of
   them ask students to reimplement seminal experiments and extend
-  them.  One of the attractions of Complexity Science is that the
+  them.  One of the attractions of complexity is that the
   research frontier is accessible with moderate programming skills and
   undergraduate mathematics.
 
@@ -326,37 +329,36 @@ Some features of this book intended for autodidacts are:
 
 \begin{description}
 
-\item[Technical depth] There are many books about Complexity
-Science, but most are written for a popular audience.  They usually
-skip the technical details, which is frustrating for people
-who can handle it.  This book presents the mathematics and other
-technical content you need to really understand this work.
+\item[Technical depth] There are many books about complex systems,
+  but most are written for a popular audience.  They usually skip the
+  technical details, which is frustrating for people who can handle
+  it.  This book presents the mathematics and other technical content
+  you need to really understand this work.
 
-\item[Further reading] Throughout the book, I include pointers
-to further reading, including original papers (most of which
-are available electronically) and related articles from
-Wikipedia\footnote{Some professors have an allergic reaction
-to Wikipedia, on the grounds that students rely too heavily on
-an unreliable source.  Since many of my references are
-Wikipedia articles, I want to explain my thinking.  First, the
-articles on Complexity Science and related topics tend to be very
-good; second, they are written at a level that is accessible after
-you have read this book (but sometimes not before); and finally,
-they are freely available to readers all over the world.  If there
-is a danger in sending readers to these references, it is not
-that they are unrealiable, that that the readers won't come back!
-(see \url{http://xkcd.com/903}).
-} and other sources.
+\item[Further reading] Throughout the book, I include pointers to
+  further reading, including original papers (most of which are
+  available electronically) and related articles from
+  Wikipedia\footnote{Some professors have an allergic reaction to
+    Wikipedia, on the grounds that students rely too heavily on an
+    unreliable source.  Since many of my references are Wikipedia
+    articles, I want to explain my thinking.  First, the articles on
+    complexity science and related topics tend to be very good;
+    second, they are written at a level that is accessible after you
+    have read this book (but sometimes not before); and finally, they
+    are freely available to readers all over the world.  If there is a
+    danger in sending readers to these references, it is not that they
+    are unrealiable, that that the readers won't come back!  (see
+    \url{http://xkcd.com/903}).  } and other sources.
 
-\item[Exercises and (some) solutions] For many of the exercises,
-I provide code to get you started, and solutions if you get stuck,
-or want to compare your code to mine.
+\item[Exercises and (some) solutions] For many of the exercises, I
+  provide code to get you started, and solutions if you get stuck, or
+  want to compare your code to mine.
 
-\item[Opportunity to contribute] If you explore a topic not covered
-in this book, reimplement an interesting experiment, or perform one
-of your own, I invite you to submit a case study for possible
-inclusion in the next edition of the book.  See Appendix~\ref{}
-for details.
+\item[Opportunity to contribute] If you explore a topic not covered in
+  this book, reimplement an interesting experiment, or perform one of
+  your own, I invite you to submit a case study for possible inclusion
+  in the next edition of the book.  See Appendix~\ref{submissions} for
+  details.
 
 \end{description}
 
@@ -424,6 +426,7 @@ found typos and made helpful suggestions.
 \mainmatter
 
 \chapter{Complexity Science}
+\label{overview}
 
 \section{What is this book about?}
 
@@ -469,7 +472,7 @@ implement graphs, and graph algorithms based on those data structures.
 
 \end{description}
 
-This book is also about {\bf Complexity Science}, which is an
+This book is also about {\bf complexity science}, which is an
 interdisciplinary field---at the intersection of mathematics, computer
 science and natural science---that focuses on discrete models of
 physical systems.  \index{complexity science}
@@ -492,7 +495,7 @@ scientific approach to the study of computational systems.  We'll get
 back to Wolfram in Chapter~\ref{automata}, but I want to borrow his
 title for something a little broader.
 
-I think complexity science is a ``new kind of science'' not because
+I think complexity is a ``new kind of science'' not because
 it applies the tools of science to a new subject, but because it
 uses different tools, allows different kinds of work, and ultimately
 changes what we mean by ``science.''
@@ -595,7 +598,7 @@ acceptable.
 
 For example, classical models tend to be law-based, expressed in the
 form of equations, and solved by mathematical derivation.  Models that
-fall under the umbrella of complexity science are often rule-based,
+fall under the umbrella of complexity are often rule-based,
 expressed as computations, and simulated rather than analyzed.
 
 Not everyone finds these models satisfactory.  For example, in
@@ -648,11 +651,10 @@ these criteria.
 
 I have described classical models as based on physical laws,
 expressed in the form of equations, and solved by mathematical
-analysis; conversely, models in complexity science are often
+analysis; conversely, models of complexity systems are often
 based on simple rules and implemented as computations.
 
-We can think of this trend as a shift over time along
-two axes:
+We can think of this trend as a shift over time along two axes:
 
 \begin{description}
 
@@ -670,13 +672,13 @@ book.
 \begin{description}
 
 \item[Continuous $\rightarrow$ discrete] Classical models tend to be
-  based on continuous mathematics, like calculus; complexity science
-  is often based on discrete mathematics, including graphs and
+  based on continuous mathematics, like calculus; models of complex
+  systems are often based on discrete mathematics, including graphs and
   cellular automata.
 
 \item[Linear $\rightarrow$ non-linear] Classical models are often
   linear, or use linear approximations to non-linear systems;
-  complexity science more often uses non-linear models.  One example
+  complexity science is more friendly to non-linear models.  One example
   is chaos theory\footnote{Chaos is not covered in this book, but you can
   read about it at \url{http://en.wikipedia.org/wiki/Chaos}.}.
 
@@ -712,7 +714,7 @@ And I don't mean to say that these changes are abrupt or complete.
 Rather, there is a gradual migration in the frontier of what is
 considered acceptable, respectable work.  Some tools that used
 to be regarded with suspicion are now common, and some 
-models that were universally accepted are now regarded with scrutiny.
+models that were widely accepted are now regarded with scrutiny.
 
 For example, when Appel and Hacken proved the four-color theorem in
 1976, they used a computer to enumerate 1,936 special cases that were,
@@ -732,8 +734,8 @@ bounded rationality are hot topics.
 
 \section{A new kind of model}
 
-Complex models have strengths and weaknesses.  They are often used
-for different purposes, and interpreted differently:
+Complex models are often appropriate
+for different purposes and interpretations:
 
 \begin{description}
 
@@ -747,7 +749,7 @@ years in the future.
 themselves to a realist interpretation; for example, most people
 would accept that electrons are real things that exist.  Instrumentalism
 is the view that models can be useful even if the entities they
-postulate don't exist.
+postulate don't exist.  
 
 \item[Reductionism $\rightarrow$ holism] Reductionism is the view
 that the behavior of a system can be explained by understanding
@@ -763,7 +765,8 @@ terms.
 
 I am worried about introducing some of these ideas now because it
 is hard to present them briefly without oversimplifying.  We
-will get back to instrumentalism in Chapter~\ref{life} and
+get back to explanatory models in Chapter~\ref{scale-free},
+instrumentalism in Chapter~\ref{life} and
 holism in Chapter~\ref{soc}.
 
 
@@ -775,22 +778,48 @@ changes in the nature of engineering:
 
 \begin{description}
 
-\item[centralized $\rightarrow$ decentralized] 
+\item[centralized $\rightarrow$ decentralized] Centralized systems are
+  conceptually simple and easier to analyze, but decentralized systems
+  can be more robust.  For example, in the World Wide Web clients send
+  requests to centralized servers; if the servers are down, the
+  service is unavailable.  In peer-to-peer networks, every node is
+  both a client and a server.  To take down the service, you have to
+  take down {\em every} node.
+  
+\item[isolation $\rightarrow$ interaction] In classical engineering,
+  the complexity of large systems is managed by isolating components
+  and minimizing interactions.  This is still an important engineering
+  principle; nevertheless, the availability of cheap computation makes
+  it increasingly feasible to design systems with complex interactions
+  between components.
 
-\item[top-down $\rightarrow$ bottom-up]
+\item[one-to-many $\rightarrow$ many-to-many] In many communication
+  systems, broadcast services are being augmented, and sometimes
+  replaced, by services that allow users to communicate with each
+  other and create, share, and modify content.  
 
-\item[isolation $\rightarrow$ interaction] 
+\item[top-down $\rightarrow$ bottom-up] In social, political and
+  economic systems, many activities that would normally be centrally
+  organized now operate as grassroots movements.  Even armies, which
+  are the canonical example of a hierarchical structure, are moving
+  toward devolved command and control.
 
-\item[analysis $\rightarrow$ computation] 
+\item[analysis $\rightarrow$ computation] In classical engineering,
+  the space of feasible designs was limited by our capability for
+  analysis.  For example, designing the Eiffel Tower was possible
+  because Gustave Eiffel developed novel analytic techniques, in
+  particular for dealing with wind load.  Now tools for computer-aided
+  design and analysis make it possible to build almost anything that
+  can be imagined.  Frank Gehry's Guggenheim Museum Bilbao is a
+  salient example.
 
-\item[design $\rightarrow$ search] 
+\item[design $\rightarrow$ search] Engineering is sometimes described
+  as a search for solutions in a landscape of possible designs.
+  Increasingly, the search process can be automated.  For example,
+  genetic algorithms can explore large design spaces and discover
+  solutions human engineers would not have imagined.
 
 \end{description}
-
-The idea of searching for computations (rather than designing them) is
-a central theme of Wolfram's {\em A New Kind of Science}.  Donella
-Meadows presents a system-level approach to engineering
-(broadly-defined) in {\tt Thinking in Systems}.
 
 
 \section{A new kind of thinking}
@@ -801,38 +830,74 @@ developments in logic and epistemology.
 
 \begin{description}
 
-\item[Aristotelean logic $\rightarrow$ multivalent, fuzzy logic] 
-{\em Fuzzy Thinking}
+\item[Aristotelian logic $\rightarrow$ many-valued logic] In
+  traditional logic, any proposition is either true or false.  This
+  system lends itself to math-like proofs, but fails (in dramatic
+  ways) for many real-world applications.  Alternatives include
+  many-valued logic, fuzzy logic, and other systems designed to handle
+  indeterminacy, vagueness, and uncertainty.  Bart
+  Kosko discusses the emergence of these systems in {\em Fuzzy
+    Thinking}.
 
-\item[frequentist probability $\rightarrow$ Bayesianism] 
-{\em ???}
+\item[frequentist probability $\rightarrow$ Bayesianism] Bayesian
+  probability has been around for centuries, but was not widely used
+  until recently, facilitated by the availability of cheap computation
+  and the reluctant acceptance of subjectivity
+  in probabilistic claims.  Sharon Bertsch McGrayne presents this
+  history in {\em The Theory That Would Not Die}.
 
-\item[objective $\rightarrow$ subjective] 
-failure of logical positivism
+\item[objective $\rightarrow$ subjective] The Enlightenment, and
+  philosophic modernism, are based on belief in objective truth: that
+  is, truths that are independent of the people that who them.  20th
+  Century developments including quantum mechanics, G\:{o}del's
+  Incompleteness Theorem, and Kuhn's study of the history of science
+  called attention to seemingly unavoidable subjectivity in
+  even ``hard sciences'' and mathematics.
 
+\item[Physical law $\rightarrow$ theory $\rightarrow$ model]
+  Some people distinguish between laws, theories, and models, but
+  I think they are the same thing.
+  People who use ``law'' are likely to
+  believe that it is objectively true and immutable; people who use
+  ``theory'' concede that it is subject to revision; and ``model''
+  concedes that it is based on simplification and approximation.
+
+  Some concepts that are called ``physical laws'' are really
+  definitions; others are, in effect, the assertion that a model
+  predicts or explains the behavior of a system particularly well.
+  We come back to the nature of physical models 
+  in Sections~\ref{model1} and \ref{model2}.
+
+\item[determinism $\rightarrow$ indeterminism] Determinism is the view
+  that all events are caused, inevitably, by prior events.  Forms of
+  indeterminism include randomness, probabilistic causation, and
+  fundamental uncertainty, and indeterminacy.  We come back to this
+  topic in Section~\ref{determinism} and \ref{free.will}
 
 \end{description}
 
+These trends are neither universal nor complete, but the center of
+opinion is shifting along these axes.  As evidence, consider the
+reaction to Thomas Kuhn's {\em The Structure of Scientific
+  Revolutions}, which was reviled when it was published and
+now considered almost uncontroversial.
 
+These trends are both cause and effect of complexity science.
+For example, the use of highly abstracted models is more acceptable
+now because of the diminished expectation that 
+there should be a ``Theory of Everything.''  Conversely,
+developments in complex systems challenge determinism and the
+related concept of physical law. 
 
+This chapter is intended to provide an overview of the themes
+coming up in the book.  Of course, not all of it will make sense before
+you see the examples in the rest of the book.  When you get to
+the end of the book, you might find it helpful to come back and
+read this chapter again.
 
-
-
-
-In the context of logic and epistemology, these shifts include:
-
-Aristotelean logic $\rightarrow$ multivalent, fuzzy logic
-
-frequentist probability $\rightarrow$ Bayesianism
-
-objective $\rightarrow$ subjective
-
-
-No such thing as proving something impossible.
-
-
-Computation is changing the nature of science and the way we understand the world.
-
+If you already read the book and this is your second iteration, you
+should stop reading and get to work on your case study (see
+Appendix~\ref{submissions}).
 
 
 \chapter{Graphs}
@@ -3132,6 +3197,7 @@ and reach your own conclusions.
 
 
 \chapter{Scale-free networks}
+\label{scale-free}
 
 \section{Zipf's Law}
 
@@ -3705,6 +3771,7 @@ can you discover?
 
 
 \section{Explanatory models}
+\label{model1}
 
 \begin{figure}
 \centerline{\includegraphics[width=5.5in]{figs/model.pdf}}
@@ -4289,9 +4356,10 @@ Test it using DieHarder.
 
 
 \section{Determinism}
+\label{determinism}
 
 The existence of Class 3 CAs is surprising.  To understand how
-surprising, it is useful to consider the philosophical stance called
+surprising, it is useful to consider philosophical
 {\bf determinism} (see \url{wikipedia.org/wiki/Determinism}).
 Most philosophical stances are hard to define precisely because
 they come in a variety of flavors.  I often find it useful
@@ -4372,8 +4440,8 @@ deterministic world view.
 So far I have focused on scientific challenges to determinism, but the
 longest-standing objection is the conflict between
 determinism and human free will.  Complexity science provides
-an approach that may resolve this apparent conflict, but I
-will stop there for now.
+a possible resolution of this apparent conflict; we will come
+back to this topic in Section~\ref{free.will}.
 \index{free will}
 
 
@@ -5915,7 +5983,8 @@ at \url{zoology.ubc.ca/~rikblok/lib/blok95b.html}.
 
 
 \section{Reductionism and Holism}
-
+\label{model2}
+ 
 The original paper by Bak, Tang and Wiesenfeld is one of
 the most frequently-cited papers in the last few decades.
 Many new systems have been shown to be self-organized critical,
@@ -6700,6 +6769,7 @@ You can read more about emergence at
 
 
 \section{Free will}
+\label{free.will}
 
 Many complex systems have properties, as a whole, that their
 components do not have:
@@ -6746,16 +6816,16 @@ systematically, but I will mention two:
   is an illusion; in that case, our actions are deterministic because
   the system that produces them is deterministic.
 
-\end{description}
+\end{itemize}
 
-These arguments reconcile the same conflict in opposite ways, but they
+These arguments reconcile the conflict in opposite ways, but they
 agree that there is a conflict: the system cannot have free will if
 the parts are deterministic.
 
-The complex systems we have seen in this book suggest the premise that
-free will, at the level of options and decisions, is compatible with
-determinism at the level of neurons (or some lower level).  In the
-same way that a traffic jam moves backward while the cars move
+The complex systems we have seen in this book suggest the alternative
+that free will, at the level of options and decisions, is compatible
+with determinism at the level of neurons (or some lower level).  In
+the same way that a traffic jam moves backward while the cars move
 forward, a person has free will even though neurons don't.
 
 
@@ -6787,13 +6857,19 @@ your reaction to the system response?
 
 \end{exercise}
 
+You have reached the end of the book.  Congratulations!  When you read
+Chapter~\ref{overview}, some of the topics might not have made sense.
+You might find it helpful to read that chapter again now.  Then get to
+work on your case study (see Appendix~\ref{submissions}).
+
 
 \appendix
 
 \chapter{Reading list}
+\label{reading}
 
 In my class we start the semester by reading popular books about
-Complexity Science.  They provide a pleasant way to get a big picture
+complexity science.  They provide a pleasant way to get a big picture
 of the field and start to see connections between topics.
 
 One problem with these books is that
@@ -6880,10 +6956,12 @@ Here are the books:
 \end{itemize}
 
 \chapter{Call for submissions}
+\label{submissions}
 
 Criteria
 
 How to submit a case study
+
 
 \chapter{Sugarscape}
 
@@ -7873,7 +7951,7 @@ for generations in range(many):
   \begin{center}
     \includegraphics[width=0.75\textwidth]{figs/replicateNorms_stableBV_03.png}
   \end{center}
-  \caption{Plot of stable states of the norms game after 300 generations.}\label{fig.normsRep}
+  \caption{Plot of stable states of the norms game after 300 generations.\label{fig.normsRep}}
 \end{figure}
 
 Each run starts with a random population and runs for 300 generations.
