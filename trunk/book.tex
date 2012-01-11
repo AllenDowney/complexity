@@ -160,7 +160,7 @@ Version \theversion
 
 
 {\Large
-Allen Downey\\
+Allen B. Downey\\
 }
 
 
@@ -181,7 +181,7 @@ Allen Downey\\
 \thispagestyle{empty}
 
 {\small
-Copyright \copyright ~2011 Allen Downey.
+Copyright \copyright ~2012 Allen B. Downey.
 
 
 Printing history:
@@ -367,11 +367,9 @@ Some features of this book intended for autodidacts are:
 This book will continue to be a work in progress.  You can read
 about ongoing developments at \url{http://www.facebook.com/thinkcomplexity}.
 
-Allen B. Downey \\
-Needham MA\\
-
-Allen Downey is a Professor of Computer Science at
-Olin College of Engineering.
+Allen B. Downey \newline
+Professor of Computer Science \newline
+Olin College of Engineering
 
 
 
@@ -530,7 +528,8 @@ Let me contrast that with a different kind of explanation.  Suppose
 you move to a city like Detroit that is racially segregated, and you
 want to know why it's like that.  If you do some research, you might
 find a paper by Thomas Schelling called ``Dynamic Models of
-Segregation,'' which proposes a simple model of racial segregation.
+Segregation,'' which proposes a simple model of racial segregation
+(a copy is available from \url{http://statistics.berkeley.edu/~aldous/157/Papers/Schelling_Seg_Models.pdf}).
 
 Here is a summary of the paper (from Chapter~\ref{agent-based}):
 
@@ -671,9 +670,9 @@ We can think of this trend as a shift over time along two axes:
 
 \begin{description}
 
-\item[Equation-based $\rightarrow$ simulation-based].
+\item[Equation-based $\rightarrow$ simulation-based] \quad
 
-\item[Analysis $\rightarrow$ computation].
+\item[Analysis $\rightarrow$ computation] \quad
 
 \end{description}
 
@@ -789,7 +788,7 @@ systems:
 
 \begin{description}
 
-\item[centralized $\rightarrow$ decentralized] Centralized systems are
+\item[Centralized $\rightarrow$ decentralized] Centralized systems are
   conceptually simple and easier to analyze, but decentralized systems
   can be more robust.  For example, in the World Wide Web clients send
   requests to centralized servers; if the servers are down, the
@@ -797,25 +796,25 @@ systems:
   both a client and a server.  To take down the service, you have to
   take down {\em every} node.
   
-\item[isolation $\rightarrow$ interaction] In classical engineering,
+\item[Isolation $\rightarrow$ interaction] In classical engineering,
   the complexity of large systems is managed by isolating components
   and minimizing interactions.  This is still an important engineering
   principle; nevertheless, the availability of cheap computation makes
   it increasingly feasible to design systems with complex interactions
   between components.
 
-\item[one-to-many $\rightarrow$ many-to-many] In many communication
+\item[One-to-many $\rightarrow$ many-to-many] In many communication
   systems, broadcast services are being augmented, and sometimes
   replaced, by services that allow users to communicate with each
   other and create, share, and modify content.  
 
-\item[top-down $\rightarrow$ bottom-up] In social, political and
+\item[Top-down $\rightarrow$ bottom-up] In social, political and
   economic systems, many activities that would normally be centrally
   organized now operate as grassroots movements.  Even armies, which
   are the canonical example of hierarchical structure, are moving
   toward devolved command and control.
 
-\item[analysis $\rightarrow$ computation] In classical engineering,
+\item[Analysis $\rightarrow$ computation] In classical engineering,
   the space of feasible designs is limited by our capability for
   analysis.  For example, designing the Eiffel Tower was possible
   because Gustave Eiffel developed novel analytic techniques, in
@@ -824,7 +823,7 @@ systems:
   can be imagined.  Frank Gehry's Guggenheim Museum Bilbao is my
   favorite example.
 
-\item[design $\rightarrow$ search] Engineering is sometimes described
+\item[Design $\rightarrow$ search] Engineering is sometimes described
   as a search for solutions in a landscape of possible designs.
   Increasingly, the search process can be automated.  For example,
   genetic algorithms explore large design spaces and discover
@@ -852,21 +851,21 @@ developments in logic and epistemology.
   Kosko discusses some of these systems in {\em Fuzzy
     Thinking}.
 
-\item[frequentist probability $\rightarrow$ Bayesianism] Bayesian
+\item[Frequentist probability $\rightarrow$ Bayesianism] Bayesian
   probability has been around for centuries, but was not widely used
   until recently, facilitated by the availability of cheap computation
   and the reluctant acceptance of subjectivity
   in probabilistic claims.  Sharon Bertsch McGrayne presents this
   history in {\em The Theory That Would Not Die}.
 
-\item[objective $\rightarrow$ subjective] The Enlightenment, and
+\item[Objective $\rightarrow$ subjective] The Enlightenment, and
   philosophic modernism, are based on belief in objective truth; that
   is, truths that are independent of the people that hold them.  20th
-  Century developments including quantum mechanics, G\:{o}del's
+  Century developments including quantum mechanics, G\"{o}del's
   Incompleteness Theorem, and Kuhn's study of the history of science
   called attention to seemingly unavoidable subjectivity in
   even ``hard sciences'' and mathematics.  Rebecca Goldstein presents
-  the historical context of G\:{o}del's proof in {\it Incompleteness}.
+  the historical context of G\"{o}del's proof in {\it Incompleteness}.
 
 \item[Physical law $\rightarrow$ theory $\rightarrow$ model]
   Some people distinguish between laws, theories, and models, but
@@ -882,7 +881,7 @@ developments in logic and epistemology.
   We come back to the nature of physical models 
   in Sections~\ref{model1} and \ref{model2}.
 
-\item[determinism $\rightarrow$ indeterminism] Determinism is the view
+\item[Determinism $\rightarrow$ indeterminism] Determinism is the view
   that all events are caused, inevitably, by prior events.  Forms of
   indeterminism include randomness, probabilistic causation, and
   fundamental uncertainty, and indeterminacy.  We come back to this
@@ -981,7 +980,7 @@ can be represented by a
 graph with one node for each nuclide (type of atom) and an edge
 between two nuclides if one can decay into the other.  A path in this
 graph represents a decay chain.
-See \url{wikipedia.org/wiki/Radioactive_decay}.
+See \url{http://en.wikipedia.org/wiki/Radioactive_decay}.
 \index{radioactive decay}
 \index{decay chain}
 
@@ -1387,7 +1386,7 @@ nodes.
 \label{bfs}
 
 A graph is {\bf connected} if there is a path from every node to every
-other node.  See \url{wikipedia.org/wiki/Connectivity_(graph_theory)}.
+other node.  See \url{http://en.wikipedia.org/wiki/Connectivity_(graph_theory)}.
 \index{connected graph}
 \index{path}
 
@@ -1399,7 +1398,7 @@ can reach.  Then check to see whether all vertices are marked.
 \index{BFS}
 
 You can read about breadth-first-search at
-\url{wikipedia.org/wiki/Breadth-first_search}.
+\url{http://en.wikipedia.org/wiki/Breadth-first_search}.
 
 In general, when you process
 a node, we say that you are
@@ -1451,13 +1450,14 @@ some of his productivity to the use of these drugs; after giving them
 up for a month to win a bet, he complained that the only result
 was that mathematics had
 been set back by a month\footnote{Much of this biography follows
-\url{wikipedia.org/wiki/Paul_Erdos}}.
+\url{http://en.wikipedia.org/wiki/Paul_Erdos}}.
 \index{caffeine}
 \index{amphetamine}
 
 In the 1960s he and Afr\'{e}d \Renyi~ wrote a series of papers
 introducing the \Erdos-\Renyi~
 model of random graphs and studying their properties.
+The second is available from \url{http://www.renyi.hu/~p_erdos/1960-10.pdf}.
 \index{Renyi, Afred@\Renyi, Afr\'{e}d}
 
 One of their most surprising results is the existence of
@@ -1468,7 +1468,7 @@ $p$ below which is the property is rare and above which it
 is almost certain.  This transition is sometimes called
 a ``phase change'' by analogy with physical systems that
 change state at some critical value of temperature.
-See \url{wikipedia.org/wiki/Phase_transition}.
+See \url{http://en.wikipedia.org/wiki/Phase_transition}.
 \index{phase chance}
 \index{threshold value}
 
@@ -1664,11 +1664,11 @@ through {\tt z2}, and so on.
 
 Analysis of algorithms is the branch of computer science that studies
 the performance of algorithms, especially their run time and space
-requirements.  See \url{wikipedia.org/wiki/Analysis_of_algorithms}.
+requirements.  See \url{http://en.wikipedia.org/wiki/Analysis_of_algorithms}.
 \index{algorithm}
 \index{analysis of algorithms}
 
-%\url{wikipedia.org/wiki/Run-time_analysis}
+%\url{http://en.wikipedia.org/wiki/Run-time_analysis}
 
 The practical goal of algorithm analysis is to predict the performance
 of different algorithms in order to guide design decisions.
@@ -1686,7 +1686,7 @@ See \url{http://www.youtube.com/watch?v=k4RRi_ntQc8}.
 
 This is true: bubble sort is conceptually simple but slow for
 large datasets.  The answer Schmidt was probably looking for is
-``radix sort'' (see \url{wikipedia.org/wiki/Radix_sort})\footnote{
+``radix sort'' (see \url{http://en.wikipedia.org/wiki/Radix_sort})\footnote{
 But if you get a question like this in an interview, I think
 a better answer is, ``The fastest way to sort a million integers
 is to use whatever sort function is provided by the language
@@ -1850,7 +1850,7 @@ only useful for small problems.
 \begin{exercise}
 
 Read the Wikipedia page on Big-Oh notation at
-\url{wikipedia.org/wiki/Big_O_notation} and
+\url{http://en.wikipedia.org/wiki/Big_O_notation} and
 answer the following questions:
 
 \begin{enumerate}
@@ -2008,7 +2008,7 @@ Section~\ref{hashtable}.
 \begin{exercise}
 
 Read the Wikipedia page on sorting algorithms at
-\url{wikipedia.org/wiki/Sorting_algorithm} and answer
+\url{http://en.wikipedia.org/wiki/Sorting_algorithm} and answer
 the following questions:
 \index{sorting}
 
@@ -2160,8 +2160,8 @@ So {\tt get} is linear.
 An alternative is to keep the list sorted by key.  Then {\tt get}
 could use a bisection search, which is $O(\log n)$.  But inserting a
 new item in the middle of a list is linear, so this might not be the
-best option.  There are other data structures\footnote{See
-  \url{wikipedia.org/wiki/Red-black_tree}.}  that can implement {\tt
+best option.  There are other data structures (see
+  \url{http://en.wikipedia.org/wiki/Red-black_tree})  that can implement {\tt
   add} and {\tt get} in log time, but that's still not as good as a
 hashtable, so let's move on.
 \index{red-black tree}
@@ -2588,7 +2588,7 @@ This pattern is so common that Python provides a more
 concise syntax for it, called a {\bf list comprehension}.
 In this context, the sense of ``comprehend'' is something
   like ``contain'' rather than ``understand.''  See
-  \url{wikipedia.org/wiki/List_comprehension}.
+  \url{http://en.wikipedia.org/wiki/List_comprehension}.
 
 Here's what it looks like:
 
@@ -2715,9 +2715,9 @@ A FIFO is a data structure that provides the following operations:
 
 There are several good implementations of this data structure.
 One is the {\bf doubly-linked list}, which
-you can read about at \url{wikipedia.org/wiki/Doubly-linked_list}.
+you can read about at \url{http://en.wikipedia.org/wiki/Doubly-linked_list}.
 Another is a circular buffer, which you can read about at
-\url{wikipedia.org/wiki/Circular_buffer}.
+\url{http://en.wikipedia.org/wiki/Circular_buffer}.
 \index{doubly-linked list}
 \index{circular buffer}
 
@@ -2770,16 +2770,15 @@ can be adapted to implement a FIFO.
 \index{deque}
 \index{double-ended queue}
 
-You can read about deques at \url{wikipedia.org/wiki/Deque}
+You can read about deques at \url{http://en.wikipedia.org/wiki/Deque}
 and get the details of the Python implementation at
 \url{docs.python.org/lib/deque-objects.html}.
 
 
 \begin{exercise}
 
-The following implementation of a BFS\footnote{This was the
-  implementation at \url{wikipedia.org/wiki/Breadth-first_search}
-  before I fixed it.}  contains two performance errors.  What are
+The following implementation of a BFS
+contains two performance errors.  What are
 they?  What is the actual order of growth for this algorithm?
 \index{order of growth}
 \index{performance error}
@@ -2811,9 +2810,9 @@ that your algorithm is linear.
 Stanley Milgram was an American social psychologist who conducted
 two of the most famous experiments in social science, the
 Milgram experiment, which studied people's obedience to authority
-(\url{wikipedia.org/wiki/Milgram_experiment})
+(\url{http://en.wikipedia.org/wiki/Milgram_experiment})
 and the Small World Experiment
-\url{wikipedia.org/wiki/Small_world_phenomenon}, which studied
+\url{http://en.wikipedia.org/wiki/Small_world_phenomenon}, which studied
 the structure of social networks.
 \index{Milgram, Stanley}
 \index{small world experiment}
@@ -2855,12 +2854,13 @@ links in the social network, they should have taken 32 hops, not six.
 
 \section{Watts and Strogatz}
 
-In 1998 Duncan Watts and Steven Strogatz published a paper
-in {\em Nature}, ``Collective dynamics of 'small-world' networks,''
-that proposed an explanation for the small world phenomenon.
-\index{Watts, Duncan}
-\index{Strogatz, Steven}
-\index{small world network}
+In 1998 Duncan Watts and Steven Strogatz published a paper in {\em
+  Nature}, ``Collective dynamics of 'small-world' networks,'' that
+proposed an explanation for the small world phenomenon.  You can
+download it from
+\url{http://www.nature.com/nature/journal/v393/n6684/abs/393440a0.html}.
+\index{Watts, Duncan} \index{Strogatz, Steven} \index{small world
+  network}
 
 Watts and Strogatz started with two kinds of graph that were well
 understood: random graphs and regular graphs.  They looked at two
@@ -2984,10 +2984,10 @@ path algorithms.
 
 Edsger W. Dijkstra was a Dutch computer scientist who invented an
 efficient shortest-path algorithm (see
-\url{wikipedia.org/wiki/Dijkstra's_algorithm}).  He also invented the
+\url{http://en.wikipedia.org/wiki/Dijkstra's_algorithm}).  He also invented the
 semaphore, which is a data structure used to coordinate programs that
 communicate with each other (see
-\url{wikipedia.org/wiki/Semaphore_(programming)} and Downey, {\em The
+\url{http://en.wikipedia.org/wiki/Semaphore_(programming)} and Downey, {\em The
   Little Book of Semaphores}).
 \index{Dijkstra, Edsger}
 \index{Little Book of Semaphores@{\em The Little Book of Semaphores}}
@@ -3130,10 +3130,10 @@ analysis suggests?
 If you ask me why planetary orbits are elliptical,
 I might start by modeling a planet and a star as point masses; I
 would look up the law of universal gravitation at
-\url{wikipedia.org/wiki/Newton's_law_of_universal_gravitation}
+\url{http://en.wikipedia.org/wiki/Newton's_law_of_universal_gravitation}
 and use it to write a differential equation for the motion of
 the planet.  Then I would either derive the orbit equation or,
-more likely, look it up at \url{wikipedia.org/wiki/Orbit_equation}.
+more likely, look it up at \url{http://en.wikipedia.org/wiki/Orbit_equation}.
 With a little algebra, I could derive the conditions that
 yield an elliptical orbit.  Then I would argue that the objects
 we consider planets satisfy these conditions.
@@ -3211,7 +3211,7 @@ and reach your own conclusions.
 
 Zipf's law describes a relationship between the frequencies and ranks
 of words in natural languages; see
-  \url{wikipedia.org/wiki/Zipf's_law}.  The ``frequency'' of
+  \url{http://en.wikipedia.org/wiki/Zipf's_law}.  The ``frequency'' of
 a word is the number of times it appears in a body of work.
 The ``rank'' of a word is its position in a list of words
 sorted by frequency: the most common word has rank 1, the
@@ -3303,7 +3303,7 @@ for creating and manipulating CDFs.  You can download it from
 \url{thinkcomplex.com/Cdf.py}.
 \index{Cdf@{\tt Cdf}}
 
-As an example, we'll compute the CDF for the values $\{1,2,2,4,5\}$:
+As an example, we'll compute the CDF for the values \{1,2,2,4,5\}:
 
 \begin{verbatim}
 import Cdf
@@ -3329,7 +3329,7 @@ The value with probability 0.5 is the median, which in this example is 2.
 
 \begin{figure}
 \centerline{\includegraphics[width=3.0in]{figs/cdf_example.pdf}}
-\caption{CDF of the values (1,2,2,4,5).\label{fig.cdf}}
+\caption{CDF of the values \{1,2,2,4,5\}.\label{fig.cdf}}
 \end{figure}
 
 To plot the {\tt Cdf}, you can use {\tt Render}, which returns
@@ -3457,7 +3457,7 @@ the CCDF on a log-$y$ scale and see if it falls on a straight line.
 
 The Pareto distribution is named after the economist Vilfredo
 Pareto, who used it to describe the distribution of wealth;
-see \url{wikipedia.org/wiki/Pareto_distribution}.  Since then,
+see \url{http://en.wikipedia.org/wiki/Pareto_distribution}.  Since then,
 people have used it to describe
 phenomena in the natural and social sciences
 including sizes of cities and towns, sand particles
@@ -3620,7 +3620,7 @@ the growth patterns of some real-world networks.
 Finally, they show that graphs generated by this model have a
 distribution of degrees that obeys a power law.  Graphs that
 have this property are sometimes called {\bf scale-free networks};
-see \url{wikipedia.org/wiki/Scale-free_network}.
+see \url{http://en.wikipedia.org/wiki/Scale-free_network}.
 That name can be confusing because it is the distribution
 of degrees that is scale-free, not the network.
 \index{scale-free network}
@@ -3629,7 +3629,7 @@ In order to maximize confusion, distributions that obey the power law
 are sometimes called {\bf scaling distributions} because they are
 invariant under a change of scale.  That means that if you change the
 units the quantities are expressed in, the slope parameter, $\gamma$,
-doesn't change.  You can read \url{wikipedia.org/wiki/Power_law} for
+doesn't change.  You can read \url{http://en.wikipedia.org/wiki/Power_law} for
 the details, but it is not important for what we are doing here.
 \index{scaling distribution}
 
@@ -3717,7 +3717,7 @@ Similarly, if we start with a straight line on a Zipf plot,
 we have\footnote{This derivation follows
 Adamic, ``Zipf, power law and
 Pareto---a ranking tutorial,'' available at
-\url{www.hpl.hp.com/research/idl/papers/ranking/ranking.html}}
+\url{www.hpl.hp.com/research/idl/papers/ranking/ranking.html}}:
 
 \[ f = c r^{-s} \]
 
@@ -3847,8 +3847,7 @@ explanations:
 
 \item The WS model suggests that social networks are ``small'' because
   they include both strongly-connected clusters and ``weak ties'' that
-  connect clusters\footnote{See
-    \url{http://en.wikipedia.org/wiki/Mark_Granovetter}.}.
+  connect clusters (see \url{http://en.wikipedia.org/wiki/Mark_Granovetter}).
 \index{weak ties}
 
 \item The BA model suggests that social networks are small because
@@ -3998,7 +3997,7 @@ decimal, Wolfram calls this CA ``Rule 50.''
 \index{enumeration}
 
 \begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-50-10.pdf}}
+\centerline{\includegraphics[height=1.5in]{figs/rule-50-10.pdf}}
 \caption{Rule 50 after 10 time steps.\label{fig.rule50}}
 \end{figure}
 
@@ -4020,7 +4019,7 @@ that includes all of the cells that can be affected by it.
 \section{Implementing CAs}
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/array.pdf}}
+\centerline{\includegraphics[height=1.75in]{figs/array.pdf}}
 \caption{A list of lists (left) and a Numpy array (right).\label{fig.array}}
 \end{figure}
 
@@ -4247,8 +4246,8 @@ You can download my solution from
 \section{Classifying CAs}
 
 \begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-18-64.pdf}}
-\caption{Rule 17 after 64 steps.\label{fig.rule18}}
+\centerline{\includegraphics[height=1.5in]{figs/rule-18-64.pdf}}
+\caption{Rule 18 after 64 steps.\label{fig.rule18}}
 \end{figure}
 
 Wolfram proposes that the behavior of CAs can be grouped
@@ -4265,7 +4264,7 @@ Figure~\ref{fig.rule18} shows what it looks like after 64 steps.
 \index{Rule 18}
  
 This pattern resembles the Sierpi\'{n}ski triangle, which
-you can read about at \url{wikipedia.org/wiki/Sierpinski_triangle}.
+you can read about at \url{http://en.wikipedia.org/wiki/Sierpinski_triangle}.
 \index{Sierpi\'{n}ski triangle}
 
 Some Class 2 CAs generate patterns that are intricate and
@@ -4276,7 +4275,7 @@ simple.
 \section{Randomness}
 
 \begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-30-100.pdf}}
+\centerline{\includegraphics[height=2.5in]{figs/rule-30-100.pdf}}
 \caption{Rule 30 after 100 time steps.\label{fig.rule30}}
 \end{figure}
 
@@ -4339,7 +4338,7 @@ This exercise asks you to implement and test several PRNGs.
 
 \item Write a program that implements one of the linear congruential
 generators described at
-\url{wikipedia.org/wiki/Linear_congruential_generator}).
+\url{http://en.wikipedia.org/wiki/Linear_congruential_generator}).
 
 \item Download {\tt DieHarder}, a random number test suite, from
 \url{phy.duke.edu/~rgb/General/rand_rate.php} and use it to
@@ -4366,7 +4365,7 @@ Test it using DieHarder.
 
 The existence of Class 3 CAs is surprising.  To understand how
 surprising, it is useful to consider philosophical
-{\bf determinism} (see \url{wikipedia.org/wiki/Determinism}).
+{\bf determinism} (see \url{http://en.wikipedia.org/wiki/Determinism}).
 Most philosophical stances are hard to define precisely because
 they come in a variety of flavors.  I often find it useful
 to define them with a list of statements ordered from weak
@@ -4417,7 +4416,7 @@ present before its eyes.
 \end{quote}
 
 This ``intellect'' came to be called ``Laplace's Demon''.
-See \url{wikipedia.org/wiki/Laplace's_demon}.  The word
+See \url{http://en.wikipedia.org/wiki/Laplace's_demon}.  The word
 ``demon'' in this context has the sense of ``spirit,'' with no
 implication of evil.
 \index{Laplace's Demon}
@@ -4454,7 +4453,7 @@ back to this topic in Section~\ref{free.will}.
 \section{Structures}
 
 \begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-110-100.pdf}}
+\centerline{\includegraphics[height=2.5in]{figs/rule-110-100.pdf}}
 \caption{Rule 110 after 100 time steps.\label{fig.rule110}}
 \end{figure}
 
@@ -4598,8 +4597,8 @@ that systems found in the natural world can perform computations up to
 a maximal (``universal'') level of computational power, and that most
 systems do in fact attain this maximal level of computational
 power. Consequently, most systems are computationally
-equivalent\footnote{See
-  \url{mathworld.wolfram.com/PrincipleofComputationalEquivalence.html}.}.
+equivalent (see
+  \url{mathworld.wolfram.com/PrincipleofComputationalEquivalence.html}).
 \end{quote}
 
 Applying these definitions to CAs, Classes 1 and 2 are ``obviously
@@ -4685,12 +4684,12 @@ falsifiable).
 
 For example, if the theory of special creation were true, what good
 would it do me to know it?  It wouldn't tell me anything about the
-creator except that he has an ``inordinate fondness for beetles.
-\footnote{Attributed to J. B. S. Haldane.}''  And unlike the
+creator except that he has an ``inordinate fondness for beetles''
+(attributed to J.~B.~S.~Haldane).  And unlike the
 theory of common descent, which informs many areas of science
 and bioengineering, it would be of no use for understanding
 the world or acting in it.
-\index{Haldane, J. B. S.}
+\index{Haldane, J.~B.~S.}
 \index{beetles}
 
 \begin{exercise}
@@ -4699,7 +4698,7 @@ Falsifiability is an appealing and useful idea, but among
 philosophers of science it is not generally accepted
 as a solution to the demarcation problem, as Popper claimed.
 
-Read \url{wikipedia.org/wiki/Falsifiability} and answer the following
+Read \url{http://en.wikipedia.org/wiki/Falsifiability} and answer the following
 questions.
 
 \begin{enumerate}
@@ -4811,7 +4810,7 @@ either infinite in both
 directions or wrapped around.  A grid wrapped
 in both directions is called a {\bf torus} because it is topographically
 equivalent to the surface of a doughnut.
-See \url{wikipedia.org/wiki/Torus}.
+See \url{http://en.wikipedia.org/wiki/Torus}.
 \index{torus}
 \index{grid}
 
@@ -5271,7 +5270,7 @@ just as useful.''
 Give yourself one point for each statement you agree with.
 If you score 4 or more, you might be an instrumentalist!
 
-If you are more comfortable with some of these statements than with
+If you are more comfortable with some of these statements than
 others, ask yourself why.  What are the differences in these
 scenarios that influence your reaction?  Can you make
 a principled distinction between them?
@@ -5395,12 +5394,12 @@ to zero.
 \section{Fractal CAs}
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/fractal-254-4.pdf}}
+\centerline{\includegraphics[height=0.7in]{figs/fractal-254-4.pdf}}
 \caption{Rule 254 after 4 timesteps.\label{fig.rule254.1}}
 \end{figure}
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/fractal-254-8.pdf}}
+\centerline{\includegraphics[height=1.4in]{figs/fractal-254-8.pdf}}
 \caption{Rule 254 after 8 timesteps.\label{fig.rule254.2}}
 \end{figure}
 
@@ -5426,7 +5425,7 @@ $N(\veps) = \left( 1 / \veps \right)^2$, so $D_{box} = 2$.  And we conclude
 that a triangle is 2-dimensional.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/rule-18-64.pdf}}
+\centerline{\includegraphics[height=2.5in]{figs/rule-18-64.pdf}}
 \caption{Rule 18 after 64 time steps.\label{fig.rule18.2}}
 \end{figure}
 
@@ -5443,7 +5442,7 @@ To estimate $D_{box}$ I fit a line to this curve; its slope is 1.56.
 $D_{box}$ is a non-integer, which means that this set of
 points is a {\bf fractal}.  As $t$ increases, the slope approaches
 $log 3 / log 2$, which is the fractal dimension of Sierpi\'{n}ski's
-triangle.  See \url{wikipedia.org/wiki/Sierpinski_triangle}.
+triangle.  See \url{http://en.wikipedia.org/wiki/Sierpinski_triangle}.
 \index{fractal}
 \index{Sierpi\'{n}ski's triangle}
 
@@ -5580,7 +5579,9 @@ increases quickly from near 0 to near 1.
 
 The paper ``Efficient Monte Carlo Algorithm and High-Precision Results
 for Percolation,'' by Newman and Ziff, presents an efficient algorithm
-for checking whether there is a path through a grid.  Read this
+for checking whether there is a path through a grid.  You can download
+this paper from \url{http://arxiv.org/abs/cond-mat/0005264}.
+Read it
 paper, implement their algorithm, and see if you can reproduce their
 Figure 2(a).
 
@@ -5588,9 +5589,9 @@ Figure 2(a).
 
 \item What is the difference between what Newman and Ziff call the
   ``microcanonical ensemble'' and the ``canonical
-  ensemble''\footnote{You might find it useful to read about the use of
-    these terms in statistical mechanics:
-    \url{wikipedia.org/wiki/Statistical_mechanics}.}?  Which one is
+  ensemble''?  You might find it useful to read about the use of
+    these terms in statistical mechanics at
+    \url{http://en.wikipedia.org/wiki/Statistical_mechanics}.  Which one is
   easier to estimate by Monte Carlo simulation?
 \index{microcanonical ensemble}
 \index{canonical ensemble}
@@ -5614,6 +5615,8 @@ Figure 2(a).
 
 In 1987 Bak, Tang and Wiesenfeld published a paper in Physical Review
 Letters, ``Self-organized criticality: an explanation of $1/f$ noise.''
+You can download it from \url{http://prl.aps.org/abstract/PRL/v59/i4/p381_1}.
+
 The title takes some explaining.  A system is ``critical'' if it is
 in transition between two phases; for example, water at
 its freezing point is a critical system.
@@ -5907,7 +5910,7 @@ What is the order of growth for the space required?
 
 Most FFT implementations use a clever indexing scheme to avoid copying
 the sequence; instead, they transform the elements in place.  You can
-read \url{wikipedia.org/wiki/Butterfly_diagram} to get the details.
+read \url{http://en.wikipedia.org/wiki/Butterfly_diagram} to get the details.
 \index{indexing}
 
 Once your {\tt fft} is working, write a function named
@@ -5965,10 +5968,10 @@ and estimate the slope.
 \begin{exercise}
 
 In a 1989 paper, ``Self-organized criticality in the 'Game of Life',''
-Bak, Chen and Creutz present evidence that the Game of Life
-is a self-organized critical system.
-\index{Game of Life}
-\index{self-organized criticality}
+Bak, Chen and Creutz present evidence that the Game of Life is a
+self-organized critical system
+(\url{http://www.nature.com/nature/journal/v342/n6251/abs/342780a0.html}).
+\index{Game of Life} \index{self-organized criticality}
 
 To replicate their tests, run the GoL CA until it stabilizes,
 then choose a random cell and toggle it.  Run the CA until
@@ -5980,7 +5983,7 @@ experiment to test for $1/f$ noise.
 
 Some later work has called the conclusions of this paper into
 question.  You might want to read Blok, ``Life without bounds,''
-at \url{zoology.ubc.ca/~rikblok/lib/blok95b.html}.
+at \url{http://zoology.ubc.ca/~rikblok/lib/blok95b.html}.
 
 \end{exercise}
 
@@ -6101,8 +6104,8 @@ way around.
 
 \begin{exercise}
 
-Read \url{wikipedia.org/wiki/Reductionism}
-and \url{wikipedia.org/wiki/Holism}.
+Read \url{http://en.wikipedia.org/wiki/Reductionism}
+and \url{http://en.wikipedia.org/wiki/Holism}.
 
 \end{exercise}
 
@@ -6110,14 +6113,16 @@ and \url{wikipedia.org/wiki/Holism}.
 \begin{exercise}
 
 In a 1996 paper in Nature, Frette et al report the results of
-experiments with rice piles.  They find that some kinds of rice
-yield evidence of critical behavior, but others do not.
-\index{rice pile model}
+experiments with rice piles
+(\url{http://www.nature.com/nature/journal/v379/n6560/abs/379049a0.html}).
+They find that some kinds of rice yield evidence of critical behavior,
+but others do not.  \index{rice pile model}
 
 Similarly, Pruessner and Jensen studied large-scale versions of the
 forest fire model (using an algorithm similar to Newman and Ziff's).
 In their 2004 paper, ``Efficient algorithm for the forest fire model,''
-they present evidence that the system is not critical after all.
+they present evidence that the system is not critical after all
+(\url{http://pre.aps.org/abstract/PRE/v70/i6/e066707}).
 \index{forest fire model}
 
 How do these results bear on Bak's claim that SOC explains
@@ -6227,7 +6232,7 @@ events may be fundamentally unpredictable and unexplainable.
 \begin{exercise}
 
 Read about the ``Great Man'' theory of history at
-\url{wikipedia.org/wiki/Great_man_theory}.  What implication
+\url{http://en.wikipedia.org/wiki/Great_man_theory}.  What implication
 does self-organized criticality have for this theory?
 \index{Great Man theory}
 
@@ -6362,7 +6367,7 @@ in the title of Schelling's book, {\em Micromotives and Macrobehavior}.
 \index{Micromotives and Macrobehavior@{\em Micromotives and Macrobehavior}}
 
 For more about agent-based modeling, see
-\url{wikipedia.org/wiki/Agent-based_model}.
+\url{http://en.wikipedia.org/wiki/Agent-based_model}.
 
 
 \section{Traffic jams}
@@ -6773,7 +6778,7 @@ You can read more about emergence at
 \url{http://en.wikipedia.org/wiki/Emergence}.
 
 
-\section{Emergence and free will}
+\section{Free will}
 \label{free.will}
 
 Many complex systems have properties, as a whole, that their
@@ -7127,15 +7132,14 @@ based on its surroundings.  When simulating large numbers of ants,
 behavior emerges that is reflective of ant behavior in the natural
 world.  Beyond being intrinsically fascinating, such models have
 applications in the ``real world'' in areas ranging from city planning
-to film production.  We will discuss the application of agent-based
-models to the entertainment industry later in the paper.
+to film production.
 
 \section{Model Overview}
 
 We can see one example of an agent-based model in Deneuborg et al.'s
 1989 paper \emph{The Blind Leading the Blind: Modeling Chemically
-  Mediated Army Ant Raid Patterns}\footnote{Available from
-\url{http://www.ulb.ac.be/sciences/use/publications/JLD/58.pdf.}}.
+  Mediated Army Ant Raid Patterns}, available from
+\url{http://www.ulb.ac.be/sciences/use/publications/JLD/58.pdf}.
 
 The premise of the model is that as ants move around they deposit
 a pheromone, which increases the likelihood that other ants will follow
@@ -7969,7 +7973,7 @@ There are two ways to increase the chances of a good outcome,
 decreasing $cost$ or increasing $punishment$.  If we fix
 $punishment=9$ and decrease $cost$ to 1, the probability of a good
 outcome is 80\%.  If we fix $cost=2$, to achieve the same probability,
-we have to increase $punishment$ to $11$.
+we have to increase $punishment$ to 11.
 
 Which option is more appealing depends on practical and cultural
 considerations.  Of course, we have to be careful not to take this
