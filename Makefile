@@ -43,8 +43,9 @@ distrib:
 	chmod -R o+r $(DEST)/*
 
 plastex:
+	python Filist.py book.tex > book.plastex
 	rm -rf /home/downey/complexity/trunk/book
-	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=book.xml book.tex
+	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=book.xml book.plastex
 	rm -rf /home/downey/complexity/trunk/book/.svn
 
 xxe:
