@@ -257,17 +257,19 @@ Version \theversion
 
 \chapter{Preface}
 
+\section{Why I wrote this book}
+
 This book is inspired by boredom and fascination: boredom with the
-standard presentation of data structures and algorithms, and
-fascination with complexity systems.  The problem with data structures
+usual presentation of data structures and algorithms, and
+fascination with complex systems.  The problem with data structures
 is that they are often taught without a motivating context; the
 problem with complexity science is that it is usually not taught at
 all.
 
-In 2005 I developed a new class at Olin College where students
-read about topics in complexity, implement experiments in
-Python, and learn about algorithms and data structures.  I wrote
-the first draft of this book when I taught the class again in 2008.
+In 2005 I developed a new class at Olin College where students read
+about topics in complexity, implement experiments in Python, and learn
+about algorithms and data structures.  I wrote the first draft of this
+book when I taught the class again in 2008.
 
 For the third offering, in 2011, I prepared the book for publication
 and invited the students to submit their work, in the form of case
@@ -286,9 +288,9 @@ structure:
 \begin{description}
 
 \item[Reading] Complexity science is a collection of diverse topics.
-  There are many connections among them, but it takes time to see
-  them.  There are many popular presentations of work in this field,
-  so I use them to help students see the big picture.  My reading
+  There are many interconnections, but it takes time to see them.  To
+  help students see the big picture, I give them readings from
+  popular presentations of work in the field.  My reading
   list, and suggestions on how to use it, are in
   Appendix~\ref{reading}.
 
@@ -299,13 +301,13 @@ structure:
   undergraduate mathematics.
 
 \item[Discussion] The topics in this book raise questions in the
-  Philosophy of Science that lend themselves to further reading and
-  classroom discussion.
+  philosophy of science; these topics lend themselves to further
+  reading and classroom discussion.
 
 \item[Case studies] In my class, we spend almost half the semester on
   case studies.  Students participate in an idea generation process,
-  form teams, and work for 6-7 weeks on a series of experiments
-  presented in the form of a publishable 4-6 page report.
+  form teams, and work for 6-7 weeks on a series of experiments, then
+  present them in the form of a publishable 4-6 page report.
 
 \end{description}
 
@@ -339,7 +341,7 @@ Some features of this book intended for autodidacts are:
   further reading, including original papers (most of which are
   available electronically) and related articles from
   Wikipedia\footnote{Some professors have an allergic reaction to
-    Wikipedia, on the grounds that students rely too heavily on an
+    Wikipedia, on the grounds that students depend too heavily on an
     unreliable source.  Since many of my references are Wikipedia
     articles, I want to explain my thinking.  First, the articles on
     complexity science and related topics tend to be very good;
@@ -347,11 +349,11 @@ Some features of this book intended for autodidacts are:
     have read this book (but sometimes not before); and finally, they
     are freely available to readers all over the world.  If there is a
     danger in sending readers to these references, it is not that they
-    are unrealiable, that that the readers won't come back!  (see
-    \url{http://xkcd.com/903}).  } and other sources.
+    are unreliable, but that the readers won't come back!  (see
+    \url{http://xkcd.com/903}).} and other sources.
 
 \item[Exercises and (some) solutions] For many of the exercises, I
-  provide code to get you started, and solutions if you get stuck, or
+  provide code to get you started, and solutions if you get stuck or
   want to compare your code to mine.
 
 \item[Opportunity to contribute] If you explore a topic not covered in
@@ -405,6 +407,18 @@ found typos and made helpful suggestions.
 
 \item Jose Oscar Mur-Miranda found several typos.
 
+\item I am grateful to the program committee that read and selected
+the case studies included in this book: 
+Sarah Spence Adams,
+John Geddes,
+Stephen Holt,
+Vincent Manno,
+Robert Martello,
+Amon Millner,
+Jos\'{e} Oscar Mur-Miranda,
+Mark Somerville, and
+Ursula Wolz.
+
 % ENDCONTRIB
 
 \end{itemize}
@@ -431,8 +445,8 @@ found typos and made helpful suggestions.
 \section{What is this book about?}
 
 This book is about data structures and algorithms, intermediate
-programming in Python, computational modeling and
-the philosophy of science:
+programming in Python, computational modeling and the philosophy of
+science:
 
 \begin{description}
 
@@ -447,7 +461,7 @@ the philosophy of science:
 An algorithm is a mechanical process for performing a computation.
 Designing efficient programs often involves the co-evolution of data
 structures and the algorithms that use them.  For example, in the
-first few chapters I will present graphs, data structures that
+first few chapters I present graphs, data structures that
 implement graphs, and graph algorithms based on those data structures.
 \index{graph algorithm}
 
@@ -477,13 +491,13 @@ interdisciplinary field---at the intersection of mathematics, computer
 science and natural science---that focuses on discrete models of
 physical systems.  \index{complexity science}
 In particular, it focuses on {\bf complex systems}, which are
-systems that contain many interacting components.  
+systems with many interacting components.  
 
 Complex systems include networks and graphs, cellular automata,
 agent-based models and swarms, fractals and self-organizing
 systems, chaotic systems and cybernetic systems.  These terms
 might not mean much to you at this point.  We will get to them
-soon, but if you are impatient, you can get a preview at
+soon, but you can get a preview at
 \url{http://en.wikipedia.org/wiki/Complex_systems}.
 
 
@@ -558,29 +572,29 @@ say not realistic.  It is tempting to say that people are more complex
 than planets, but when you think about it, planets are just as complex
 as people (especially the ones that {\em have} people).
 
-Both systems are complex, and both models are based on simplifications;
-for example, in the model
-of planetary motion we include forces between the planet
-and its sun, and ignore interactions between planets.
+Both systems are complex, and both models are based on
+simplifications; for example, in the model of planetary motion we
+include forces between the planet and its sun, and ignore interactions
+between planets.
 
 The important difference is that, for planetary motion, we can defend
 the model by showing that the forces we ignore are smaller than the
 ones we include.  And we can extend the model to include other
-interactions and show that the effect is small.
-For Schelling's model it is harder to justify the simplifications.
+interactions and show that the effect is small.  For Schelling's model
+it is harder to justify the simplifications.
 
 To make matters worse, Schelling's model doesn't appeal to any
 physical laws, and it uses only simple computation, not mathematical
 derivation.  Models like Schelling's don't look like classical
 science, and many people find them less compelling, at least at first.
 But as I will try to demonstrate, these models do useful work,
-including prediction, explanation, and design.  So one of the goals of
+including prediction, explanation, and design.  One of the goals of
 this book is to explain how.
 
 
 \section{Paradigm shift?}
 
-When I describe this book to people, I am often asked if the new kind
+When I describe this book to people, I am often asked if this new kind
 of science is a paradigm shift.  I don't think so, and here's why.
 
 Thomas Kuhn introduced the term ``paradigm shift'' in {\em The
@@ -604,10 +618,10 @@ expressed as computations, and simulated rather than analyzed.
 Not everyone finds these models satisfactory.  For example, in
 {\em Sync}, Steven Strogatz writes about his model of spontaneous
 synchronization in some species of fireflies.  He presents a
-simulation that demonstrates the phenomenon, but then he writes:
+simulation that demonstrates the phenomenon, but then writes:
 
 \begin{quote}
-[...] I repeated the simulation dozens of times, for other random
+I repeated the simulation dozens of times, for other random
 initial conditions and for other numbers of oscillators.  Sync
 every time. [...] The challenge now was to prove it.  Only an
 ironclad proof would demonstrate, in a way that no computer ever
@@ -619,29 +633,28 @@ Strogatz is a mathematician, so his enthusiasm for proofs is
 understandable, but his proof doesn't address what is, to me, the
 most interesting part the phenomenon.  In order to prove that ``sync
 was inevitable,'' Strogatz makes several simplifying assumptions, in
-particular that all fireflies can see all other fireflies.
+particular that each firefly can see all the others.
 
 In my opinion, it is more interesting to explain how an entire valley
 of fireflies can synchronize {\em despite the fact that they cannot
   all see each other}.  How this kind of global behavior emerges from
 local interactions is the subject of Chapter~\ref{agent-based}.
 Explanations of these phenomena often use agent-based models, which
-can explore (in ways that would be difficult or impossible with
+explore (in ways that would be difficult or impossible with
 mathematical analysis) the conditions that allow or prevent
 synchronization.
 
-I am a computer scientist, so my enthusiasm for computational
-models is probably no surprise.  I don't mean to say that Strogatz
-is wrong and I am right, but rather that reasonable people
-disagree about what questions to ask and what tools to use to answer
-them.  These decisions are based on value judgments, not data, so
-there is no reason to expect agreement.
+I am a computer scientist, so my enthusiasm for computational models
+is probably no surprise.  I don't mean to say that Strogatz is wrong,
+but rather that people disagree about what questions to ask and what
+tools to use to answer them.  These decisions are based on value
+judgments, so there is no reason to expect agreement.
 
-Nevertheless, there is a rough consensus among scientists
+Nevertheless, there is rough consensus among scientists
 about which models are considered good science, and which others
-might be fringe science, pseudoscience, or not science at all.
+are fringe science, pseudoscience, or not science at all.
 
-But I claim, and this is a central thesis of this book, that the
+I claim, and this is a central thesis of this book, that the
 criteria this consensus is based on change over time, and that
 the emergence of complexity science reflects a gradual shift in
 these criteria.
@@ -649,22 +662,22 @@ these criteria.
 
 \section{The axes of scientific models}
 
-I have described classical models as based on physical laws,
-expressed in the form of equations, and solved by mathematical
-analysis; conversely, models of complexity systems are often
-based on simple rules and implemented as computations.
+I have described classical models as based on physical laws, expressed
+in the form of equations, and solved by mathematical analysis;
+conversely, models of complexity systems are often based on simple
+rules and implemented as computations.
 
 We can think of this trend as a shift over time along two axes:
 
 \begin{description}
 
-\item[Equation-based $\rightarrow$ simulation-based]
+\item[Equation-based $\rightarrow$ simulation-based].
 
-\item[Analysis $\rightarrow$ computation]
+\item[Analysis $\rightarrow$ computation].
 
 \end{description}
 
-The new kind of science differs from the classical in several other
+The new kind of science is different in several other
 ways.  I present them here so you know what's coming, but some of them
 might not make sense until you have seen the examples later in the
 book.
@@ -687,7 +700,7 @@ book.
   determinism, discussed in Chapter~\ref{automata}; complex models
   often feature randomness.
 
-\item[Simple $\rightarrow$ complex] In classical models, planets are
+\item[Abstract $\rightarrow$ detailed] In classical models, planets are
   point masses, planes are frictionless, and cows are
   spherical (see \url{http://en.wikipedia.org/wiki/Spherical_cow}).
   Simplifications like these are often necessary for analysis,
@@ -696,7 +709,7 @@ book.
 \item[One, two $\rightarrow$ many] In celestial mechanics, the
   two-body problem can be solved analytically; the three-body problem
   cannot.  Where classical models are often limited to
-  small numbers of interacting elements, complexity science handles
+  small numbers of interacting elements, complexity science works with
   larger complexes (which is where the name comes from).
 
 \item[Homogeneous $\rightarrow$ composite] In classical models, the
@@ -705,12 +718,12 @@ book.
 
 \end{description}
 
-These are generalizations, of course, so we should not take them
-too seriously.  By describing these trends, I don't mean to deprecate
+These are generalizations, so we should not take them
+too seriously.  And I don't mean to deprecate
 classical science.  A more complicated model is not necessarily better;
 in fact, it is usually worse.
 
-And I don't mean to say that these changes are abrupt or complete.
+Also, I don't mean to say that these changes are abrupt or complete.
 Rather, there is a gradual migration in the frontier of what is
 considered acceptable, respectable work.  Some tools that used
 to be regarded with suspicion are now common, and some 
@@ -725,17 +738,17 @@ universally) accepted.
 
 Conversely, a substantial body of economic analysis is based on a
 model of human behavior called ``Economic man,'' or, with tongue in
-cheek, {\em Homo economicus}.  Research based on this model was
+cheek, {\it Homo economicus}.  Research based on this model was
 highly-regarded for several decades, especially if it involved
-mathematical virtuosity.  More recently, this model is regarded
-with more skepticism, and models that include imperfect information and
+mathematical virtuosity.  More recently, this model is treated with
+more skepticism, and models that include imperfect information and
 bounded rationality are hot topics.
 
 
 \section{A new kind of model}
 
-Complex models are often appropriate
-for different purposes and interpretations:
+Complex models are often appropriate for different purposes and
+interpretations:
 
 \begin{description}
 
@@ -746,35 +759,33 @@ of celestial mechanics can predict solar eclipses, down to the second,
 years in the future.
 
 \item[Realism $\rightarrow$ instrumentalism] Classical models lend
-themselves to a realist interpretation; for example, most people
-would accept that electrons are real things that exist.  Instrumentalism
-is the view that models can be useful even if the entities they
-postulate don't exist.  
+  themselves to a realist interpretation; for example, most people
+  accept that electrons are real things that exist.  Instrumentalism
+  is the view that models can be useful even if the entities they
+  postulate don't exist.  George Box wrote what might be the motto of
+  instrumentalism: ``All models are wrong, but some are useful."
 
-\item[Reductionism $\rightarrow$ holism] Reductionism is the view
-that the behavior of a system can be explained by understanding
-its components.  For example, the periodic table of the elements is
-a triumph of reductionism, because it explains 
-the chemical behavior of elements with a simple model of
-the electrons in an atom.  Holism is the view that
-some phenomena that appear at the system level do not exist at the
-level of components, and cannot be explained in component-level
-terms.
+\item[Reductionism $\rightarrow$ holism] Reductionism is the view that
+  the behavior of a system can be explained by understanding its
+  components.  For example, the periodic table of the elements is a
+  triumph of reductionism, because it explains the chemical behavior
+  of elements with a simple model of the electrons in an atom.  Holism
+  is the view that some phenomena that appear at the system level do
+  not exist at the level of components, and cannot be explained in
+  component-level terms.
 
 \end{description}
 
-I am worried about introducing some of these ideas now because it
-is hard to present them briefly without oversimplifying.  We
-get back to explanatory models in Chapter~\ref{scale-free},
-instrumentalism in Chapter~\ref{life} and
-holism in Chapter~\ref{soc}.
+We get back to explanatory models in Chapter~\ref{scale-free},
+instrumentalism in Chapter~\ref{life} and holism in Chapter~\ref{soc}.
 
 
 \section{A new kind of engineering}
 
 I have been talking about complex systems in the context of science,
-but complexity is also the cause, and effect, of gradual
-changes in the nature of engineering:
+but complexity is also a cause, and effect, of
+changes in engineering and the organization of social
+systems:
 
 \begin{description}
 
@@ -801,23 +812,25 @@ changes in the nature of engineering:
 \item[top-down $\rightarrow$ bottom-up] In social, political and
   economic systems, many activities that would normally be centrally
   organized now operate as grassroots movements.  Even armies, which
-  are the canonical example of a hierarchical structure, are moving
+  are the canonical example of hierarchical structure, are moving
   toward devolved command and control.
 
 \item[analysis $\rightarrow$ computation] In classical engineering,
-  the space of feasible designs was limited by our capability for
+  the space of feasible designs is limited by our capability for
   analysis.  For example, designing the Eiffel Tower was possible
   because Gustave Eiffel developed novel analytic techniques, in
   particular for dealing with wind load.  Now tools for computer-aided
   design and analysis make it possible to build almost anything that
-  can be imagined.  Frank Gehry's Guggenheim Museum Bilbao is a
-  salient example.
+  can be imagined.  Frank Gehry's Guggenheim Museum Bilbao is my
+  favorite example.
 
 \item[design $\rightarrow$ search] Engineering is sometimes described
   as a search for solutions in a landscape of possible designs.
   Increasingly, the search process can be automated.  For example,
-  genetic algorithms can explore large design spaces and discover
-  solutions human engineers would not have imagined.
+  genetic algorithms explore large design spaces and discover
+  solutions human engineers would not imagine (or like).  The ultimate
+  genetic algorithm, evolution, notoriously generates designs that
+  violate the rules of human engineering.
 
 \end{description}
 
@@ -836,7 +849,7 @@ developments in logic and epistemology.
   ways) for many real-world applications.  Alternatives include
   many-valued logic, fuzzy logic, and other systems designed to handle
   indeterminacy, vagueness, and uncertainty.  Bart
-  Kosko discusses the emergence of these systems in {\em Fuzzy
+  Kosko discusses some of these systems in {\em Fuzzy
     Thinking}.
 
 \item[frequentist probability $\rightarrow$ Bayesianism] Bayesian
@@ -847,12 +860,13 @@ developments in logic and epistemology.
   history in {\em The Theory That Would Not Die}.
 
 \item[objective $\rightarrow$ subjective] The Enlightenment, and
-  philosophic modernism, are based on belief in objective truth: that
-  is, truths that are independent of the people that who them.  20th
+  philosophic modernism, are based on belief in objective truth; that
+  is, truths that are independent of the people that hold them.  20th
   Century developments including quantum mechanics, G\:{o}del's
   Incompleteness Theorem, and Kuhn's study of the history of science
   called attention to seemingly unavoidable subjectivity in
-  even ``hard sciences'' and mathematics.
+  even ``hard sciences'' and mathematics.  Rebecca Goldstein presents
+  the historical context of G\:{o}del's proof in {\it Incompleteness}.
 
 \item[Physical law $\rightarrow$ theory $\rightarrow$ model]
   Some people distinguish between laws, theories, and models, but
@@ -876,28 +890,22 @@ developments in logic and epistemology.
 
 \end{description}
 
-These trends are neither universal nor complete, but the center of
+These trends are not universal or complete, but the center of
 opinion is shifting along these axes.  As evidence, consider the
 reaction to Thomas Kuhn's {\em The Structure of Scientific
   Revolutions}, which was reviled when it was published and
 now considered almost uncontroversial.
 
-These trends are both cause and effect of complexity science.
-For example, the use of highly abstracted models is more acceptable
-now because of the diminished expectation that 
-there should be a ``Theory of Everything.''  Conversely,
-developments in complex systems challenge determinism and the
-related concept of physical law. 
+These trends are both cause and effect of complexity science.  For
+example, highly abstracted models are more acceptable now because of
+the diminished expectation that there should be unique correct model
+for every system.  Conversely, developments in complex systems
+challenge determinism and the related concept of physical law.
 
-This chapter is intended to provide an overview of the themes
-coming up in the book.  Of course, not all of it will make sense before
-you see the examples in the rest of the book.  When you get to
-the end of the book, you might find it helpful to come back and
-read this chapter again.
-
-If you already read the book and this is your second iteration, you
-should stop reading and get to work on your case study (see
-Appendix~\ref{submissions}).
+This chapter is an overview of the themes coming up in the book, but
+not all of it will make sense before you see the examples.  When you
+get to the end of the book, you might find it helpful to read this
+chapter again.
 
 
 \chapter{Graphs}
@@ -2307,14 +2315,14 @@ higher, but that's not important.  The important thing is that it
 is constant time!
 \index{average cost}
 
-The following figure shows how this works graphically.  Each
+Figure~\ref{fig.hash} shows how this works graphically.  Each
 block represents a unit of work.  The columns show the total
 work for each add in order from left to right: the first two
 {\tt adds} cost 1 units, the third costs 3 units, etc.
 
 \begin{figure}
 \centerline{\includegraphics[width=5.5in]{figs/towers.pdf}}
-\caption{Caption.}
+\caption{The cost of a hashtable add.\label{fig.hash}}
 \end{figure}
 
 The extra work of rehashing appears as a sequence of increasingly
@@ -3319,6 +3327,11 @@ value = cdf.Value(0.5)
 
 The value with probability 0.5 is the median, which in this example is 2.
 
+\begin{figure}
+\centerline{\includegraphics[width=3.0in]{figs/cdf_example.pdf}}
+\caption{CDF of the values (1,2,2,4,5).\label{fig.cdf}}
+\end{figure}
+
 To plot the {\tt Cdf}, you can use {\tt Render}, which returns
 a list of value-probability pairs.
 
@@ -3359,13 +3372,8 @@ import matplotlib.pyplot as pyplot
     pyplot.show()
 \end{verbatim}
 
-The following figure shows the cumulative distribution
+Figure~\ref{fig.cdf} shows the cumulative distribution
 function (CDF), for the values $(1,2,2,4,5)$.
-
-\begin{figure}
-\centerline{\includegraphics[width=3.0in]{figs/cdf_example.pdf}}
-\caption{Caption.}
-\end{figure}
 
 I drew vertical lines at each of the values, which is not
 mathematically correct.  To be more rigorous, I should draw
@@ -3989,15 +3997,13 @@ as a binary number.  Because 00110010 in binary is 50 in
 decimal, Wolfram calls this CA ``Rule 50.''
 \index{enumeration}
 
-The following figure shows the effect of Rule 50 over 10
-time steps:
-
 \begin{figure}
 \centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-50-10.pdf}}
-\caption{Caption.}
+\caption{Rule 50 after 10 time steps.\label{fig.rule50}}
 \end{figure}
 
-The first row shows the state of the system during the first
+Figure~\ref{fig.rule50} shows the effect of Rule 50 over 10
+time steps.  The first row shows the state of the system during the first
 time step; it starts with one cell ``on'' and the rest ``off''.
 The second row shows the state of the system during the
 next time step, and so on.
@@ -4013,6 +4019,11 @@ that includes all of the cells that can be affected by it.
 
 \section{Implementing CAs}
 
+\begin{figure}
+\centerline{\includegraphics[height=1.5in]{figs/array.pdf}}
+\caption{A list of lists (left) and a Numpy array (right).\label{fig.array}}
+\end{figure}
+
 To generate the previous figure, I wrote a Python program that
 implements and draws CAs.
 You can download my code from \url{thinkcomplex.com/CA.py}.
@@ -4021,20 +4032,14 @@ and \url{thinkcomplex.com/CADrawer.py}.
 
 To store the state of the CA, I use a NumPy array.  An array is a
 multi-dimensional data structure whose elements are all the same type.
-It is similar to a nested list, but usually smaller and faster.  The
-following figure shows why:
-\index{NumPy}
-\index{array}
-\index{nested list}
-
-\begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/array.pdf}}
-\caption{Caption.}
-\end{figure}
-
+It is similar to a nested list, but usually smaller and faster.  
+Figure~\ref{fig.array} shows why.
 The diagram on the left shows a list of lists of integers; each
 dot represents a reference, which takes up 4--8 bytes.  To access
 one of the integers, you have to follow two references.
+\index{NumPy}
+\index{array}
+\index{nested list}
 \index{reference}
 
 The diagram on the right shows an array of the same integers.  Because
@@ -4241,6 +4246,11 @@ You can download my solution from
 
 \section{Classifying CAs}
 
+\begin{figure}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-18-64.pdf}}
+\caption{Rule 17 after 64 steps.\label{fig.rule18}}
+\end{figure}
+
 Wolfram proposes that the behavior of CAs can be grouped
 into four classes.  Class 1 contains the simplest (and least
 interesting) CAs, the ones that evolve from almost any starting
@@ -4250,36 +4260,32 @@ Rule 0 always generates an empty pattern after one time step.
 
 Rule 50 is an example of Class 2.  It generates a simple pattern with
 nested structure; that is, the pattern contains many smaller versions
-of itself.  Rule 18 makes the nested structure even clearer; here is
-what it looks like after 64 steps:
-
-\begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-18-64.pdf}}
-\caption{Caption.}
-\end{figure}
-
+of itself.  Rule 18 makes the nested structure even clearer;
+Figure~\ref{fig.rule18} shows what it looks like after 64 steps.
+\index{Rule 18}
+ 
 This pattern resembles the Sierpi\'{n}ski triangle, which
 you can read about at \url{wikipedia.org/wiki/Sierpinski_triangle}.
 \index{Sierpi\'{n}ski triangle}
 
 Some Class 2 CAs generate patterns that are intricate and
-aesthetic, but compared to Classes 3 and 4, they are relatively
+pretty, but compared to Classes 3 and 4, they are relatively
 simple.
 
 
 \section{Randomness}
 
+\begin{figure}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-30-100.pdf}}
+\caption{Rule 30 after 100 time steps.\label{fig.rule30}}
+\end{figure}
+
 Class 3 is a pattern that generate randomness.
-Rule 30 is an example; here is what it looks like
-after 100 time steps:
+Rule 30 is an example; Figure~\ref{fig.rule30} shows what it looks like
+after 100 time steps.
 \index{randomness}
 \index{Class 3 behavior}
 \index{Rule 30}
-
-\begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-30-100.pdf}}
-\caption{Caption.}
-\end{figure}
 
 Along the left side there is an apparent pattern, and on the right
 side there are triangles in various sizes, but the center seems
@@ -4447,6 +4453,11 @@ back to this topic in Section~\ref{free.will}.
 
 \section{Structures}
 
+\begin{figure}
+\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-110-100.pdf}}
+\caption{Rule 110 after 100 time steps.\label{fig.rule110}}
+\end{figure}
+
 The behavior of Class 4 CAs is even more surprising.  Several 1-D CAs,
 most notably Rule 110, are {\bf Turing complete}, which means that
 they can compute any computable function.  This property, also called
@@ -4456,21 +4467,15 @@ they can compute any computable function.  This property, also called
 \index{universality}
 \index{Cook, Matthew}
 
-Here is a what Rule 110 looks like with an initial condition of
-a single cell and 100 time steps:
-\index{Rule 110}
-
-\begin{figure}
-\centerline{\includegraphics[width=3.0in,height=1.5in]{figs/rule-110-100.pdf}}
-\caption{Caption.}
-\end{figure}
-
+Figure~\ref{fig.rule110} is a what Rule 110 looks like with an initial
+condition of a single cell and 100 time steps.
 At this time scale it is not apparent that anything special is
 going on.  There are some regular patterns but also some features
 that are hard to characterize.
+\index{Rule 110}
 
-Figure~\ref{rule110} shows a bigger picture, starting with a random initial
-condition and 600 time steps:
+Figure~\ref{rule110} shows a bigger picture, starting with a random
+initial condition and 600 time steps:
 
 \begin{figure}
 \centerline{\includegraphics[width=5.5in,height=5.5in]{figs/rule-110-600-random.pdf}}
@@ -5389,26 +5394,25 @@ to zero.
 
 \section{Fractal CAs}
 
+\begin{figure}
+\centerline{\includegraphics[height=1.5in]{figs/fractal-254-4.pdf}}
+\caption{Rule 254 after 4 timesteps.\label{fig.rule254.1}}
+\end{figure}
+
+\begin{figure}
+\centerline{\includegraphics[height=1.5in]{figs/fractal-254-8.pdf}}
+\caption{Rule 254 after 8 timesteps.\label{fig.rule254.2}}
+\end{figure}
+
 To investigate the behavior of fractal dimension, we'll apply it
 to cellular automata.  Box-counting for CAs is simple; we
 just count the number of ``on'' cells.
 \index{fractal cellular automaton}
 
-As an example, consider Rule 254.  Here's what it looks like after
-$t=4$ time steps.
-\index{Rule 254}
-
-\begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/fractal-254-4.pdf}}
-\caption{Caption.}
-\end{figure}
-
-And here's what it looks like after $t=8$ time steps:
-
-\begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/fractal-254-8.pdf}}
-\caption{Caption.}
-\end{figure}
+As an example, consider Rule 254.  Figure~\ref{fig.rule254.1} shows
+what it looks like after $t=4$ time steps.  And
+Figure~\ref{fig.rule254.2} shows what it looks like after $t=8$ time
+steps.  \index{Rule 254}
 
 As $t$ increases, we can imagine the triangle getting bigger,
 but for purposes of box-counting, it makes more sense to imagine
@@ -5421,20 +5425,19 @@ of the triangle goes up quadratically.  More formally,
 $N(\veps) = \left( 1 / \veps \right)^2$, so $D_{box} = 2$.  And we conclude
 that a triangle is 2-dimensional.
 
-Rule 18 is more interesting.  Here's what it looks like after 64 steps:
-\index{Rule 18}
-
 \begin{figure}
 \centerline{\includegraphics[height=1.5in]{figs/rule-18-64.pdf}}
-\caption{Caption.}
+\caption{Rule 18 after 64 time steps.\label{fig.rule18.2}}
 \end{figure}
-
-And here's $N(\veps)$ versus $1/\veps$ on a log-log scale:
 
 \begin{figure}
 \centerline{\includegraphics[width=3.5in]{figs/fractal_dim-18-64.pdf}}
-\caption{Caption.}
+\caption{$N(\veps)$ versus $1/\veps$ for Rule 18.\label{fig.fractal}}
 \end{figure}
+
+Rule 18 is more interesting.  Figure~\ref{fig.rule18.2} shows what it
+looks like after 64 steps.  And Figure~\ref{fig.fractal} shows
+$N(\veps)$ versus $1/\veps$ on a log-log scale.  \index{Rule 18}
 
 To estimate $D_{box}$ I fit a line to this curve; its slope is 1.56.
 $D_{box}$ is a non-integer, which means that this set of
@@ -6437,18 +6440,18 @@ example, if they have different speed limits or following distances?
 
 \section{Boids}
 
-In 1987 Craig Reynolds published an article, ``Flocks, herds and
-schools: A distributed behavioral model,'' that describes an
-agent-based model of herd behavior.  Agents in this
-models are called ``boids,'' which is both a contraction of
-``bird-oid'' and an accented pronunciation of ``bird,'' (although
-boids are also used to model fish and herding land animals).
-\index{boid}
+In 1987 Craig Reynolds published ``Flocks, herds and
+schools: A distributed behavioral model,'' which describes an
+agent-based model of herd behavior.  You can download his
+paper from \url{http://www.red3d.com/cwr/papers/1987/boids.html}.
 \index{Reynolds, Craig}
 
-You can read an overview of the boid algorithm at
-\url{http://red3d.com/cwr/boids/}.  Each agent simulates three
-behaviors:
+Agents in this models are called ``boids,'' which is both a
+contraction of ``bird-oid'' and an accented pronunciation of ``bird,''
+(although boids are also used to model fish and herding land animals).
+\index{boid}
+
+Each agent simulates three behaviors:
 
 \begin{description}
 
@@ -6582,12 +6585,11 @@ different parameters.  What happens if you ``turn off'' one
 of the behaviors by setting the weight to 0?
 \index{parameter}
 
-To generate more bird-like behavior,
-Flake suggests adding a fourth behavior to maintain a clear
-line of sight; in other words, if there is another bird nearly
-directly ahead, the boid should move away laterally.  What effect
-do you expect this rule to have on the behavior of the flock?
-Implement it and see.
+To generate more bird-like behavior, Flake suggests adding a fourth
+behavior to maintain a clear line of sight; in other words, if there
+is another bird directly ahead, the boid should move away
+laterally.  What effect do you expect this rule to have on the
+behavior of the flock?  Implement it and see.
 
 \end{exercise}
 
@@ -6607,7 +6609,7 @@ Here is the presentation of the dilemma from
 Two suspects [Alice and Bob] are arrested by the police.  The police
 have insufficient evidence for a conviction, and, having separated the
 prisoners, visit each of them to offer the same deal.  If one
-testifies for the prosecution against the other (defects) and the
+testifies against the other (defects) and the
 other remains silent (cooperates), the defector goes free and the
 silent accomplice receives the full one-year sentence.  If both remain
 silent, both prisoners are sentenced to only one month in jail for a
@@ -6643,14 +6645,15 @@ This result is saddening because it is an example of how good intentions
 can lead to bad outcomes, and, unfortunately, it applies to other
 scenarios in real life, not just hypothetical prisoners.
 
-But in real life, the game is often iterated; that is, the same
+But in real scenarios, the game is often iterated; that is, the same
 players face each other over and over, so they have the opportunity
-to learn, react and communicate, at least implicitly.
+to learn, react, and communicate, at least implicitly.
 \index{iterated Prisoner's dilemma}
 
 The iterated version of the game is not as easy to analyze; it
 is not obvious what the optimal strategy is or even whether one
 exists.
+\index{strategy}
 
 So in the late 1970s Robert Axelrod organized a tournament to compare
 strategies.  He invited participants to submit strategies in the
@@ -6692,10 +6695,12 @@ opponent's responses.
 is even or odd and returns {\tt 'C'} or {\tt 'D'} respectively.
 
 Write a {\tt move} function in a file like {\tt PlayerFlipper.py}, but
-replace {\tt Flipper} with a name that summarizes your strategy.
+replace ``Flipper'' with a name that summarizes your strategy.
 
 Run {\tt Referee.py} and see how your strategy does.
 
+After you run your own tournament, you can read about the results
+of Axelrod's tournament in his book, {\it The Evolution of Cooperation}.
 \end{exercise}
 
 
@@ -6710,10 +6715,9 @@ from the interaction of its components, not from their properties.
 To clarify what emergence is, it helps to consider what it isn't.  For
 example, a brick wall is hard because bricks and mortar are hard, so
 that's not an emergent property.  As another example, some rigid
-structures are built from flexible components, so that seems like
-a kind of emergence.  But it is at best a weak kind,
-because structural properties follow from well-understood laws of
-mechanics.
+structures are built from flexible components, so that seems like a
+kind of emergence.  But it is at best a weak kind, because structural
+properties follow from well-understood laws of mechanics.
 \index{brick wall}
 
 Emergent properties are surprising: it is hard to predict the behavior
@@ -6738,13 +6742,13 @@ outcome is to implement the system.
 The same may be true of complex systems in general.  For physical
 systems with more than a few components, there is usually no model
 that yields an analytic solution.  Numerical methods provide a kind of
-computational shortcut, but there is a qualitative difference.
+computational shortcut, but there is still a qualitative difference.
 Analytic solutions often provide a constant-time algorithm for
 prediction; that is, the run time of the computation does not depend
 on $t$, the time scale of prediction.  But numerical methods,
 simulation, analog computation, and similar methods take time
 proportional to $t$.  And for many systems, there is a bound on $t$
-beyond which we can't compute predictions at all.
+beyond which we can't compute reliable predictions at all.
 
 These observations suggest that emergent properties are fundamentally
 unpredictable, and that for complex systems we should not expect to
@@ -6755,12 +6759,13 @@ reckoning, a property is emergent if we don't have a reductionist
 explanation for it, but if we come to understand it better in the
 future, it would no longer be emergent.
 
-The status of emergent properties is under contention, so critical
-inquiry is appropriate. When we see an apparently emergent property,
+The status of emergent properties is a topic of debate, so it is
+appropriate to be skeptical.
+When we see an apparently emergent property,
 we should not assume that there can never be a reductionist explanation.
 But neither should we assume that there has to be one.  The examples
-we have seen in this book, and the principle of computational
-equivalence, give good reasons to believe that at least some
+in this book and the principle of computational
+equivalence give good reasons to believe that at least some
 emergent properties can never be ``explained'' by a
 classical reductionist model.
 
@@ -6768,11 +6773,11 @@ You can read more about emergence at
 \url{http://en.wikipedia.org/wiki/Emergence}.
 
 
-\section{Free will}
+\section{Emergence and free will}
 \label{free.will}
 
 Many complex systems have properties, as a whole, that their
-components do not have:
+components do not:
 
 \begin{itemize}
 
@@ -6796,13 +6801,13 @@ components do not have:
 
 \end{itemize}
 
-These examples suggest a new approach to several old and challenging
+These examples suggest an approach to several old and challenging
 questions, including the problems of consciousness and free will.
 
 Free will is the ability to make choices, but if our bodies and brains
 are governed by deterministic physical laws, our actions would be
-determined.  I won't try to present the many arguments about free will
-systematically, but I will mention two:
+determined.  Arguments about free will are innumerable; I will
+only mention two:
 
 \begin{itemize}
 
@@ -6822,11 +6827,11 @@ These arguments reconcile the conflict in opposite ways, but they
 agree that there is a conflict: the system cannot have free will if
 the parts are deterministic.
 
-The complex systems we have seen in this book suggest the alternative
+The complex systems in this book suggest the alternative
 that free will, at the level of options and decisions, is compatible
 with determinism at the level of neurons (or some lower level).  In
 the same way that a traffic jam moves backward while the cars move
-forward, a person has free will even though neurons don't.
+forward, a person can have free will even though neurons don't.
 
 
 \begin{exercise}
@@ -6851,119 +6856,18 @@ John Searle presented a thought experiment called ``The Chinese Room,''
 intended to show that {\em Strong AI} is false.  You can read about
 it at \url{http://en.wikipedia.org/wiki/Chinese_room}.
 
-What is the {\em system reply} to the Chinese Room argument?
+What is the {\bf system reply} to the Chinese Room argument?
 How does what you have learned about complexity science influence
 your reaction to the system response?
 
 \end{exercise}
 
-You have reached the end of the book.  Congratulations!  When you read
-Chapter~\ref{overview}, some of the topics might not have made sense.
-You might find it helpful to read that chapter again now.  Then get to
-work on your case study (see Appendix~\ref{submissions}).
+You have reached the end of the book.  Congratulations!  When you
+first read Chapter~\ref{overview}, some of the topics might not have
+made sense.  You might find it helpful to read that chapter again now.
+Then get to work on your case study!  See Appendix~\ref{submissions}.
 
-
-\appendix
-
-\chapter{Reading list}
-\label{reading}
-
-In my class we start the semester by reading popular books about
-complexity science.  They provide a pleasant way to get a big picture
-of the field and start to see connections between topics.
-
-One problem with these books is that
-they are written for a non-technical audience, so after a while
-the students get frustrated by the vagueness and hand-waving.
-That's what {\em this} book is for.
-
-The other problem is that students can't read 30 books in a week, or
-even a semester.  Instead, I provide
-one copy of each book and ask the students to pick one, read
-the first chapter, write a summary, and post it on the class web page.
-
-During the next class session, the students swap books.  Each student
-reads the summary written by the previous student, then reads the
-next chapter, and writes a summary.
-
-After a few iterations, we have a class discussion where students
-report what they have read so far and we look for connections.  For
-example, one student might present a topic, then another student
-suggests a related topic and explains the relationship.  I draw the
-topics and the relationships between them on the board (see
-\url{http://en.wikipedia.org/wiki/Concept_map}).
-
-We repeat this exercise until we have seen what there is to see, or we
-are impatient to get down to business.
-
-You can see the list of books, and read the summaries my students
-wrote, at \url{https://sites.google.com/site/compmodolin}.
-
-Here are the books:
-
-\begin{itemize}
-
-\item Axelrod, {\it  Complexity of Cooperation}.
-
-\item Axelrod, {\it  The Evolution of Cooperation}.
-
-\item Bak, {\it  How Nature Works}.
-
-\item Barabasi, {\it  Linked}.
-
-\item Buchanan, {\it  Nexus}.
-
-\item Epstein and Axtell, {\it  Growing Artificial Societies: Social Science from the Bottom Up}.
-
-\item Fisher, {\it  The Perfect Swarm}.
-
-\item Flake, {\it  The Computational Beauty of Nature}.
-
-\item Goodwin, {\it  How the Leopard Changed Its Spots}.
-
-\item Holland, {\it  Hidden Order}.
-
-\item Johnson, {\it  Emergence}.
-
-\item Kelly, {\it  Out of Control}.
-
-\item Kluger, {\it  Simplexity}.
-
-\item Levy, {\it  Artificial Life}.
-
-\item Lewin, {\it  Complexity: Life at the Edge of Chaos}.
-
-\item Mitchell, {\it  Complexity: A Guided Tour}.
-
-\item Mitchell Waldrop: Complexity, {\it  the emerging science at the edge of order and chaos}.
-
-\item Resnick, {\it  Turtles, Termites, and Traffic Jams}.
-
-\item Rucker, {\it  The Lifebox, The Seashell, and the Soul}.
-
-\item Sawyer, {\it  Social Emergence: Societies As Complex Systems}.
-
-\item Schelling, {\it  Micromotives and Macrobehaviors}.
-
-\item Schiff, {\it  Cellular Automata: A Discrete View of the World}.
-
-\item Strogatz, {\it  Sync}.
-
-\item Watts, {\it  Six Degrees}.
-
-\item Wolfram, {\it  A New Kind Of Science}.
-
-\end{itemize}
-
-\chapter{Call for submissions}
-\label{submissions}
-
-Criteria
-
-How to submit a case study
-
-
-\chapter{Sugarscape}
+\chapter{Case study: Sugarscape}
 
 {\em Dan Kearney, Natalie Mattison and Theo Thompson}
 
@@ -6972,7 +6876,7 @@ How to submit a case study
 Sugarscape is an agent-based model developed by Joshua M. Epstein and
 Robert Axtell to investigate the economics of wealth distribution.
 They presented the original model in their book,
-\underline{Growing Artificial Societies}.
+{\it Growing Artificial Societies}.
 
 The sugarscape is a virtual 2D grid where each cell has a certain
 amount of abstract wealth, called sugar.  Agents roam the grid
@@ -7098,28 +7002,19 @@ investment into the Sugarscape, and increasing the total wealth.
 
 \section{The Gini coefficient}
 
-To compare the effect of taxation on wealth distribution, we need a
-metric that measures how distributed or flat a certain wealth
-distribution is.  We use the Gini coefficient, which is often used in
-economics to measure the wealth gap (see \url{http://en.wikipedia.org/wiki/Gini_coefficient}). The Gini coefficient
-is between 0 and 1, with 0 the measurement of a perfectly uniform
-distribution, and 1 the measurement of a distribution with complete
-inequality.
-
-\begin{figure}[ht]
-\centerline{\includegraphics[width=3.0in]{figs/lorenz.pdf}}
-\caption{Lorenz curves for different tax rates.\label{fig.lorenz}}
-\end{figure}
-
-A good way to visualize Gini coefficients is with a Lorenz curve (see
-\url{http://en.wikipedia.org/wiki/Lorenz_curve}).  A society's wealth inequality is represented by the
-curvature of the graph, where a perfectly distributed society is a
-straight line.
-
 \begin{figure}[ht]
 \centerline{\includegraphics[width=3.0in]{figs/pmf_notax.pdf}}
 \caption{Histogram of wealth with no tax.\label{fig.notax}}
 \end{figure}
+
+To compare the effect of taxation on wealth distribution, we need a
+metric that measures how distributed or flat a certain wealth
+distribution is.  We use the Gini coefficient, which is often used in
+economics to measure the wealth gap (see
+\url{http://en.wikipedia.org/wiki/Gini_coefficient}). The Gini
+coefficient is between 0 and 1, with 0 the measurement of a perfectly
+uniform distribution, and 1 the measurement of a distribution with
+complete inequality.
 
 Figure~\ref{fig.notax} shows a histogram describing the wealth
 distribution when there is no tax system in place. For most initial
@@ -7147,11 +7042,11 @@ middle class.
 
 Figure~\ref{fig.withtax} shows the effect of a relatively high tax
 rate. The agents have a similar amount of sugar, and the economy has a
-very low Gini coefficient (.02).
+low Gini coefficient, 0.02.
 
-Figure~\ref{fig.gini} confirms this, showing that
+Figure~\ref{fig.gini} shows that
 higher taxes in general result in lower Gini coefficients. This makes
-sense, since the point of our tax system is to redistribute the
+sense, since the point of our tax system is to redistribute
 wealth.
 
 \begin{figure}[ht]
@@ -7159,7 +7054,7 @@ wealth.
 \caption{Mean wealth versus tax rate.\label{fig.wealth}}
 \end{figure}
 
-But in this model, perfect equality comes at a price.  With no taxation
+In this model, perfect equality comes at a price.  With no taxation
 the mean wealth was 358; with a 20\% tax rate it drops to 157.
 Figure~\ref{fig.wealth} shows the effect of tax rate on wealth;
 mean wealth gets smaller as taxes get higher.
@@ -7194,10 +7089,18 @@ especially the model of productivity.  But this simple model
 provides a way to explore relationships between wealth creation,
 taxation and inequality.
 
-% Exercise: download code?
+\begin{exercise}
+
+You can download our implementation of Sugarscape from
+\url{thinkcomplex.py/Sugarscape.zip}.  Launch it by running
+{\tt Gui.py}.  The sliders allow you to control the parameters
+of the simulation.  Experiment with these parameters to see what
+effect they have on the distribution of wealth.
+
+\end{exercise}
 
 
-\chapter{Ant Trails and Agent-Based Models}
+\chapter{Case study: Ant trails}
 
 {\em Chloe Vilain and Andrew Pikler}
 
@@ -7251,7 +7154,7 @@ constant stream of outgoing ants.
 
 \begin{figure}
 \centerline{\includegraphics[width=3.0in]{figs/antchoice.pdf}}
-\caption{In the model, ants live in a grid and face away from the nest. At each time step, they can move forward left or forward right.\label{fig.antchoice}}
+\caption{At each time step, ants move forward left or forward right.\label{fig.antchoice}}
 \end{figure}
 
 Once an ant has found food, it turns back towards the nest. It obeys
@@ -7265,7 +7168,7 @@ more food.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[width=3.0in]{figs/plot.pdf}}
-\caption{Plot of our simulation after 1000 time steps.\label{fig.plot}}
+\caption{The simulation after 1000 time steps.\label{fig.plot}}
 \end{figure}
 
 In its starting configuration, each point in the world has a chance of
@@ -7508,7 +7411,7 @@ their interations yield realistic, complex, and sometimes
 unpredictable, behavior.
 
 
-\chapter{Directed Graphs and Knots}
+\chapter{Case study: Directed graphs and knots}
 
 {\em Rachel Bobbins and Noam Rubin}
 
@@ -7730,7 +7633,7 @@ and their citations cannot have a knot.
 
 
 
-\chapter{The Volunteer's Dilemma}
+\chapter{Case study: The Volunteer's Dilemma}
 
 {\em Molly Grossman, Mandy Korpusik, and Philip Loh}
 
@@ -7951,7 +7854,7 @@ for generations in range(many):
   \begin{center}
     \includegraphics[width=0.75\textwidth]{figs/replicateNorms_stableBV_03.png}
   \end{center}
-  \caption{Plot of stable states of the norms game after 300 generations.\label{fig.normsRep}}
+  \caption{End conditions after 300 generations.\label{fig.normsRep}}
 \end{figure}
 
 Each run starts with a random population and runs for 300 generations.
@@ -8025,7 +7928,7 @@ high-boldness scenario is stable, which is why this cluster exists.
   \begin{center}
     \includegraphics[width=0.75\textwidth]{figs/varyCP_09.png}
   \end{center}
-  \caption{Contour plot of proportion of good outcomes, varying the cost of reporting cheaters and the punishment for cheating.}\label{fig.varyCP}
+  \caption{Proportion of good outcomes, varying the cost of reporting cheaters and the punishment for cheating.}\label{fig.varyCP}
 \end{figure}
 
 Suppose you are founding a new college and thinking about the academic
@@ -8097,6 +8000,152 @@ costs and benefits.  You can read more about Game Theory at
 
 
 % END OF CASE STUDIES
+
+\appendix
+
+\chapter{Call for submissions}
+\label{submissions}
+
+The case studies in this book were written by students at Olin
+College, and edited by Lisa Downey and Allen Downey.  They
+were reviewed by a program committee of faculty at Olin College
+who chose the ones that met the criteria of interest and quality.
+I am grateful to the program committee and the students.
+
+I invite readers to submit additional case studies.  Reports
+that meet the criteria will be published in an online supplement
+to this book, and the best of them will be included in future
+print editions.
+
+The criteria are:
+
+\begin{itemize}
+
+\item The case study should be relevant to complexity.  For an
+  overview of possible topics, see
+  \url{http://en.wikipedia.org/wiki/Complexity} and
+  \url{http://en.wikipedia.org/wiki/Complex_systems}.  Topics
+  not already covered in the book are particularly welcome.
+
+\item A good case study might present a seminal paper, reimplement
+  an important experiment, discuss the results, and explain their
+  context.  Original research is not necessary, and might not
+  be appropriate for this format, but you could extend existing
+  results.
+
+\item A good case study should invite the reader to participate
+  by including exercises, references to further reading, and
+  topics for discussion.
+
+\item The case study should present enough technical detail that
+   reader could implement the model in a language like Python.
+
+\item If you use an algorithm or data structure that deserves comment,
+  you should discuss it.  Topics not covered in the book, including
+  tree algorithms and dynamic programming, are particularly welcome.
+
+\item If you use a feature of Python or a module that you think
+  will interest readers, you should discuss it.  But you should
+  stick to modules that are in widespread use and either included
+  in Python distributions or easy to install.
+
+\end{itemize}
+
+For more details, see \url{thinkcomplex.com/case_studies}.
+
+
+\chapter{Reading list}
+\label{reading}
+
+In my class we start the semester by reading popular books about
+complexity science.  They provide a pleasant way to get a big picture
+of the field and start to see connections between topics.
+
+One problem with these books is that
+they are written for a non-technical audience, so after a while
+the students get frustrated by the vagueness and hand-waving.
+That's what {\em this} book is for.
+
+The other problem is that students can't read 30 books in a week, or
+even a semester.  Instead, I provide
+one copy of each book and ask the students to pick one, read
+the first chapter, write a summary, and post it on the class web page.
+
+During the next class session, the students swap books.  Each student
+reads the summary written by the previous student, then reads the
+next chapter, and writes a summary.
+
+After a few iterations, we have a class discussion where students
+report what they have read so far and we look for connections.  For
+example, one student might present a topic, then another student
+suggests a related topic and explains the relationship.  I draw the
+topics and the relationships between them on the board (see
+\url{http://en.wikipedia.org/wiki/Concept_map}).
+
+We repeat this exercise until we have seen what there is to see, or we
+are impatient to get down to business.
+
+You can see the list of books, and read the summaries my students
+wrote, at \url{https://sites.google.com/site/compmodolin}.
+
+Here are the books:
+
+\begin{itemize}
+
+\item Axelrod, {\it  Complexity of Cooperation}.
+
+\item Axelrod, {\it  The Evolution of Cooperation}.
+
+\item Bak, {\it  How Nature Works}.
+
+\item Barabasi, {\it  Linked}.
+
+\item Buchanan, {\it  Nexus}.
+
+\item Epstein and Axtell, {\it  Growing Artificial Societies: Social Science from the Bottom Up}.
+
+\item Fisher, {\it  The Perfect Swarm}.
+
+\item Flake, {\it  The Computational Beauty of Nature}.
+
+\item Goodwin, {\it  How the Leopard Changed Its Spots}.
+
+\item Holland, {\it  Hidden Order}.
+
+\item Johnson, {\it  Emergence}.
+
+\item Kelly, {\it  Out of Control}.
+
+\item Kluger, {\it  Simplexity}.
+
+\item Levy, {\it  Artificial Life}.
+
+\item Lewin, {\it  Complexity: Life at the Edge of Chaos}.
+
+\item Mitchell, {\it  Complexity: A Guided Tour}.
+
+\item Mitchell Waldrop: Complexity, {\it  the emerging science at the edge of order and chaos}.
+
+\item Resnick, {\it  Turtles, Termites, and Traffic Jams}.
+
+\item Rucker, {\it  The Lifebox, The Seashell, and the Soul}.
+
+\item Sawyer, {\it  Social Emergence: Societies As Complex Systems}.
+
+\item Schelling, {\it  Micromotives and Macrobehaviors}.
+
+\item Schiff, {\it  Cellular Automata: A Discrete View of the World}.
+
+\item Strogatz, {\it  Sync}.
+
+\item Watts, {\it  Six Degrees}.
+
+\item Wolfram, {\it  A New Kind Of Science}.
+
+\end{itemize}
+
+
+
 
 \printindex
 
