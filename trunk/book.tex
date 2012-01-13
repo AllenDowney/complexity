@@ -37,11 +37,15 @@
 %%-----------------------------------------------------------------
 
 \documentclass[10pt]{book}
-\pdfminorversion=5
-\pdfobjcompresslevel=2
+%\pdfminorversion=5
+%\pdfobjcompresslevel=2
 
 \usepackage[width=5.5in,height=8.0in,
   hmarginratio=3:2,vmarginratio=1:1]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{mathpazo}
 
 \usepackage{url}
 \usepackage{fancyhdr}
@@ -55,7 +59,7 @@
 \usepackage{upquote}
 
 \newcommand{\thetitle}{Think Complexity}
-\newcommand{\theversion}{1.0.6}
+\newcommand{\theversion}{1.1}
 
 \title{\thetitle}
 \author{Allen B. Downey}
@@ -367,10 +371,12 @@ Some features of this book intended for autodidacts are:
 This book will continue to be a work in progress.  You can read
 about ongoing developments at \url{http://www.facebook.com/thinkcomplexity}.
 
+\begin{flushleft}
 Allen B. Downey \newline
 Professor of Computer Science \newline
-Olin College of Engineering
-
+Olin College of Engineering \newline
+Needham, MA
+\end{flushleft}
 
 
 \section*{Contributor List}
@@ -490,6 +496,8 @@ science and natural science---that focuses on discrete models of
 physical systems.  \index{complexity science}
 In particular, it focuses on {\bf complex systems}, which are
 systems with many interacting components.  
+\index{complexity science}
+\index{complex systems}
 
 Complex systems include networks and graphs, cellular automata,
 agent-based models and swarms, fractals and self-organizing
@@ -506,6 +514,8 @@ presents his and others' work on cellular automata and describes a
 scientific approach to the study of computational systems.  We'll get
 back to Wolfram in Chapter~\ref{automata}, but I want to borrow his
 title for something a little broader.
+\index{Wolfram, Stephen}
+\index{New Kind of Science@{\it A New Kind of Science}}
 
 I think complexity is a ``new kind of science'' not because
 it applies the tools of science to a new subject, but because it
@@ -518,11 +528,15 @@ elliptical.  You might invoke Newton's law of universal
 gravitation and use it to write a differential equation that describes
 planetary motion.  Then you could solve the differential equation and
 show that the solution is an ellipse.  Voil\`{a}!
+\index{gravitation}
+\index{planetary motion}
 
 Most people find this kind of explanation satisfying.  It includes a
 mathematical derivation---so it has some of the rigor of a proof---and
 it explains a specific observation, elliptical orbits, by appealing to
 a general principle, gravitation.
+\index{proof}
+\index{natural law}
 
 Let me contrast that with a different kind of explanation.  Suppose
 you move to a city like Detroit that is racially segregated, and you
@@ -530,6 +544,9 @@ want to know why it's like that.  If you do some research, you might
 find a paper by Thomas Schelling called ``Dynamic Models of
 Segregation,'' which proposes a simple model of racial segregation
 (a copy is available from \url{http://statistics.berkeley.edu/~aldous/157/Papers/Schelling_Seg_Models.pdf}).
+\index{Schelling}
+\index{segregation}
+\index{Detroit}
 
 Here is a summary of the paper (from Chapter~\ref{agent-based}):
 
@@ -538,6 +555,7 @@ The Schelling model of the city is an array of cells where each cell
 represents a house.  The houses are occupied by two kinds of
 ``agents,'' labeled red and blue, in roughly equal numbers.  About
 10\% of the houses are empty.  \index{Schelling, Thomas}
+\index{agent}
 
 At any point in time, an agent might be happy or unhappy, depending
 on the other agents in the neighborhood.
@@ -570,17 +588,20 @@ Most obviously, the Schelling model is highly abstract, which is to
 say not realistic.  It is tempting to say that people are more complex
 than planets, but when you think about it, planets are just as complex
 as people (especially the ones that {\em have} people).
+\index{abstract model}
 
 Both systems are complex, and both models are based on
 simplifications; for example, in the model of planetary motion we
 include forces between the planet and its sun, and ignore interactions
 between planets.
+\index{simplification}
 
 The important difference is that, for planetary motion, we can defend
 the model by showing that the forces we ignore are smaller than the
 ones we include.  And we can extend the model to include other
 interactions and show that the effect is small.  For Schelling's model
 it is harder to justify the simplifications.
+\index{justification}
 
 To make matters worse, Schelling's model doesn't appeal to any
 physical laws, and it uses only simple computation, not mathematical
@@ -589,12 +610,13 @@ science, and many people find them less compelling, at least at first.
 But as I will try to demonstrate, these models do useful work,
 including prediction, explanation, and design.  One of the goals of
 this book is to explain how.
-
+\index{modeling}
 
 \section{Paradigm shift?}
 
 When I describe this book to people, I am often asked if this new kind
 of science is a paradigm shift.  I don't think so, and here's why.
+\index{paradigm shift}
 
 Thomas Kuhn introduced the term ``paradigm shift'' in {\em The
 Structure of Scientific Revolutions} in 1962.  It refers to a process
@@ -603,11 +625,14 @@ change, or where one theory is replaced by another.
 He presents as examples the Copernican revolution, the displacement
 of phlogiston by the oxygen model of combustion, and the emergence
 of relativity.
+\index{Kuhn, Thomas}
+\index{Structure of Scientific Revolutions@{\it The Structure of Scientific Revolutions}}
 
 The development of complexity science is not the replacement of
 an older model, but (in my opinion) a gradual shift in the criteria
 models are judged by, and in the kinds of models that are considered
 acceptable.
+\index{complexity science}
 
 For example, classical models tend to be law-based, expressed in the
 form of equations, and solved by mathematical derivation.  Models that
@@ -618,6 +643,10 @@ Not everyone finds these models satisfactory.  For example, in
 {\em Sync}, Steven Strogatz writes about his model of spontaneous
 synchronization in some species of fireflies.  He presents a
 simulation that demonstrates the phenomenon, but then writes:
+\index{Strogatz, Steven}
+\index{Sync@{\it Sync}}
+\index{fireflies}
+\index{synchronization}
 
 \begin{quote}
 I repeated the simulation dozens of times, for other random
@@ -633,6 +662,7 @@ understandable, but his proof doesn't address what is, to me, the
 most interesting part the phenomenon.  In order to prove that ``sync
 was inevitable,'' Strogatz makes several simplifying assumptions, in
 particular that each firefly can see all the others.
+\index{proof}
 
 In my opinion, it is more interesting to explain how an entire valley
 of fireflies can synchronize {\em despite the fact that they cannot
@@ -648,10 +678,13 @@ is probably no surprise.  I don't mean to say that Strogatz is wrong,
 but rather that people disagree about what questions to ask and what
 tools to use to answer them.  These decisions are based on value
 judgments, so there is no reason to expect agreement.
+\index{computational model}
 
 Nevertheless, there is rough consensus among scientists
 about which models are considered good science, and which others
 are fringe science, pseudoscience, or not science at all.
+\index{fringe science}
+\index{pseudoscience}
 
 I claim, and this is a central thesis of this book, that the
 criteria this consensus is based on change over time, and that
@@ -665,6 +698,7 @@ I have described classical models as based on physical laws, expressed
 in the form of equations, and solved by mathematical analysis;
 conversely, models of complexity systems are often based on simple
 rules and implemented as computations.
+\index{criteria for models}
 
 We can think of this trend as a shift over time along two axes:
 
@@ -687,33 +721,44 @@ book.
   based on continuous mathematics, like calculus; models of complex
   systems are often based on discrete mathematics, including graphs and
   cellular automata.
+\index{continuous}
+\index{discrete}
 
 \item[Linear $\rightarrow$ non-linear] Classical models are often
   linear, or use linear approximations to non-linear systems;
   complexity science is more friendly to non-linear models.  One example
   is chaos theory\footnote{Chaos is not covered in this book, but you can
   read about it at \url{http://en.wikipedia.org/wiki/Chaos}.}.
+\index{linear}
+\index{non-linear}
 
 \item[Deterministic $\rightarrow$ stochastic] Classical models are
   usually deterministic, which may reflect underlying philosophical
   determinism, discussed in Chapter~\ref{automata}; complex models
   often feature randomness.
+\index{deterministic}
+\index{stochastic}
 
 \item[Abstract $\rightarrow$ detailed] In classical models, planets are
   point masses, planes are frictionless, and cows are
   spherical (see \url{http://en.wikipedia.org/wiki/Spherical_cow}).
   Simplifications like these are often necessary for analysis,
   but computational models can be more realistic.
+\index{spherical cow}
+\index{cow, spherical}
 
 \item[One, two $\rightarrow$ many] In celestial mechanics, the
   two-body problem can be solved analytically; the three-body problem
   cannot.  Where classical models are often limited to
   small numbers of interacting elements, complexity science works with
   larger complexes (which is where the name comes from).
+\index{one, two, many}
 
 \item[Homogeneous $\rightarrow$ composite] In classical models, the
   elements tend to be interchangeable; complex models more often
   include heterogeneity.
+\index{homogeneous}
+\index{composite}
 
 \end{description}
 
@@ -728,12 +773,15 @@ considered acceptable, respectable work.  Some tools that used
 to be regarded with suspicion are now common, and some 
 models that were widely accepted are now regarded with scrutiny.
 
-For example, when Appel and Hacken proved the four-color theorem in
+For example, when Appel and Haken proved the four-color theorem in
 1976, they used a computer to enumerate 1,936 special cases that were,
 in some sense, lemmas of their proof.  At the time, many
 mathematicians did not consider the theorem truly proved.  Now
 computer-assisted proofs are common and generally (but not
 universally) accepted.
+\index{Appel, Kenneth}
+\index{Hacken, Wolfgang}
+\index{four-color theorem}
 
 Conversely, a substantial body of economic analysis is based on a
 model of human behavior called ``Economic man,'' or, with tongue in
@@ -742,12 +790,15 @@ highly-regarded for several decades, especially if it involved
 mathematical virtuosity.  More recently, this model is treated with
 more skepticism, and models that include imperfect information and
 bounded rationality are hot topics.
-
+\index{economic man}
+\index{Homo economicus}
+\index{economics}
 
 \section{A new kind of model}
 
 Complex models are often appropriate for different purposes and
 interpretations:
+\index{complex model}
 
 \begin{description}
 
@@ -756,6 +807,8 @@ of segregation might shed light on a complex social phenomenon, but
 it is not useful for prediction.  On the other hand, a simple model
 of celestial mechanics can predict solar eclipses, down to the second,
 years in the future.
+\index{predictive model}
+\index{explanatory model}
 
 \item[Realism $\rightarrow$ instrumentalism] Classical models lend
   themselves to a realist interpretation; for example, most people
@@ -763,6 +816,8 @@ years in the future.
   is the view that models can be useful even if the entities they
   postulate don't exist.  George Box wrote what might be the motto of
   instrumentalism: ``All models are wrong, but some are useful."
+\index{realism}
+\index{instrumentalism}
 
 \item[Reductionism $\rightarrow$ holism] Reductionism is the view that
   the behavior of a system can be explained by understanding its
@@ -772,6 +827,8 @@ years in the future.
   is the view that some phenomena that appear at the system level do
   not exist at the level of components, and cannot be explained in
   component-level terms.
+\index{reductionism}
+\index{holism}
 
 \end{description}
 
@@ -785,6 +842,7 @@ I have been talking about complex systems in the context of science,
 but complexity is also a cause, and effect, of
 changes in engineering and the organization of social
 systems:
+\index{engineering}
 
 \begin{description}
 
@@ -795,6 +853,10 @@ systems:
   service is unavailable.  In peer-to-peer networks, every node is
   both a client and a server.  To take down the service, you have to
   take down {\em every} node.
+\index{centralized}
+\index{decentralized}
+\index{client-server architecture}
+\index{peer-to-peer architecture}
   
 \item[Isolation $\rightarrow$ interaction] In classical engineering,
   the complexity of large systems is managed by isolating components
@@ -802,17 +864,23 @@ systems:
   principle; nevertheless, the availability of cheap computation makes
   it increasingly feasible to design systems with complex interactions
   between components.
+\index{isolation}
+\index{interaction}
 
 \item[One-to-many $\rightarrow$ many-to-many] In many communication
   systems, broadcast services are being augmented, and sometimes
   replaced, by services that allow users to communicate with each
   other and create, share, and modify content.  
+\index{broadcast service}
 
 \item[Top-down $\rightarrow$ bottom-up] In social, political and
   economic systems, many activities that would normally be centrally
   organized now operate as grassroots movements.  Even armies, which
   are the canonical example of hierarchical structure, are moving
   toward devolved command and control.
+\index{top-down}
+\index{bottom-up}
+\index{grassroots}
 
 \item[Analysis $\rightarrow$ computation] In classical engineering,
   the space of feasible designs is limited by our capability for
@@ -822,6 +890,12 @@ systems:
   design and analysis make it possible to build almost anything that
   can be imagined.  Frank Gehry's Guggenheim Museum Bilbao is my
   favorite example.
+\index{analysis}
+\index{computation}
+\index{Eiffel Tower}
+\index{Eiffel, Gustave}
+\index{Gehry, Frank}
+\index{Guggenheim Museum Bilbao}
 
 \item[Design $\rightarrow$ search] Engineering is sometimes described
   as a search for solutions in a landscape of possible designs.
@@ -830,6 +904,8 @@ systems:
   solutions human engineers would not imagine (or like).  The ultimate
   genetic algorithm, evolution, notoriously generates designs that
   violate the rules of human engineering.
+\index{design}
+\index{search}
 
 \end{description}
 
@@ -839,6 +915,8 @@ systems:
 We are getting farther afield now, but the shifts I am postulating
 in the criteria of scientific modeling are related to 20th Century
 developments in logic and epistemology.
+\index{logic}
+\index{epistemology}
 
 \begin{description}
 
@@ -850,6 +928,11 @@ developments in logic and epistemology.
   indeterminacy, vagueness, and uncertainty.  Bart
   Kosko discusses some of these systems in {\em Fuzzy
     Thinking}.
+\index{Aristotelian logic}
+\index{many-valued logic}
+\index{Kosko, Bart}
+\index{Fuzzy Thinking@{\it Fuzzy Thinking}}
+\index{uncertainty}
 
 \item[Frequentist probability $\rightarrow$ Bayesianism] Bayesian
   probability has been around for centuries, but was not widely used
@@ -857,6 +940,10 @@ developments in logic and epistemology.
   and the reluctant acceptance of subjectivity
   in probabilistic claims.  Sharon Bertsch McGrayne presents this
   history in {\em The Theory That Would Not Die}.
+\index{frequentist}
+\index{Bayesian}
+\index{McGrayne, Sharon Bertsch}
+\index{Theory That Would Not Die, The@{\it The Theory That Would Not Die}}
 
 \item[Objective $\rightarrow$ subjective] The Enlightenment, and
   philosophic modernism, are based on belief in objective truth; that
@@ -866,6 +953,13 @@ developments in logic and epistemology.
   called attention to seemingly unavoidable subjectivity in
   even ``hard sciences'' and mathematics.  Rebecca Goldstein presents
   the historical context of G\"{o}del's proof in {\it Incompleteness}.
+\index{objective}
+\index{subjective}
+\index{Kuhn, Thomas}
+\index{Godel's Incompleteness Theorem@G\"{o}del's Incompleteness Theorem}
+\index{incompleteness}
+\index{Goldstein, Rebecca}
+\index{Incompleteness@{\it Incompleteness}}
 
 \item[Physical law $\rightarrow$ theory $\rightarrow$ model]
   Some people distinguish between laws, theories, and models, but
@@ -874,6 +968,9 @@ developments in logic and epistemology.
   believe that it is objectively true and immutable; people who use
   ``theory'' concede that it is subject to revision; and ``model''
   concedes that it is based on simplification and approximation.
+\index{physical law}
+\index{theory}
+\index{model}
 
   Some concepts that are called ``physical laws'' are really
   definitions; others are, in effect, the assertion that a model
@@ -886,6 +983,9 @@ developments in logic and epistemology.
   indeterminism include randomness, probabilistic causation, and
   fundamental uncertainty, and indeterminacy.  We come back to this
   topic in Section~\ref{determinism} and \ref{free.will}
+\index{determinism}
+\index{indeterminism}
+\index{free will}
 
 \end{description}
 
@@ -894,6 +994,8 @@ opinion is shifting along these axes.  As evidence, consider the
 reaction to Thomas Kuhn's {\em The Structure of Scientific
   Revolutions}, which was reviled when it was published and
 now considered almost uncontroversial.
+\index{Kuhn, Thomas}
+\index{Structure of Scientific Revolutions@{\it The Structure of Scientific Revolutions}}
 
 These trends are both cause and effect of complexity science.  For
 example, highly abstracted models are more acceptable now because of
@@ -3529,7 +3631,7 @@ Taking the log of both sides yields:
 \[ \log y \sim -\alpha (\log x - \log x_m ) \]
 
 So if you plot $\log y$ versus $\log x$, it should look like a
-straight line with slope $-\alpha$ and intercept $-\alpha \log x_m$.
+straight line with slope $-\alpha$ and intercept $\alpha \log x_m$.
 \index{log-log plot}
 
 \begin{exercise}
@@ -3782,7 +3884,7 @@ can you discover?
 \label{model1}
 
 \begin{figure}
-\centerline{\includegraphics[width=5.5in]{figs/model.pdf}}
+\centerline{\includegraphics[height=2in]{figs/model.pdf}}
 \caption{The logical structure of an explanatory model.\label{fig.model}}
 \end{figure}
 
@@ -3874,7 +3976,7 @@ Kuhn was a historian of science who wrote {\em The
 Structure of Scientific Revolutions} in 1962, and spent the rest of
 his life explaining what he meant to say.
 \index{Kuhn, Thomas}
-\index{Structure of Scientific Revolutions@{\em The Structure of Scientific Revolutions}}
+\index{Structure of Scientific Revolutions@{\it The Structure of Scientific Revolutions}}
 \index{theory choice}
 \index{objectivity}
 
@@ -4328,7 +4430,7 @@ The existence of these generators raises the question of whether there
 is any real difference between a good quality pseudo-random sequence
 and a sequence generated by a ``truly'' random process.  In {\em A New
   Kind of Science}, Wolfram argues that there is not (pages 315--326).
-\index{New Kind of Science@{\em A New Kind of Science}}
+\index{New Kind of Science@{\it A New Kind of Science}}
 
 \begin{exercise}
 
@@ -4586,7 +4688,7 @@ support to the Church-Turing Thesis.
 In {\em A New Kind of Science}, Wolfram states a variation of this
 thesis, which he calls the ``principle of computational equivalence:''
 \index{principle of computational equivalence}
-\index{New Kind of Science@{\em A New Kind of Science}}
+\index{New Kind of Science@{\it A New Kind of Science}}
 
 \begin{quote}
 Almost all processes that are not obviously simple can be viewed as
@@ -6028,7 +6130,7 @@ system and the parts of the model.
 \index{analogy}
 
 \begin{figure}
-\centerline{\includegraphics[width=5.5in]{figs/model2.pdf}}
+\centerline{\includegraphics[height=2in]{figs/model2.pdf}}
 \caption{The logical structure of a holistic model.\label{fig.model2}}
 \end{figure}
 
@@ -6734,7 +6836,7 @@ is based on the axiom that if you know the rules that govern a system,
 you can predict its behavior.  What we call ``laws'' are often
 computational shortcuts that allow us to predict the outcome of a
 system without building or observing it.
-\index{New Kind of Science@{\em A New Kind of Science}}
+\index{New Kind of Science@{\it A New Kind of Science}}
 \index{Wolfram, Stephen}
 \index{natural law}
 
@@ -7157,7 +7259,7 @@ step of the simulation, we add more ants to the nest. This leads to a
 constant stream of outgoing ants.
 
 \begin{figure}
-\centerline{\includegraphics[width=3.0in]{figs/antchoice.pdf}}
+\centerline{\includegraphics[width=3.0in]{figs/antchoice.jpg}}
 \caption{At each time step, ants move forward left or forward right.\label{fig.antchoice}}
 \end{figure}
 
@@ -7171,7 +7273,7 @@ that other foraging ants will follow its path to find, potentially,
 more food.
 
 \begin{figure}[ht]
-\centerline{\includegraphics[width=3.0in]{figs/plot.pdf}}
+\centerline{\includegraphics[width=4.0in]{figs/plot.png}}
 \caption{The simulation after 1000 time steps.\label{fig.plot}}
 \end{figure}
 

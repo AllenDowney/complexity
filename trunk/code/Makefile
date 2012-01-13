@@ -23,6 +23,7 @@ rule-50-10.pdf rule-18-64.pdf rule-30-100.pdf rule-110-100.pdf \
 rule-110-600-random.pdf
 
 code:
+	rm -f Sugarscape.zip
 	zip -r Sugarscape.zip $(SFILES)
 	rsync -a $(FILES) $(CS_FILES) $(DEST)
 	chmod -R o+r $(DEST)/*
