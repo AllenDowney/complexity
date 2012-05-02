@@ -43,20 +43,25 @@ distrib:
 	chmod -R o+r $(DEST)/*
 
 plastex:
+	# Before running plastex, we need the current directory in PYTHONPATH
+	# export PYTHONPATH=$PYTHONPATH:.
 	python Filist.py book.tex > book.plastex
 	rm -rf /home/downey/complexity/trunk/book
 	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=book.xml book.plastex
 	rm -rf /home/downey/complexity/trunk/book/.svn
 
+diff:
+	diff book/book.xml /home/downey/complexity/branches/manuscript.1.1/book/book.xml > patch
+
 xxe:
 	~/Downloads/xxe-perso-4_8_0/bin/xxe book/book.xml
 
-DEST = /home/downey/oreilly/complexity
+OREILLY = /home/downey/oreilly/complexity
 
 oreilly:
-	rsync -a book/ $(DEST)
-	rsync -a figs/* $(DEST)/figs
-	rsync -a thinkcomplexity.pdf $(DEST)/pdf
+	rsync -a book/ $(OREILLY)
+	rsync -a figs/* $(OREILLY)/figs
+	rsync -a thinkcomplexity.pdf $(OREILLY)/pdf
 
 clean:
 	rm -f *~ *.aux *.log *.dvi *.idx *.ilg *.ind *.toc
