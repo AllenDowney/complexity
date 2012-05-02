@@ -40,11 +40,9 @@ class Vertex(object):
 class Edge(tuple):
     """An Edge is a list of two vertices."""
 
-    def __new__(cls, *vs):
+    def __new__(cls, e1, e2):
         """The Edge constructor takes two vertices."""
-        if len(vs) != 2:
-            raise ValueError, 'Edges must connect exactly two vertices.'
-        return tuple.__new__(cls, vs)
+        return tuple.__new__(cls, (e1, e2))
 
     def __repr__(self):
         """Return a string representation of this object that can

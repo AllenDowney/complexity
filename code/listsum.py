@@ -80,7 +80,7 @@ def test(name):
 
 def plot(ns, ts, label, color='blue', exp=1.0):
     tfit = fit(ns, ts, exp)
-    pyplot.plot(ns, tfit, color='0.7', linewidth=2)
+    pyplot.plot(ns, tfit, color='0.7', linewidth=2, linestyle='dashed')
     pyplot.plot(ns, ts, label=label, color=color, linewidth=3)
 
 
@@ -117,7 +117,7 @@ def make_fig(funcs, scale='log', exp=1.0, filename=''):
     pyplot.xlabel('n')
     pyplot.ylabel('run time (s)')
 
-    colors = ['blue', 'green', 'red']
+    colors = ['blue', 'orange', 'green']
     for func, color in zip(funcs, colors):
         data = test(func)
         plot(*data, label=func, color=color, exp=exp)
@@ -132,7 +132,7 @@ def make_fig(funcs, scale='log', exp=1.0, filename=''):
 
 def main(script):
     make_fig(['sum_extend', 'sum_plus'], exp=1.0, filename='listsum1')
-    # make_fig(['sum_sum'], exp=2.0, filename='listsum2')
+    make_fig(['sum_sum'], exp=2.0, filename='listsum2')
 
 
 if __name__ == '__main__':
