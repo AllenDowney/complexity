@@ -92,8 +92,6 @@ def main(script):
     print 254, fractal_dimension(254, 8, True)
     print 18, fractal_dimension(18, 64, True)
 
-    return 
-
     print 1, fractal_dimension(1, 128)
     
     print 30, fractal_dimension(30, 16)

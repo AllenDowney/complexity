@@ -1,6 +1,6 @@
 FILES = GraphCode.py  GraphWorld.py  RandomGraph.py  Map.py  listsum.py \
 Pmf.py  SmallWorldGraph.py  Zipf.py CA.py CADrawer.py CircularCA.py \
-Forest.py Fourier.py Life.py Highway.py Boids.py \
+Forest.py Fourier.py Life.py Highway.py color_list.py Boids.py fractal.py \
 ipd/Referee.py ipd/PlayerFlipper.py \
 Graph.py GraphTest.py populations.py \
 DirectedGraph.py ants.py normsGame.py volunteersDilemma.py \

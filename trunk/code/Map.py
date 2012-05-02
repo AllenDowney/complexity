@@ -86,13 +86,13 @@ class HashMap(object):
 
     def resize(self):
         """Makes a new map, twice as big, and rehashes the items."""
-        new_map = BetterMap(self.num * 2)
+        new_maps = BetterMap(self.num * 2)
 
         for m in self.maps.maps:
             for k, v in m.items:
-                new_map.add(k, v)
+                new_maps.add(k, v)
 
-        self.maps = new_map
+        self.maps = new_maps
 
 
 def main(script):
