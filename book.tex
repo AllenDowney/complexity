@@ -59,7 +59,7 @@
 \usepackage{upquote}
 
 \newcommand{\thetitle}{Think Complexity}
-\newcommand{\theversion}{1.1}
+\newcommand{\theversion}{1.2.2}
 
 \title{\thetitle}
 \author{Allen B. Downey}
@@ -104,6 +104,7 @@
 % skip the following for plastex
 
 \newtheorem{exercise}{Exercise}[chapter]
+
 
 % LATEXONLY
 
@@ -422,6 +423,12 @@ Amon Millner,
 Jos\'{e} Oscar Mur-Miranda,
 Mark Somerville, and
 Ursula Wolz.
+
+\item Sebastian Sch\"{o}ner sent two pages of typos!
+
+\item Jonathan Harford found a code error.
+
+\item Philipp Marek sent a number of corrections.
 
 % ENDCONTRIB
 
@@ -976,7 +983,7 @@ developments in logic and epistemology.
   definitions; others are, in effect, the assertion that a model
   predicts or explains the behavior of a system particularly well.
   We come back to the nature of physical models 
-  in Sections~\ref{model1} and \ref{model2}.
+  in Sections~\ref{model1}, ~\ref{model3} and \ref{model2}.
 
 \item[Determinism $\rightarrow$ indeterminism] Determinism is the view
   that all events are caused, inevitably, by prior events.  Forms of
@@ -1097,8 +1104,8 @@ from one characterization to the other using the relation $t_{1/2} =
 
 In our best current model of physics, nuclear decay is a fundamentally
 random process, so it is impossible to predict when an atom will
-decay.  However, given $\lambda$, the probability that an atom will
-decay during a short time interval $dt$ is $\lambda dt$.
+decay.  However, given $\lambda$, the probability that an atom
+decays during a short time interval $dt$ is $\lambda dt$.
 \index{random process}
 
 In a graph with multiple decay chains, the probability of a
@@ -1171,7 +1178,7 @@ every other node.
 \label{graph.py}
 
 Graphs are usually drawn with squares or circles for nodes and lines
-for edges.  In the example below, the graph on the left represents
+for edges.  In Figure~\ref{fig.graphs}, the graph on the left represents
 a social network with three people.
 \index{representing graphs}
 
@@ -1181,7 +1188,7 @@ a social network with three people.
 
 \begin{figure}
 \centerline{\includegraphics[width=5.5in]{figs/graph_examples.pdf}}
-\caption{Examples of graphs.}
+\caption{Examples of graphs.\label{fig.graphs}}
 \end{figure}
 
 In the graph on the right, the weights of the edges are the
@@ -1197,9 +1204,9 @@ But to choose the best data structure, you have to know which
 operations the graph should support.
 \index{data structure}
 
-To get out of this chicken-and-egg problem, I am going to present
+To get out of this chicken-and-egg problem, I will present
 a data structure that is a good choice for many graph algorithms.
-Later we will come back and evaluate its pros and cons.
+Later we come back and evaluate its pros and cons.
 
 Here is an implementation of a graph as a dictionary of dictionaries:
 \index{dictionary}
@@ -1298,8 +1305,8 @@ Here is the definition for {\tt Edge}:
 %
 \begin{verbatim}
 class Edge(tuple):
-    def __new__(cls, *vs):
-        return tuple.__new__(cls, vs)
+    def __new__(cls, e1, e2):
+        return tuple.__new__(cls, (e1, e2))
 
     def __repr__(self):
         return 'Edge(%s, %s)' % (repr(self[0]), repr(self[1]))
@@ -1320,17 +1327,11 @@ For mutable objects it is most common to override
 \verb"__new__", but because Edges inherit from {\tt tuple}, they
 are immutable, which means that you can't modify the elements
 of the tuple in \verb"__init__".
+By overriding \verb"__new__", we can use the parameters to initialize
+the elements of the tuple.
 \index{mutable objects}
 \index{immutable objects}
-
-By overriding \verb"__new__", we can use the {\tt *} operator to
-gather the parameters and use them to initialize the elements of
-the tuple.  A precondition of this method is that there should
-be exactly two arguments.  A more careful implementation would
-check.
 \index{override}
-\index{gather operator}
-\index{precondition}
 
 Here is an example that creates two vertices and an edge:
 %
@@ -1566,7 +1567,7 @@ One of their most surprising results is the existence of
 abrupt changes in the characteristics of random graphs as
 random edges are added.  They showed that for a number of
 graph properties there is a threshold value of the probability
-$p$ below which is the property is rare and above which it
+$p$ below which the property is rare and above which it
 is almost certain.  This transition is sometimes called
 a ``phase change'' by analogy with physical systems that
 change state at some critical value of temperature.
@@ -1998,13 +1999,13 @@ and a bad algorithm is unbounded!
 \index{unbounded}
 
 
-\section{Analysis of basic operations}
+\section{Analysis of basic Python operations}
 
 Most arithmetic operations are constant time; multiplication
 usually takes longer than addition and subtraction, and division
 takes even longer, but these run times don't
 depend on the magnitude of the operands.  Very large integers
-are an exception; in that case the run time increases linearly
+are an exception; in that case the run time increases
 with the number of digits.
 \index{analysis of primitives}
 
@@ -2164,7 +2165,7 @@ methods like {\tt find} and {\tt count}.
 If the elements of the sequence are in order, you can use a {\bf
   bisection search}, which is $O(\log n)$.  Bisection search is
 similar to the algorithm you probably use to look a word up in a
-dictionary (the book, not the data structure).  Instead of starting at
+dictionary (a real dictionary, not the data structure).  Instead of starting at
 the beginning and checking each item in order, you start with the item
 in the middle and check whether the word you are looking for comes
 before or after.  If it comes before, then you search the first half
@@ -2264,8 +2265,8 @@ could use a bisection search, which is $O(\log n)$.  But inserting a
 new item in the middle of a list is linear, so this might not be the
 best option.  There are other data structures (see
   \url{http://en.wikipedia.org/wiki/Red-black_tree})  that can implement {\tt
-  add} and {\tt get} in log time, but that's still not as good as a
-hashtable, so let's move on.
+  add} and {\tt get} in log time, but that's still not as good as
+constant time, so let's move on.
 \index{red-black tree}
 
 One way to improve {\tt LinearMap} is to break the list of key-value
@@ -2360,6 +2361,8 @@ class HashMap(object):
         for m in self.maps.maps:
             for k, v in m.items:
                 new_maps.add(k, v)
+
+        self.maps = new_maps
 \end{verbatim}
 
 Each {\tt HashMap} contains a {\tt BetterMap}; \verb"__init__" starts
@@ -2414,7 +2417,7 @@ total cost is $2n - 2$ units, so the average work per add is
 a little less than 2 units.  When $n$ is a power of two, that's
 the best case; for other values of $n$ the average work is a little
 higher, but that's not important.  The important thing is that it
-is constant time!
+is $O(1)$.
 \index{average cost}
 
 Figure~\ref{fig.hash} shows how this works graphically.  Each
@@ -2450,8 +2453,6 @@ My implementation of {\tt HashMap} accesses the attributes of
 {\tt BetterMap} directly, which shows poor object-oriented design.
 \index{object-oriented design}
 
-Improve it by:
-
 \begin{enumerate}
 
 \item The special method \verb"__len__" is invoked by the built-in
@@ -2469,6 +2470,11 @@ in {\tt resize}.
 
 
 \begin{exercise}
+
+A drawbacks of hashtables is that the elements have to be hashable,
+which usually means they have to be immutable.  That's why, in Python,
+you can use tuples but not lists as keys in a dictionary.  An
+alternative is to use a tree-based map.
 
 Write an implementation of the map interface called
 {\tt TreeMap} that uses a red-black tree to perform {\tt add}
@@ -2530,7 +2536,7 @@ if we can figure it out by measuring run times.
 A simple way to measure the run time of a program is to use
 the function {\tt times} in the {\tt os} module, which returns
 a tuple of floats indicating the time your process has used
-(see the documentation for details).  I use a function {\tt etime},
+(see the documentation for details).  I use a function, {\tt etime},
 which returns the sum of ``user time'' and ``system time'' which
 is usually what we care about for performance measurement:
 \index{os module@{\tt os} module}
@@ -2594,12 +2600,12 @@ show the results.
 
 \begin{figure}
 \centerline{\includegraphics[height=2.5in]{figs/listsum1.pdf}}
-\caption{Runtime versus {\tt n}.  The gray lines have slope 1.\label{listsum1}}
+\caption{Runtime versus {\tt n}.  The dashed lines have slope 1.\label{listsum1}}
 \end{figure}
 
 \begin{figure}
 \centerline{\includegraphics[height=2.5in]{figs/listsum2.pdf}}
-\caption{Runtime versus {\tt n}.  The gray line has slope 2.\label{listsum2}}
+\caption{Runtime versus {\tt n}.  The dashed line has slope 2.\label{listsum2}}
 \end{figure}
 
 In Figure~\ref{listsum1} I fit a line with slope 1 to the curves.
@@ -2629,14 +2635,14 @@ Here's an example that makes a simple plot:
 \begin{verbatim}
 import matplotlib.pyplot as pyplot
 
-    pyplot.plot(xs, ys)
-    scale = 'log'
-    pyplot.xscale(scale)
-    pyplot.yscale(scale)
-    pyplot.title('')
-    pyplot.xlabel('n')
-    pyplot.ylabel('run time (s)')
-    pyplot.show()
+pyplot.plot(xs, ys)
+scale = 'log'
+pyplot.xscale(scale)
+pyplot.yscale(scale)
+pyplot.title('')
+pyplot.xlabel('n')
+pyplot.ylabel('run time (s)')
+pyplot.show()
 \end{verbatim}
 
 The import statement makes {\tt matplotlib.pyplot} accessible
@@ -2678,7 +2684,7 @@ a list while building a new list.
 \index{traverse list}
 
 Here is an example that computes the square of each element in
-a list accumulates the results:
+a list and accumulates the results:
 
 \begin{verbatim}
     res = []
@@ -2913,9 +2919,9 @@ Stanley Milgram was an American social psychologist who conducted
 two of the most famous experiments in social science, the
 Milgram experiment, which studied people's obedience to authority
 (\url{http://en.wikipedia.org/wiki/Milgram_experiment})
-and the Small World Experiment
-\url{http://en.wikipedia.org/wiki/Small_world_phenomenon}, which studied
-the structure of social networks.
+and the Small World Experiment, which studied
+the structure of social networks
+(\url{http://en.wikipedia.org/wiki/Small_world_phenomenon}).
 \index{Milgram, Stanley}
 \index{small world experiment}
 \index{Kansas}
@@ -2933,8 +2939,8 @@ personally; otherwise they were instructed to send it, and the same
 instructions, to a relative or friend they thought would be more
 likely to know the target person.
 
-Many of the letters were never delivered, but of the ones that
-were it turned out that the average path length---the number of
+Many of the letters were never delivered, but for the ones that
+were the average path length---the number of
 times the letters were forwarded---was about six.  This result
 was taken to confirm previous observations (and speculations) that
 the typical distance between any two people in a social network
@@ -3130,7 +3136,7 @@ Give the other nodes infinite distance.
 \index{source node}
 \index{queue}
 
-\item Remove a vertex from the queue and call its distance $d$.  Find
+\item Remove a vertex from the queue and assign its distance to $d$.  Find
   the vertices it is connected to.  For each connected vertex
   with infinite distance, replace the distance with $d+1$ and
   add it to the queue.
@@ -3456,7 +3462,7 @@ The result is:
 5 1.0
 \end{verbatim}
 
-Each value appear twice.  That way when we plot the
+Each value appears twice.  That way when we plot the
 CDF, we get a stair-step pattern.
 \index{pyplot@{\tt pyplot}}
 \index{plotting CDFs}
@@ -3570,7 +3576,7 @@ and meteorites, forest fires and earthquakes.
 The Pareto distribution is characterized by a CDF with the following
 form:
 
-\[ 1- \left( \frac{x}{x_m} \right) ^{-\alpha} \]
+\[ CDF(x) = 1- \left( \frac{x}{x_m} \right) ^{-\alpha} \]
 
 The parameters $x_m$ and $\alpha$ determine the location and shape of
 the distribution.  $x_m$ is the minimum possible quantity.
@@ -3640,7 +3646,7 @@ Write a version of \verb"plot_ccdf" that plots the complementary
 CCDF on a log-log scale.
 
 To test your function, use {\tt paretovariate} from the {\tt random}
-module to generate 100 values from an exponential distribution.  Plot
+module to generate 100 values from a Pareto distribution.  Plot
 the CCDF on a log-$y$ scale and see if it falls on a straight line.
 What happens to the curve as you increase the number of values?
 \index{random module@{\tt random} module}
@@ -3991,7 +3997,7 @@ Are there other criteria you think should be considered?
 \chapter{Cellular Automata}
 \label{automata}
 
-A cellular automaton is a model of a world with very simple physics.
+A {\bf cellular automaton} is a model of a world with very simple physics.
 ``Cellular'' means that the space is divided into discrete chunks,
 called cells.  An ``automaton'' is a machine that performs
 computations---it could be a real machine, but more often the
@@ -4169,17 +4175,17 @@ class CA(object):
 {\tt rule} is an integer in the range 0-255, which represents the
 CA rule table using Wolfram's encoding.  \verb"make_table" converts
 the rule to a dictionary that maps from neighborhood states to cell
-states.  For example, in Rule 50 the table contains a map from
+states.  For example, in Rule 50 the table maps from
 $(1,1,1)$ to 0.
 
 {\tt n} is the number of rows in the array, which is the number
 of time steps we will compute.  {\tt m} is the number of columns,
-which is the number of cells.  At least to get started, we implement
+which is the number of cells.  To get started, I'll implement
 a finite array of cells.
 
 {\tt zeros} is provided by NumPy; it creates a new array with
 the given dimensions, {\tt n} by {\tt m}; {\tt dtype} stands
-for ``data type,'' and is specifies the type of the array elements.
+for ``data type,'' and it specifies the type of the array elements.
 {\tt int8} is an 8-bit integer, so we are limited to 256 states,
 but that's no problem: we only need two.
 \index{zeros@{\tt zeros}}
@@ -4197,8 +4203,8 @@ a single cell and increments {\tt next}:
         self.next += 1
 \end{verbatim}
 %
-Array indexing is similar to list and dictionary indexing.
-Array indexing is similar to list indexing.
+The array index is a tuple that species the row and column of the cell,
+in that order.
 \index{array indexing}
 
 {\tt step} computes the next state of the CA:
@@ -4240,13 +4246,10 @@ Child classes extend the abstract class and implement the incomplete
 methods.  See \url{http://en.wikipedia.org/wiki/Abstract_type}.
 \index{abstract class}
 
-As an example, I present an abstract class, {\tt CADrawer},
-that defines an interface for drawing CAs, and child classes
-that implement this interface.
+As an example, {\tt CADrawer}
+defines an interface for drawing CAs; here is the definition:
 \index{implement}
 \index{interface}
-
-Here's the definition for {\tt CADrawer}:
 \index{CADrawer@{\tt CADrawer}}
 
 \begin{verbatim}
@@ -4333,10 +4336,9 @@ additional Python packages.
 
 Create a new class called {\tt CircularCA} that extends
 {\tt CA} so that the cells are arranged in a ring.
-\index{CircularCA}
-
 Hint: you might find it useful to add a column of ``ghost cells'' to
 the array.
+\index{CircularCA}
 \index{ghost cells}
 
 You can download my solution from
@@ -4381,7 +4383,7 @@ simple.
 \caption{Rule 30 after 100 time steps.\label{fig.rule30}}
 \end{figure}
 
-Class 3 is a pattern that generate randomness.
+Class 3 contains CAs that generate randomness.
 Rule 30 is an example; Figure~\ref{fig.rule30} shows what it looks like
 after 100 time steps.
 \index{randomness}
@@ -4443,7 +4445,7 @@ generators described at
 \url{http://en.wikipedia.org/wiki/Linear_congruential_generator}).
 
 \item Download {\tt DieHarder}, a random number test suite, from
-\url{phy.duke.edu/~rgb/General/rand_rate.php} and use it to
+\url{http://phy.duke.edu/~rgb/General/rand_rate.php} and use it to
 test your PRNG.  How does it do?
 \index{DieHarder}
 
@@ -4536,8 +4538,8 @@ prediction is only possible over short time scales,  limited by
 the precision of measurement of initial conditions.
 \index{chaos}
 
-Most of these systems were continuous in space (if not time) and
-nonlinear, so the complexity of their behavior was not entirely
+Most of these systems are continuous in space (if not time) and
+nonlinear, so the complexity of their behavior is not entirely
 surprising.  Wolfram's demonstration of complex behavior in simple
 cellular automata is more surprising---and disturbing, at least to a
 deterministic world view.
@@ -4547,7 +4549,7 @@ deterministic world view.
 So far I have focused on scientific challenges to determinism, but the
 longest-standing objection is the conflict between
 determinism and human free will.  Complexity science provides
-a possible resolution of this apparent conflict; we will come
+a possible resolution of this apparent conflict; we come
 back to this topic in Section~\ref{free.will}.
 \index{free will}
 
@@ -4568,7 +4570,7 @@ they can compute any computable function.  This property, also called
 \index{universality}
 \index{Cook, Matthew}
 
-Figure~\ref{fig.rule110} is a what Rule 110 looks like with an initial
+Figure~\ref{fig.rule110} shows what Rule 110 looks like with an initial
 condition of a single cell and 100 time steps.
 At this time scale it is not apparent that anything special is
 going on.  There are some regular patterns but also some features
@@ -4589,7 +4591,7 @@ as disturbances in the background.  Some of these structures
 are stable, so they appear as vertical lines.  Others translate in
 space, appearing as diagonals with different slopes, depending on
 how many time steps they take to shift by one column.  These
-structures are sometimes called {\bf spaceships}.
+structures are called {\bf spaceships}.
 \index{spaceships}
 
 Collisions between spaceships yield different results
@@ -4641,8 +4643,8 @@ only two states) and it can write a new value into the cell.
 \index{Turing machine}
 \index{Turing, Alan}
 
-In addition, the machine has a register, which records which
-of a finite number of states the machine is in, and a table
+In addition, the machine has a register, which records the state
+of the machine (one of a finite number of states), and a table
 of rules.  For each machine state and cell state, the table
 specifies an action.  Actions include modifying the cell
 the head is over and moving one cell to the left or right.
@@ -4663,7 +4665,7 @@ called Turing computable.
 \index{computable function}
 
 To say that a Turing machine can compute any Turing-computable
-function is a {\bf tautology}: it true by definition.  But
+function is a {\bf tautology}: it is true by definition.  But
 Turing-computability is more interesting than that.
 \index{tautology}
 
@@ -4829,6 +4831,12 @@ highly of Popper's work?
 
 
 \section{What is this a model of?}
+\label{model3}
+
+\begin{figure}
+\centerline{\includegraphics[height=2.5in]{figs/model3.pdf}}
+\caption{The logical structure of a simple physical model.\label{fig.model3}}
+\end{figure}
 
 Some cellular automata are primarily mathematical artifacts.
 They are interesting because they are surprising,
@@ -4838,20 +4846,21 @@ creating new mathematics (like the Church-Turing thesis).
 
 But it is not clear that they are models of physical systems.  And if
 they are, they are highly abstracted, which is to say that they are
-not very detailed or realistic.  For example, some species of cone
+not very detailed or realistic.
+\index{physical model}
+
+For example, some species of cone
 snail produce a
 pattern on their shells that resembles the patterns generated by
-cellular automata.  See \url{en.wikipedia.org/wiki/Cone_snail}.
-\index{physical model}
-\index{cone snail}
-\index{abstract model}
-
+cellular automata (seee \url{en.wikipedia.org/wiki/Cone_snail}).
 So it is natural to suppose that a CA is a model of the mechanism that
 produces patterns on shells as they grow.  But, at least initially, it
 is not clear how the elements of the model (so-called cells,
 communication between neighbors, rules) correspond to the elements of
 a growing snail (real cells, chemical signals, protein interaction
 networks).
+\index{cone snail}
+\index{abstract model}
 
 For conventional physical models, being realistic is a virtue, at
 least up to a point.  If the elements of a model correspond to the
@@ -4862,9 +4871,9 @@ explanations.
 \index{realistic model}
 
 Of course, this is only true up to a point.  Models that are
-more detailed are harder to work with, and less likely to be
-amenable to analysis.  At some point, a model can be so complex
-that it is easier to experiment with a real system.
+more detailed are harder to work with, and usually less
+amenable to analysis.  At some point, a model becomes so complex
+that it is easier to experiment with the system.
 
 At the other extreme, simple models can be compelling
 exactly because they are simple.
@@ -4880,19 +4889,21 @@ B is similar to O, and we can prove that M leads to B.''
 \index{argument by analogy}
 
 With simple models we can't claim that S is similar to M, because it
-isn't.  Instead, the argument goes like this: ``There is a set of
-models, ${M_0, M_1, ...}$ that share a common set of features, ${F_0,
-  F_1, ...}$.
-
-Any model that has these features exhibits behavior B, and $M_0$ is
-the simplest.  If we make an observation, O, that resembles B, one way
-to explain it is to show that the system, S, has the set of
-features in common with $M_0$ that produce B.
+isn't.  Instead, the argument goes like this: ``There is a set of models
+that share a common set of features.  Any model that has these
+features exhibits behavior B.  If we make an observation, O, that
+resembles B, one way to explain it is to show that the system, S, has
+the set of features sufficient to produce B.''
 
 For this kind of argument, adding more features doesn't help.  Making
 the model more realistic doesn't make the model more reliable; it only
 obscures the difference between the essential features that cause O
 and the incidental features that are particular to S.
+
+Figure~\ref{fig.model3} shows the logical structure of this kind of
+model.  The features $x$ and $y$ are sufficient to produce the
+behavior.  Adding more detail, like features $w$ and $z$, might make
+the model more realistic, but that realism adds no explanatory power.
 
 
 \chapter{Game of Life}
@@ -4978,7 +4989,7 @@ using a checkerboard.
 
 To implement GoL efficiently, we can take advantage of the
 multi-dimensional convolution function in SciPy.  SciPy is a Python
-package that provides functions related to scientific computing
+package that provides functions related to scientific computing.
 You can read about it at \url{http://www.scipy.org/}; if it is not
 already on your system, you might have to install it.
 \index{implementing Game of Life}
@@ -5065,7 +5076,6 @@ that manages it:
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as pyplot
-
 
 class LifeViewer(object):
 
@@ -5182,7 +5192,7 @@ You might have to adjust the size of the grid and the boundary behavior.
 
 \section{Conway's conjecture}
 
-The existence of long-lived patterns bring us back to Conway's
+The existence of long-lived patterns brings us back to Conway's
 original question: are there initial patterns that never stabilize?
 Conway thought not, but he described two kinds of pattern that would
 prove him wrong, a ``gun'' and a ``puffer train.''  A gun is a stable
@@ -5270,7 +5280,7 @@ scene.
 entities they postulate.
 A theory postulates an entity if it is
 expressed in terms of the properties and behavior of the entity.  For
-example, Mendelian genetics postulated a ``gene'' as a unit that
+example, Mendelian genetics postulates a ``gene'' as a unit that
 controls a heritable characteristic.  Eventually we discovered that
 genes are encoded in DNA, but for about 50 years, a gene was just a
 postulated entity.  See \url{http://en.wikipedia.org/wiki/Gene}.
@@ -5393,7 +5403,7 @@ If you generalize the Turing machine to two dimensions, or
 add a read-write head to a 2-D CA, the result is a
 cellular automaton called a Turmite.  It is named after a
 termite because of the way the read-write head moves, but
-spelled wrong as an homage to Turing.
+spelled wrong as an homage to Alan Turing.
 \index{turmite}
 \index{Turing, Alan}
 
@@ -5507,7 +5517,8 @@ to zero.
 
 To investigate the behavior of fractal dimension, we'll apply it
 to cellular automata.  Box-counting for CAs is simple; we
-just count the number of ``on'' cells.
+just count the number of ``on'' cells in each time step and
+add them up.
 \index{fractal cellular automaton}
 
 As an example, consider Rule 254.  Figure~\ref{fig.rule254.1} shows
@@ -5608,16 +5619,12 @@ What is its fractal dimension?
 
 \section{Percolation}
 
-The CAs we have seen so far are not physical models; that is, they are
-not intended to describe systems in the real world.
-\index{physical model}
-
-But some CAs are designed explicitly as physical models.  In this
-section we consider a simple grid-based model of percolation;
-in the next chapter we see examples that model forest fires,
-avalanches, and earthquakes.
-\index{forest fire}
-\index{avalanche}
+Many of the CAs we have seen so far are not physical models; that is,
+they are not intended to describe systems in the real world.  But some
+CAs are designed explicitly as physical models.  In this section we
+consider a simple grid-based model of percolation; in the next chapter
+we see examples that model forest fires, avalanches, and earthquakes.
+\index{physical model} \index{forest fire} \index{avalanche}
 \index{earthquake}
 
 Percolation is a process in which a fluid flows through a semi-porous
@@ -5837,7 +5844,7 @@ tuning fork, it produces a sound that is close to a pure sine wave at
 a complex sound that contains components at many different
 frequencies.  The frequency with the most power is 440, which is why
 we perceive the sound as a middle A, but there are also components at
-660, 880, and many higher frequencies.  These components are called
+880, 1320 and many higher frequencies.  These components are called
 ``harmonics.''
 \index{pitch}
 \index{Hertz}
@@ -5931,7 +5938,8 @@ complex numbers:
 >>> N = 128
 >>> cmath.exp(2 * math.pi * i / N)
 (0.99879545620517241+0.049067674327418015j)
-
+>>> abs(complex(3, 4))
+5.0
 \end{verbatim}
 
 What is the order of growth run time of {\tt dft}?
@@ -5977,7 +5985,7 @@ The second step is the Danielson-Lanczos Lemma which states
 where $H^e$ is the DFT of the even-indexed elements
 of $h$, and $H^o$ is the DFT of the odd-indexed elements.
 This lemma follows naturally from the definition of $H_n$; you can see
-a proof at \url{mathworld.wolfram.com/Danielson-LanczosLemma.html}.
+a proof at \url{http://mathworld.wolfram.com/Danielson-LanczosLemma.html}.
 
 This lemma suggests a recursive algorithm for evaluating the DFT
 of a sequence $h$.  If  $h$ has only a single element, then $H=h$.
@@ -6130,7 +6138,7 @@ system and the parts of the model.
 \index{analogy}
 
 \begin{figure}
-\centerline{\includegraphics[height=2in]{figs/model2.pdf}}
+\centerline{\includegraphics[width=5in]{figs/model2.pdf}}
 \caption{The logical structure of a holistic model.\label{fig.model2}}
 \end{figure}
 
@@ -6173,7 +6181,7 @@ Rather, memetics and genetics are examples of the same
 category---evolutionary systems.  The differences between them
 emphasize the real point, which is that evolution is a general model
 that applies to many seemingly disparate systems.  The logical
-structure of this argument is shown in Figure~\ref{fig.model2}
+structure of this argument is shown in Figure~\ref{fig.model2}.
 \index{gene}
 \index{genetics}
 
@@ -6251,7 +6259,7 @@ To support this argument, Mandelbrot points out:
 
 \item The distribution of observed data is often ``the joint
   effect of a fixed underlying 'true distribution' and a highly
-  variable 'filter.'''
+  variable 'filter.'"
 
 \item Long-tailed distributions are robust to filtering; that is,
   ``a wide variety of filters leave their asymptotic behavior
@@ -6298,7 +6306,7 @@ in the sand pile model.  Most failures are small, isolated and
 harmless, but occasionally a coincidence of bad fortune yields a
 catastrophe.  When big accidents occur, investigators go looking for
 the cause, but if Perrow's ``normal accident theory'' is correct,
-there may be no cause.
+there may be no special cause of large failures.
 \index{normal accident theory}
 \index{Perrow, Charles}
 
@@ -6510,9 +6518,10 @@ it and the Driver in front.  Here is an example:
 \end{verbatim}
 
 If the following distance is too short, the {\tt Driver} brakes;
-otherwise it accelerates.  In addition, if the current speed would
-cause a collision, the {\tt Driver} comes to a complete stop.
-And there is a speed limit for each driver.
+otherwise it accelerates.  {\tt Highway.py} enforces two other
+constraints: there is a speed limit for each driver, and if the
+current speed would cause a collision, the {\tt Driver} comes to a
+complete stop.
 
 If you run {\tt Highway.py} you will probably see a traffic jam,
 and the natural question is, ``Why?''  There is nothing about the
@@ -6529,7 +6538,7 @@ the factors to explore are:
 \begin{description}
 
 \item[Density:] What happens as the number of drivers increases (or
-the length of the highway)?
+the length of the highway decreases)?
 
 \item[Acceleration and braking:]  What happens if drivers accelerate
 faster or brake more gently?
@@ -6554,7 +6563,7 @@ paper from \url{http://www.red3d.com/cwr/papers/1987/boids.html}.
 \index{Reynolds, Craig}
 
 Agents in this models are called ``boids,'' which is both a
-contraction of ``bird-oid'' and an accented pronunciation of ``bird,''
+contraction of ``bird-oid'' and an accented pronunciation of ``bird''
 (although boids are also used to model fish and herding land animals).
 \index{boid}
 
@@ -6704,7 +6713,7 @@ behavior of the flock?  Implement it and see.
 \section{Prisoner's Dilemma}
 \label{prisoners}
 
-The Prisoner's Dilemma is a topic of study in game theory, so
+The Prisoner's Dilemma is a topic of study in game theory, but
 it's not the fun kind of game.  Instead, it is the kind of game
 that sheds light on human motivation and behavior.
 \index{Prisoner's Dilemma}
@@ -7030,8 +7039,8 @@ need for tax levies.
 Our implementation of Sugarscape aims to study the effect of taxation
 on the wealth of a society. We want to show how extreme under- or
 over-taxation can affect the society and its individual agents, and
-what happens in between these two extremes. The model tests a “flat
-tax” system where every agent gets taxed a constant rate (say 10\% of
+what happens in between these two extremes. The model tests a ``flat
+tax'' system where every agent gets taxed a constant rate (say 10\% of
 its total wealth) and the tax pool is redistributed evenly among all
 the agents. We recreate the original Sugarscape and expand on it with
 the end goal of determining whether it is possible to shrink the wealth gap
@@ -7199,7 +7208,7 @@ taxation and inequality.
 \begin{exercise}
 
 You can download our implementation of Sugarscape from
-\url{thinkcomplex.py/Sugarscape.zip}.  Launch it by running
+\url{thinkcomplex.com/Sugarscape.zip}.  Launch it by running
 {\tt Gui.py}.  The sliders allow you to control the parameters
 of the simulation.  Experiment with these parameters to see what
 effect they have on the distribution of wealth.
@@ -7513,7 +7522,7 @@ more benign crowd simulations \emph{Happy Feet} and
 The models used in these films are more complicated than our simulated
 ant trails, but they are examples of the same concept.  Like the
 agents in \emph{Lord of the Rings}, our ants follow simple rules, but
-their interations yield realistic, complex, and sometimes
+their interactions yield realistic, complex, and sometimes
 unpredictable, behavior.
 
 
@@ -7718,8 +7727,8 @@ Of these subsets we examined, 38\% contained at least one knot. So if
 you are restricted to articles listed on a single index page, there is
 a substantial chance you will eventually find a knot.
 
-For the complete Wikipedia, the probability is lower, because
-because articles can link to articles in other indices.  Based on
+For the complete Wikipedia, the probability is lower because
+articles can link to articles in other indices.  Based on
 these results, we cannot say, yet, whether the complete Wikipedia
 has a knot.
 
