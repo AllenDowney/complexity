@@ -1,18 +1,20 @@
-""" Code example from Complexity and Computation, a book about
-exploring complexity science with Python.  Available free from
+"""This module contains code from
+Think Python by Allen B. Downey
+http://thinkpython.com
 
-http://greenteapress.com/complexity
+Copyright 2012 Allen B. Downey
+License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 
-Copyright 2011 Allen B. Downey.
-Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
 """
 
 import os
 import matplotlib.pyplot as pyplot
 
+
 def etime():
-    """see how much user and system time this process has used
-    so far and return the sum"""
+    """Measures user and system time this process has used.
+
+    Returns the sum of user and system time."""
     user, sys, chuser, chsys, real = os.times()
     return user+sys
 
@@ -51,7 +53,7 @@ def test_func(f, n):
 
 
 def test(name):
-    """Test the given function with a range of values for n.
+    """Tests the given function with a range of values for n.
 
     Returns a list of ns and a list of run times.
     """
@@ -79,6 +81,14 @@ def test(name):
 
 
 def plot(ns, ts, label, color='blue', exp=1.0):
+    """Plots data and a fitted curve.
+
+    ns: sequence of n (problem size)
+    ts: sequence of t (run time)
+    label: string label for the data curve
+    color: string color for the data curve
+    exp: exponent (slope) for the fitted curve
+    """
     tfit = fit(ns, ts, exp)
     pyplot.plot(ns, tfit, color='0.7', linewidth=2, linestyle='dashed')
     pyplot.plot(ns, ts, label=label, color=color, linewidth=3)
@@ -103,6 +113,11 @@ def fit(ns, ts, exp=1.0, index=-1):
 
 
 def save(root, exts=['eps', 'pdf']):
+    """Saves the current figure in the given formats.
+
+    root: string filename root
+    exts: list of string extensions (specifying output formats).
+    """
     for ext in exts:
         filename = '%s.%s' % (root, ext)
         print 'Writing', filename
@@ -138,3 +153,4 @@ def main(script):
 if __name__ == '__main__':
     import sys
     main(*sys.argv)
+
