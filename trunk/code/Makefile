@@ -20,7 +20,11 @@ DEST = /home/downey/public_html/greent/complexity
 FIGS = listsum1.pdf listsum1.pdf cdf_example.pdf \
 fractal-254-4.pdf fractal-254-8.pdf fractal_dim-18-64.pdf \
 rule-50-10.pdf rule-18-64.pdf rule-30-100.pdf rule-110-100.pdf \
-rule-110-600-random.pdf
+rule-110-600-random.pdf \
+listsum1.eps listsum1.eps cdf_example.eps \
+fractal-254-4.eps fractal-254-8.eps fractal_dim-18-64.eps \
+rule-50-10.eps rule-18-64.eps rule-30-100.eps rule-110-100.eps \
+rule-110-600-random.eps \
 
 code:
 	rm -f Sugarscape.zip
@@ -37,11 +41,6 @@ cas:
 	python draw_cas.py 110 600 random trim eps
 
 figs:
-	epstopdf rule-50-10.eps
-	epstopdf rule-18-64.eps
-	epstopdf rule-30-100.eps
-	epstopdf rule-110-100.eps
-	epstopdf rule-110-600-random.eps
 	rsync -a $(FIGS) $(FIGDEST)
 
 make_figs:
@@ -49,6 +48,12 @@ make_figs:
 	python cdf_example.py
 	python draw_cas.py
 	python fractal.py
+	epstopdf rule-50-10.eps
+	epstopdf rule-18-64.eps
+	epstopdf rule-30-100.eps
+	epstopdf rule-110-100.eps
+	epstopdf rule-110-600-random.eps
+	pdf2ps fractal_dim-18-64.pdf fractal_dim-18-64.eps
 
 FIGDEST = ../figs
 

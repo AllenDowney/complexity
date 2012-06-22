@@ -22,13 +22,21 @@ all:	book.tex
 	evince thinkcomplexity.pdf
 
 hevea:
+	# replace the pdfs with eps
+	sed s/.pdf/.eps/g book.tex > temp.tex
+	sed s/.jpg/.eps/g temp.tex > thinkcomplexity.tex
+	latex thinkcomplexity
 	rm -rf html
 	mkdir html
-	hevea -e latexonly htmlonly book
-	imagen -png book
-	hacha book.html
+	hevea -O -e latexonly htmlonly thinkcomplexity
+# the following greps are a kludge to prevent imagen from seeing
+# the definitions in latexonly, and to avoid headers on the images
+	grep -v latexonly thinkcomplexity.image.tex > a; mv a thinkcomplexity.image.tex
+	grep -v fancyhdr thinkcomplexity.image.tex > a; mv a thinkcomplexity.image.tex
+	imagen -png thinkcomplexity
+	hacha thinkcomplexity.html
 	cp up.png next.png back.png html
-	mv index.html book*.html book*.png *motif.gif html
+	mv index.html thinkcomplexity.css thinkcomplexity*.html thinkcomplexity*.png *motif.gif html
 
 DEST = /home/downey/public_html/greent/complexity
 
