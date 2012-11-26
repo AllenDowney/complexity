@@ -13,8 +13,10 @@ import math
 
 from itertools import chain
 
-from Gui import Gui
-from Gui import GuiCanvas
+try:
+    from Gui import Gui, GuiCanvas
+except ImportError:
+    from swampy.Gui import Gui, GuiCanvas
 
 from Graph import Vertex
 from Graph import Edge
