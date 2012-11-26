@@ -96,7 +96,10 @@ class PILDrawer(Drawer):
         import Image
         import ImageDraw
         import ImageTk
-        import Gui
+        try:
+            import Gui
+        except ImportError:
+            import swampy.Gui
         self.csize = csize
         self.color = color
 
