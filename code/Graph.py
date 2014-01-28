@@ -72,6 +72,13 @@ class Graph(dict):
         for e in es:
             self.add_edge(e)
 
+    def __str__(self):
+        return dict.__str__(self)
+
+    def __repr__(self):
+        return 'Graph(%s, %s)' % (repr(self.vertices()), 
+                                  repr(self.edges()))
+
     def add_vertex(self, v):
         """Add a vertex to the graph."""
         self[v] = {}
@@ -225,6 +232,7 @@ def main(script, *args):
     g2 = eval(repr(g))
     print g2
 
+    g2.bfs(vs[0])
 
 if __name__ == '__main__':
     import sys

@@ -31,6 +31,7 @@ code:
 	zip -r Sugarscape.zip $(SFILES)
 	rsync -a $(FILES) $(CS_FILES) $(DEST)
 	chmod -R o+r $(DEST)/*
+	cd /home/downey/public_html/greent; sh back
 
 cas:
 	python fractal.py
