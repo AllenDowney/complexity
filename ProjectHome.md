@@ -1,0 +1,1 @@
+"Think Complexity" is a free textbook that covers topics in complexity science, emergence and agent-based modeling using Python.  It also covers data structures, analysis of algorithms and some philosophy of science.  It is published by O'Reilly Media (http://shop.oreilly.com/product/0636920022480.do) and available from greenteapress.com.
